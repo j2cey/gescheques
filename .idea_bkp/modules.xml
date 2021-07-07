@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/gtcheques.iml" filepath="$PROJECT_DIR$/.idea/gtcheques.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/gestionbordereaux.iml" filepath="$PROJECT_DIR$/.idea/gestionbordereaux.iml" />
     </modules>
   </component>
 </project>
