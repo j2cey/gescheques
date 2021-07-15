@@ -11,26 +11,149 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a9bae0d-26fa-4747-a5f9-2a2dcc0c8f3a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/gtcheques.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea_bkp/gestionbordereaux.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gestionbordereaux.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/laravel-plugin.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/symfony2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repositories/Contracts/IBordereauRepositoryContract.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repositories/Contracts/IChequeRepositoryContract.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repositories/Eloquent/BordereauRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repositories/Eloquent/ChequeRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Search/Queries/BordereauSearch.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Search/Queries/ChequeSearch.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Traits/File/HasFile.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Traits/Workflow/HasWorkflows.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/cheques/show.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/cheques/upload.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/encaissements/upload.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/imgscan.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/process.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/bordereaux/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/cheques/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/cheques/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/cheques/show.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/cheques/upload.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/encaissements/upload.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gtcheques.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gtcheques.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/BordereauRemiseImportFiles.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/BordereauRemiseScanFiles.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BordereauremiseController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BordereauremiseEtatController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BordereauremiseFileController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BordereauremiseLigneController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BordereauremiseLocController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BordereauremiseModepaieController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BordereauremiseTypeController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RoleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowActionTypeController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecModelStepController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecModelStepController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecStepController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecStepController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Bordereauremise/FetchRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/Bordereauremise.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/BordereauremiseLoc.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/LoginFailed.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/LoginFailed.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/LoginSuccessful.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/LoginSuccessful.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/LogoutSuccessful.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/LogoutSuccessful.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Bordereauremise.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BordereauremiseEtat.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BordereauremiseFile.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BordereauremiseLigne.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BordereauremiseLoc.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BordereauremiseModepaie.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BordereauremiseType.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Workflow.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Workflow.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowAction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowActionType.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExec.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExec.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExecAction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecStep.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExecStep.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowObjectField.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowObjectField.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowStep.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowStep.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/Contracts/IBordereauremiseRepositoryContract.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/Eloquent/BordereauremiseRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Search/Queries/BordereauremiseSearch.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/BordereauremiseFile/ImportFileTrait.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/BordereauremiseFile/ScanFilesTrait.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/Workflow/HasWorkflowsOrActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/Workflow/HasWorkflowsOrActions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/BordereauremiseEtatFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/BordereauremiseFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/BordereauremiseFileFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/BordereauremiseLigneFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/BordereauremiseLocFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/BordereauremiseModepaieFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/BordereauremiseTypeFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/WorkflowActionTypeFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_133109_create_workflow_steps_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_133109_create_workflow_steps_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_133613_create_workflow_action_types_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_134055_create_workflow_object_fields_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_134055_create_workflow_object_fields_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_134537_create_workflow_actions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_134537_create_workflow_actions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_141029_create_workflow_execs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_141029_create_workflow_execs_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_142304_create_workflow_exec_steps_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_142304_create_workflow_exec_steps_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_142703_create_workflow_exec_actions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_142703_create_workflow_exec_actions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_143930_create_bordereauremise_etats_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_144404_create_bordereauremise_modepaies_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_144740_create_bordereauremise_locs_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_145045_create_bordereauremise_types_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_145355_create_bordereauremises_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_200029_create_bordereauremise_lignes_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_27_082029_create_bordereauremise_files_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/BordereauremiseEtatSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/BordereauremiseFileSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/BordereauremiseLigneSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/BordereauremiseLocSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/BordereauremiseModepaieSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/BordereauremiseSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/BordereauremiseTypeSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/UserSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowActionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowActionSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowActionTypeSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowObjectFieldSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowObjectFieldSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowObjectSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowObjectSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowStepSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowStepSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/bordereauremises/imgscan.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/bordereauremises/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/bordereauremises/show.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecactions/show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecactions/show.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/exec.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/modelsteptreatment.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/reject.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/reject.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecsteps/show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecsteps/show.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/steps/actions/actions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflows/steps/actions/actions.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/steps/actions/addupdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflows/steps/actions/addupdate.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/bordereauremises/edit.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/bordereauremises/index.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/bordereauremises/show.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin02/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin02/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin02/nav/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin02/nav/nav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -148,6 +271,14 @@
       <path value="$PROJECT_DIR$/vendor/adldap2/adldap2-laravel" />
       <path value="$PROJECT_DIR$/vendor/adldap2/adldap2" />
       <path value="$PROJECT_DIR$/vendor/asm89/stack-cors" />
+      <path value="$PROJECT_DIR$/vendor/maatwebsite/excel" />
+      <path value="$PROJECT_DIR$/vendor/ezyang/htmlpurifier" />
+      <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/php-enum" />
+      <path value="$PROJECT_DIR$/vendor/maennchen/zipstream-php" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
     </include_path>
   </component>
   <component name="ProjectId" id="1uwTXH8LM3ldh8kP2MmCt8MW51s" />
@@ -166,6 +297,14 @@
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Http/Requests/Cheque" />
+      <recent name="$PROJECT_DIR$/app/Http/Requests/Bordereau" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -184,6 +323,10 @@
       <option name="presentableId" value="Default" />
       <updated>1625575690646</updated>
       <workItem from="1625575696819" duration="2636000" />
+      <workItem from="1625651164036" duration="78330000" />
+      <workItem from="1625957059212" duration="58189000" />
+      <workItem from="1626163167109" duration="43494000" />
+      <workItem from="1626298776162" duration="22985000" />
     </task>
     <servers />
   </component>
@@ -200,5 +343,49 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="354" y="33" key="#Inspections" timestamp="1626311092291">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="354" y="33" key="#Inspections/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626311092291" />
+    <state x="525" y="36" key="#com.intellij.ide.util.MemberChooser" timestamp="1626305170258">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="525" y="36" key="#com.intellij.ide.util.MemberChooser/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626305170258" />
+    <state x="458" y="101" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1626305841586">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="458" y="101" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626305841586" />
+    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1626306979170">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626280868472" />
+    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626306979170" />
+    <state x="377" y="80" key="NewPhpClassDialog" timestamp="1626033264012">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="633" y="113" key="NewPhpClassDialog/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1625827709236" />
+    <state x="377" y="80" key="NewPhpClassDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626033264012" />
+    <state x="540" y="278" key="NewPhpFileDialog" timestamp="1626178477082">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626178477082" />
+    <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1625685204699" />
+    <state x="229" y="25" key="SettingsEditor" timestamp="1626311841190">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="229" y="25" key="SettingsEditor/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626189123908" />
+    <state x="229" y="25" key="SettingsEditor/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626311841190" />
+    <state width="676" height="445" key="SwitcherDM" timestamp="1626183839209">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state width="676" height="445" key="SwitcherDM/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626183839209" />
+    <state x="420" y="107" width="599" height="486" key="find.popup" timestamp="1626021324766">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="420" y="107" width="599" height="486" key="find.popup/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1625832479033" />
+    <state x="420" y="107" width="599" height="486" key="find.popup/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626021324766" />
   </component>
 </project>

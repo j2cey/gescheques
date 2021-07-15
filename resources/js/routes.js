@@ -18,11 +18,6 @@ let routes = [
         component: require('./views/roles/index').default
     },
     {
-        name: 'bordereauremises.index',
-        path: '/bordereauremises',
-        component: require('./views/bordereauremises/index').default
-    },
-    {
         name: 'workflows.index',
         path: '/workflows',
         component: require('./views/workflows/workflows').default

@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property boolean|null $valuetype_image
  *
  * @property integer|null $workflow_object_id
+ * @property integer|null $workflow_object_field_type_id
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -40,6 +41,10 @@ class WorkflowObjectField extends BaseModel implements Auditable
 
     public function object() {
         return $this->belongsTo(WorkflowObject::class, 'workflow_object_id');
+    }
+
+    public function objectfieldtype() {
+        return $this->belongsTo(WorkflowObjectFieldType::class, 'workflow_object_field_type_id');
     }
 
     #endregion

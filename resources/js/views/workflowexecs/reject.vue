@@ -1,10 +1,12 @@
 <template>
     <div class="modal fade" id="rejectStep" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg card card-outline card-danger">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Rejéter cette étape</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <span class="username text-sm text-orange">Rejéter cette étape</span>
+                    </h5>
+                    <button type="button" class="close" @click="closeForm()" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -26,8 +28,8 @@
 
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-danger" @click="validateForm()" :disabled="!isValidForm">Valider</button>
+                    <button type="button" class="btn btn-secondary btn-sm" @click="closeForm()">Fermer</button>
+                    <button type="button" class="btn btn-danger btn-sm" @click="validateForm(execId, motif)" :disabled="!isValidForm">Valider</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -43,7 +45,9 @@
         },
         components: {},
         mounted() {
-            this.$parent.$on('validate_reject', () => {
+            this.$parent.$on('validate_reject', (data) => {
+                console.log("validate_reject received", data)
+                this.execId = data.execId
                 this.motif = null;
                 $('#rejectStep').modal()
             })
@@ -52,12 +56,16 @@
         },
         data() {
             return {
+                execId: null,
                 motif: null
             }
         },
         methods: {
-            validateForm() {
-                this.$parent.$emit('reject_validated', this.motif)
+            validateForm(execId, motif) {
+                this.$parent.$emit('reject_validated', {execId, motif})
+                $('#rejectStep').modal('hide')
+            },
+            closeForm() {
                 $('#rejectStep').modal('hide')
             }
         },

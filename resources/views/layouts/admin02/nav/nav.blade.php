@@ -18,31 +18,61 @@
                     <a href="/dashboards" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Bordereaux Remise</a>
-                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                    <a id="chequesMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Cheques</a>
+                    <ul aria-labelledby="chequesMenu" class="dropdown-menu border-0 shadow">
                         <li class="nav-item">
-                            <a href="/bordereauremises" class="nav-link">Liste</a>
+                            <a href="/cheques" class="nav-link">Liste</a>
+                            <a href="/cheques/create" class="nav-link">Nouveau</a>
+                            <a href="/cheques.upload" class="nav-link">Telecharger</a>
+                        </li>
+                        <li class="dropdown-submenu dropdown-hover">
+                            <a id="boredereauxMenu" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Bordereaux</a>
+                            <ul aria-labelledby="boredereauxMenu" class="dropdown-menu border-0 shadow">
+                                <li class="nav-item">
+                                    <a href="/bordereaus" class="nav-link">Liste</a>
+                                </li>
+                            </ul>
                         </li>
                         <!-- End Level two -->
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Workflows</a>
-                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                    <a id="encaissementsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Encaissements ARIS</a>
+                    <ul aria-labelledby="encaissementsMenu" class="dropdown-menu border-0 shadow">
+                        <li class="nav-item">
+                            <a href="/encaissements" class="nav-link">Liste</a>
+                            <a href="/encaissements.upload" class="nav-link">Telecharger</a>
+                        </li>
+                        <!-- End Level two -->
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a id="traitementsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Traitements</a>
+                    <ul aria-labelledby="traitementsMenu" class="dropdown-menu border-0 shadow">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">Liste</a>
+                        </li>
+                        <!-- End Level two -->
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a id="workflowsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Workflows</a>
+                    <ul aria-labelledby="workflowsMenu" class="dropdown-menu border-0 shadow">
                         <li class="nav-item">
                             <a href="/workflows" class="nav-link">Liste</a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Utilisateurs</a>
-                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                    <a id="usersMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Utilisateurs</a>
+                    <ul aria-labelledby="usersMenu" class="dropdown-menu border-0 shadow">
                         <li class="nav-item">
                             <a href="/users" class="nav-link">Liste</a>
                         </li>
                         <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Profiles</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
+                            <a id="rolesMenu" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Profiles</a>
+                            <ul aria-labelledby="rolesMenu" class="dropdown-menu border-0 shadow">
                                 <li class="nav-item">
                                     <a href="/roles" class="nav-link">Liste</a>
                                 </li>

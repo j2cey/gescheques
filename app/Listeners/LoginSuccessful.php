@@ -40,7 +40,7 @@ class LoginSuccessful
 
             $data = [
                 'user_type' => $user_type,//(new \ReflectionClass(auth()->user()))->getName(),
-                'auditable_id' => $user ? $user->id : null,//auth()->user()->id,
+                'auditable_id' => $user ? $user->id : 0,//auth()->user()->id,
                 'auditable_type' => "Logged In" . ($user ? "-" . $user->login_type : ""),
                 'event' => "Logged In",
                 'url' => request()->fullUrl(),

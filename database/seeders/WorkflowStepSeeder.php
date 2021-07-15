@@ -14,32 +14,35 @@ class WorkflowStepSeeder extends Seeder
      */
     public function run()
     {
-        $workflowsteps = [
-            [
-                'titre' => "Traitement Terminé",
-                'code' => "step_end",
-                'description' => "Etape marquant la fin de tout Workflow",
-                'posi' => 0,
-            ],
-            [
-                'titre' => "Traitement Agence",
-                'code' => "step_0",
-                'description' => "Traitements niveau Agence",
-                'posi' => 0,
-                'workflow_id' => 1,
-                'role_id' => 3
-            ],
-            [
-                'titre' => "Traitement Finances",
-                'code' => "step_1",
-                'description' => "Traitements niveau Finances",
-                'posi' => 1,
-                'workflow_id' => 1,
-                'role_id' => 4
-            ],
+        // 1
+        $step_end = $this->createNew("Traitement Terminé", "step_end", "Etape marquant la fin de tout Workflow", 0, null, null,null,null);
+
+        // 2
+        $step = $this->createNew("Traitement Finances", "step_0", "Traitements niveau Finances", 0, 1, 4,null,$step_end->id);
+        // 3
+        $prevstep = $step;
+        $step = $this->createNew("Traitement Agence", "step_1", "Traitements niveau Agence", 1, 1, null,$step_end->id,null,false,true, "Agence");
+        $prevstep->update(['validated_nextstep_id' => $step->id]);
+        // 4
+        $prevstep = $step;
+        $step = $this->createNew("Traitement DFR", "step_2", "Traitements niveau DFR", 2, 1, 5,$prevstep->id,$step_end->id);
+        $prevstep->update(['rejected_nextstep_id' => $step->id]);
+    }
+
+    private function createNew($titre, $code, $description, $posi, $workflow_id, $role_id, $validated_nextstep_id, $rejected_nextstep_id, $role_static = true, $role_dynamic = false, $role_dynamic_label = null)
+    {
+        $data = [
+            'titre' => $titre, 'code' => $code, 'description' => $description, 'posi' => $posi,
+            'role_static' => $role_static, 'role_dynamic' => $role_dynamic,
         ];
-        foreach ($workflowsteps as $workflowstep) {
-            WorkflowStep::create($workflowstep);
-        }
+
+        if (! is_null($role_dynamic_label)) $data['role_dynamic_label'] = $role_dynamic_label;
+
+        if (! is_null($workflow_id)) $data['workflow_id'] = $workflow_id;
+        if (! is_null($workflow_id)) $data['role_id'] = $role_id;
+        if (! is_null($workflow_id)) $data['validated_nextstep_id'] = $validated_nextstep_id;
+        if (! is_null($workflow_id)) $data['rejected_nextstep_id'] = $rejected_nextstep_id;
+
+        return WorkflowStep::create($data);
     }
 }

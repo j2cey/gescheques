@@ -109,7 +109,7 @@ trait HasWorkflowsOrActions
                 ]);
             }
 
-            // on y a joute l'action en cours (de boucle)
+            // on y ajoute l'action en cours (de boucle)
             DB::table('model_step_actions')->insert([
                 'workflow_exec_model_step_id' => $workflow_exec_model_step->id,
                 'workflow_action_id' => $workflowaction->id,
@@ -125,12 +125,15 @@ trait HasWorkflowsOrActions
                 ->where('model_id', $this->id)->first();
             if (! $workflowexec) {
                 // On lance le Workflow pour cet objet s'il n'en a pas un en cours
-                $this->createWorkflowExec($workflow, $model_type);
+                $new_workflow_exec = $this->createWorkflowExec($workflow, $model_type);
+
+                // set 1rst step infos
+                //$this->saveStepInfosIntoModel($new_workflow_exec->current_step_id);
             }
         }
     }
 
-    private function createWorkflowExec($workflow, $model_type) {
+    private function createWorkflowExec($workflow, $model_type) : WorkflowExec {
         return WorkflowExec::create([
             'workflow_id' => $workflow->id,
             'current_step_id' => $this->getFirstStepId($workflow->id),
@@ -187,5 +190,18 @@ trait HasWorkflowsOrActions
         } else {
             return null;
         }
+    }
+
+    /**
+     * Modifier les informations workflow portées directement par le modèle
+     *
+     */
+    public function saveStepInfosIntoModel($step_id) {
+        $step = WorkflowStep::where('id', $step_id)->first();
+        $this->update([
+            'ZU_10' => "step_ID=" . $step_id,
+            'workflow_currentstep_titre' => $step->titre,
+            'workflow_currentstep_code' => $step->code,
+        ]);
     }
 }

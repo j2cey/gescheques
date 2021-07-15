@@ -41,6 +41,17 @@ class RoleController extends Controller
             ->with('i', ($request->input('page', 1) - 1) * 5);*/
     }
 
+    public function fetch(Request $request)
+    {
+        $roles = Role::all();
+        $roles->load(['permissions']);
+        return $roles;
+
+        /*$roles = Role::orderBy('id','DESC')->paginate(5);
+        return view('roles.index',compact('roles'))
+            ->with('i', ($request->input('page', 1) - 1) * 5);*/
+    }
+
     /**
      * Show the form for creating a new resource.
      *

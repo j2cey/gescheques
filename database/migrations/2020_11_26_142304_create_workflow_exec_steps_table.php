@@ -23,6 +23,8 @@ class CreateWorkflowExecStepsTable extends Migration
             $table->id();
             $table->baseFields();
 
+            $table->integer('posi')->default(0)->comment('position de l étape dans l execution de workflow');
+
             $table->foreignId('workflow_exec_id')->nullable()
                 ->comment('référence de l instance d exécution de workflow')
                 ->constrained()->onDelete('set null');
@@ -38,6 +40,10 @@ class CreateWorkflowExecStepsTable extends Migration
             $table->foreignId('user_id')->nullable()
                 ->comment('référence de l utilisateur')
                 ->constrained()->onDelete('set null');
+
+            $table->string('username')->nullable()->comment('l utilisateur qui a exécuté l étape');
+            $table->boolean('rejected')->default(false)->comment('détermine si l étape a été rejétée');
+            $table->string('reject_comment')->nullable()->comment('commentaire de rejet le cas échéant');
 
             $table->json('report')->comment('rapport d exécution');
         });

@@ -16,10 +16,10 @@ class WorkflowObjectSeeder extends Seeder
     {
         $workflowobjects = [
             [
-                'model_type' => "App\Models\Bordereauremise", 'model_title' => "Bordereau Remise"
+                'model_type' => "App\Models\Bordereau", 'model_title' => "Bordereau"
             ],
             [
-                'model_type' => "App\Models\BordereauremiseLigne", 'model_title' => "Ligne Bordereau Remise", 'workflow_object_parent_id' => 1, 'ref_field' => "bordereauremise_id"
+                'model_type' => "App\Models\Cheque", 'model_title' => "Cheque", 'ref_field' => "bordereau_id"
             ],
         ];
         foreach ($workflowobjects as $workflowobject) {

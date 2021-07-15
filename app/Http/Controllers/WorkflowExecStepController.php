@@ -44,7 +44,7 @@ class WorkflowExecStepController extends Controller
      * @param  \App\Models\WorkflowExecStep  $workflowExecStep
      * @return \Illuminate\Http\Response
      */
-    public function show(WorkflowExecStep $workflowExecStep)
+    public function show(WorkflowExecStep $workflowexecstep)
     {
         //
     }

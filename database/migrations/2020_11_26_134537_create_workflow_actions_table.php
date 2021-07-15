@@ -27,10 +27,6 @@ class CreateWorkflowActionsTable extends Migration
             $table->string('description')->nullable()->comment('description de l action');
             $table->string('model_type')->nullable()->comment('type du modèle lié');
 
-            $table->foreignId('workflow_action_type_id')->nullable()
-                ->comment('référence du type d action')
-                ->constrained()->onDelete('set null');
-
             $table->foreignId('workflow_step_id')->nullable()
                 ->comment('référence de l étape de workflow parent')
                 ->constrained()->onDelete('set null');
@@ -62,7 +58,6 @@ class CreateWorkflowActionsTable extends Migration
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
             $table->dropForeign(['workflow_step_id']);
-            $table->dropForeign(['workflow_action_type_id']);
             $table->dropForeign(['workflow_object_field_id']);
         });
         Schema::dropIfExists($this->table_name);

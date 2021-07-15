@@ -136,7 +136,7 @@
                 this.workflowexecactionForm
                     .put(`/workflowexecactions/${this.execactionId}`, fd)
                     .then(data => {
-                        //this.$router.go('/bordereauremises')
+                        //this.$router.go('/bordereaus')
                     }).catch(error => {
                     this.loading = false
                 });

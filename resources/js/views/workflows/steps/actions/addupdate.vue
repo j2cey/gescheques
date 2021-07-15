@@ -21,26 +21,6 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="m_select_action_type" class="col-sm-2 col-form-label">Type Action</label>
-                                <div class="col-sm-10">
-                                    <multiselect
-                                        id="m_select_action_type"
-                                        v-model="workflowactionForm.type"
-                                        selected.sync="workflowaction.type"
-                                        value=""
-                                        :options="types"
-                                        :searchable="true"
-                                        :multiple="false"
-                                        label="titre"
-                                        track-by="id"
-                                        key="id"
-                                        placeholder="Type Action"
-                                    >
-                                    </multiselect>
-                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowactionForm.errors.has('type')" v-text="workflowactionForm.errors.get('type')"></span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label for="m_select_action_field" class="col-sm-2 col-form-label">Champs Objet</label>
                                 <div class="col-sm-10">
                                     <multiselect
@@ -178,7 +158,6 @@
             this.titre = workflowaction.titre || ''
             this.description = workflowaction.description || ''
             this.workflow_step_id = workflowaction.workflow_step_id || ''
-            this.type = workflowaction.type || ''
             this.objectfield = workflowaction.objectfield || ''
 
             this.field_required = workflowaction.field_required || ''
@@ -244,9 +223,6 @@
             })
         },
         created() {
-            axios.get('/workflowactiontypes')
-                .then(({data}) => this.types = data);
-
             axios.get('/workflowobjectfields')
                 .then(({data}) => this.objectfields = data);
         },
@@ -258,7 +234,6 @@
                 workflowactionId: null,
                 editing: false,
                 loading: false,
-                types: [],
                 objectfields: []
             }
         },

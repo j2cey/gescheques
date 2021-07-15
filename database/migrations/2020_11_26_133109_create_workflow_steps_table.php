@@ -35,7 +35,18 @@ class CreateWorkflowStepsTable extends Migration
                 ->comment('référence du profile de l acteur potentiel')
                 ->constrained()->onDelete('set null');
 
+            $table->foreignId('validated_nextstep_id')->nullable()
+                ->comment('référence de la prochaine etape apres validation')
+                ->constrained('workflow_steps')->onDelete('set null');
+
+            $table->foreignId('rejected_nextstep_id')->nullable()
+                ->comment('référence de la prochaine etape apres rejet')
+                ->constrained('workflow_steps')->onDelete('set null');
+
             $table->string('code')->unique()->comment('code de l étape');
+            $table->boolean('role_static')->default(false)->comment('détermine si le role de l étape doit être statique (donné au cours de l étape précédente)');
+            $table->boolean('role_dynamic')->default(true)->comment('détermine si le role de l étape doit être dynamique (donné dans la description de l étape)');
+            $table->string('role_dynamic_label')->nullable()->comment('libellé de role dynamique');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }
@@ -51,6 +62,9 @@ class CreateWorkflowStepsTable extends Migration
             $table->dropBaseForeigns();
             $table->dropForeign(['workflow_id']);
             $table->dropForeign(['role_id']);
+
+            $table->dropForeign(['validated_nextstep_id']);
+            $table->dropForeign(['rejected_nextstep_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

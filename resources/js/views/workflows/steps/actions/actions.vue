@@ -24,8 +24,6 @@
             <div :id="'collapse-actions-'+index" class="panel-collapse collapse in">
                 <div class="card-body" >
                     <dl class="row">
-                        <dt class="col-sm-4">Type</dt>
-                        <dd class="col-sm-8">{{ action.type.titre }}</dd>
                         <dt class="col-sm-4" v-if="action.objectfield">Champs</dt>
                         <dd class="col-sm-8" v-if="action.objectfield">{{ action.objectfield.field_label }}</dd>
                         <dd class="col-sm-8 offset-sm-4" v-if="action.objectfield">

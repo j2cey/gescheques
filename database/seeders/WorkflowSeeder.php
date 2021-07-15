@@ -16,11 +16,11 @@ class WorkflowSeeder extends Seeder
     {
         $workflows = [
             [
-                'titre' => "Traitement Bordereaux Remise",
-                'description' => "Processus de Traitement des Bordereaux de Remise",
+                'titre' => "Traitement Chèque impayés",
+                'description' => "Processus de Traitement des Chèques impayés",
                 'user_id' => 1,
-                'workflow_object_id' => 1,
-                'model_type' => "App\Models\Bordereauremise",
+                'workflow_object_id' => 2,
+                'model_type' => "App\Models\Cheque",
             ],
         ];
         foreach ($workflows as $workflow) {

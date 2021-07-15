@@ -96,9 +96,12 @@ Vue.component('dashboard-index', require('./views/dashboard/index').default);
 Vue.component('workflows-index', require('./views/workflows/workflows').default);
 Vue.component('workflow-execaction', require('./views/workflowexecactions/show').default);
 Vue.component('workflow-execstep', require('./views/workflowexecsteps/show').default);
-Vue.component('workflow-exec', require('./views/workflowexecs/exec').default);
-Vue.component('bordereauremise-index', require('./views/bordereauremises/index').default);
-Vue.component('bordereauremise-show', require('./views/bordereauremises/show').default);
+
+Vue.component('cheques-upload', require('./views/cheques/upload').default);
+Vue.component('cheques-show', require('./views/cheques/show').default);
+
+Vue.component('encaissements-upload', require('./views/encaissements/upload').default);
+
 Vue.component("rawDisplayer", rawDisplayer);
 
 Vue.component('user-show', require('./views/users/show').default);

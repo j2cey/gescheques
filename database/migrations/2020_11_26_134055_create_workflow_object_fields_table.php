@@ -26,11 +26,9 @@ class CreateWorkflowObjectFieldsTable extends Migration
             $table->string('db_field_name')->comment('nom du champs dans la base de données');
             $table->string('field_label')->comment('libele du champs');
 
-            $table->boolean('valuetype_string')->default(false)->comment('determine si la valeur du champs est de type STRING');
-            $table->boolean('valuetype_integer')->default(false)->comment('determine si la valeur du champs est de type INTEGER');
-            $table->boolean('valuetype_boolean')->default(false)->comment('determine si la valeur du champs est de type BOOLEAN');
-            $table->boolean('valuetype_datetime')->default(false)->comment('determine si la valeur du champs est de type DATETIME');
-            $table->boolean('valuetype_image')->default(false)->comment('determine si la valeur du champs est de type IMAGE');
+            $table->foreignId('workflow_object_field_type_id')->nullable()
+                ->comment('référence du type de champs')
+                ->constrained()->onDelete('set null');
 
             $table->foreignId('workflow_object_id')->nullable()
                 ->comment('référence de l objet')
@@ -48,6 +46,7 @@ class CreateWorkflowObjectFieldsTable extends Migration
     {
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
+            $table->dropForeign(['workflow_object_field_type_id']);
             $table->dropForeign(['workflow_object_id']);
         });
         Schema::dropIfExists($this->table_name);

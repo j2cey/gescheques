@@ -32,7 +32,7 @@ class LoginFailed
 
         $data = [
             'user_type' => $user ? (new \ReflectionClass($user))->getName() : null,
-            'auditable_id' => $user ? $user->id : null,
+            'auditable_id' => $user ? $user->id : 0,
             'auditable_type' => "Login Failed",
             'event'      => "Login Failed",
             'url'        => request()->fullUrl(),

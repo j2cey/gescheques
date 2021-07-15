@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bordereauremise;
 use App\Models\WorkflowExec;
 use App\Models\WorkflowExecModelStep;
 use App\Models\WorkflowStep;
@@ -118,20 +117,14 @@ class WorkflowExecModelStepController extends Controller
         // Parcourir et traiter les actions
         foreach ($currmodelstep->actions as $action) {
             // TODO: placer l'attribut image_dir dans la définition de la classe du model
-            $action->Traiter($workflowexecmodelstep, $request, 'bordereauremises_scans');
+            $action->Traiter($workflowexecmodelstep, $request, 'files_scans');
         }
 
-        // TODO: voir comment gérer dynamiquement le modèle traité (et son parent si besoin)
-        if ($currmodelstep->model_type === "App\Models\BordereauremiseLigne") {
-            $model_type = $currmodelstep->model_type;
-            $model_sub = $model_type::where('id', $currmodelstep->model_id)->first();
-            $model = Bordereauremise::where('id', $model_sub->bordereauremise_id)->first();
-        } else {
-            $model_type = $currmodelstep->model_type;
-            $model = $model_type::where('id', $currmodelstep->model_id)->first();
-        }
-        $model->load(['type','localisation', 'modepaiement', 'lignes', 'lignes.currmodelstep','lignes.currmodelstep.exec','lignes.currmodelstep.step']);
-        $model->load(['currmodelstep','currmodelstep.exec','currmodelstep.step','currmodelstep.actions']);
+        $model_type = $currmodelstep->model_type;
+        $model = $model_type::where('id', $currmodelstep->model_id)->first();
+        //$model->load(['type','localisation', 'modepaiement', 'lignes', 'lignes.currmodelstep','lignes.currmodelstep.exec','lignes.currmodelstep.step']);
+        // currmodelstep.exec.currentstep.profile
+        $model->load(['currmodelstep','currmodelstep.exec','currmodelstep.exec.currentstep','currmodelstep.exec.currentstep.profile','currmodelstep.step','currmodelstep.actions']);
 
         return $model;
     }

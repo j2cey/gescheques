@@ -23,7 +23,8 @@ class WorkflowController extends Controller
 
     public function fetch() {
         $workflows = Workflow::all();
-        $workflows->load(['object','steps','steps.profile','steps.actions','steps.actions.type','steps.actions.objectfield','steps.actions.fieldsrequiredwithout','steps.actions.fieldsrequiredwith']);
+        //$workflows->load(['object','steps','steps.profile','steps.actions','steps.actions.type','steps.actions.objectfield','steps.actions.fieldsrequiredwithout','steps.actions.fieldsrequiredwith']);
+        $workflows->load(['object','steps','steps.profile','steps.actions','steps.actions.objectfield','steps.actions.fieldsrequiredwithout','steps.actions.fieldsrequiredwith']);
         return $workflows;
     }
 

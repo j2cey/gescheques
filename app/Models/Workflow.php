@@ -72,6 +72,40 @@ class Workflow extends BaseModel implements Auditable
 
     #region Custom
 
+    public function launch($model_type, $model_id) {
+        // si le workflow est actif
+        if ($this->status->code == "active") {
+            $first_step = $this->getFirstStep();
+            $exec = WorkflowExec::create([
+                'workflow_id' => $this->id,
+                'current_step_id' => $first_step ? $first_step->id : null,
+                'next_step_id' => $first_step ? ( $first_step->validatednextstep ? $first_step->validatednextstep->id : null ) : null,
+                'model_type' => $model_type,
+                'model_id' => $model_id,
+                'report' => json_encode([]),
+            ]);
+            $exec->setCurrentRole();
+            return $exec;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Retourne l'id de la première étape du workflow
+     * @return WorkflowStep|null
+     */
+    private function getFirstStep() : ?WorkflowStep {
+        return WorkflowStep::where('workflow_id', $this->id)
+            ->where('posi', 0)
+            ->first();
+        /*if ($first_step) {
+            return $first_step;
+        } else {
+            return null;
+        }*/
+    }
+
     public function nextStep($posi) {
         $next_step = $this->steps()
             ->where('posi', $posi + 1)

@@ -6,12 +6,14 @@ use App\Models\Setting;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Eloquent\ChequeRepository;
 use App\Repositories\Eloquent\ProductRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Repositories\Eloquent\BordereauRepository;
 use App\Repositories\Contracts\IUserRepositoryContract;
-use App\Repositories\Eloquent\BordereauremiseRepository;
+use App\Repositories\Contracts\IChequeRepositoryContract;
 use App\Repositories\Contracts\IProductRepositoryContract;
-use App\Repositories\Contracts\IBordereauremiseRepositoryContract;
+use App\Repositories\Contracts\IBordereauRepositoryContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,7 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(IProductRepositoryContract::class, ProductRepository::class);
-        $this->app->bind(IBordereauremiseRepositoryContract::class, BordereauremiseRepository::class);
+        $this->app->bind(IBordereauRepositoryContract::class, BordereauRepository::class);
+        $this->app->bind(IChequeRepositoryContract::class, ChequeRepository::class);
         $this->app->bind(IUserRepositoryContract::class, UserRepository::class);
     }
 

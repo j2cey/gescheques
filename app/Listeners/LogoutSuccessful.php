@@ -35,7 +35,7 @@ class LogoutSuccessful
 
         $data = [
             'user_type' => (new \ReflectionClass($user))->getName(),//class_basename($user),
-            'auditable_id' => $user ? $user->id : null,
+            'auditable_id' => $user ? $user->id : 0,
             'auditable_type' => "Logged Out",
             'event'      => "Logged Out",
             'url'        => request()->fullUrl(),

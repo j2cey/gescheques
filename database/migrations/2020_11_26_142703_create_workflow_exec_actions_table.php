@@ -31,14 +31,26 @@ class CreateWorkflowExecActionsTable extends Migration
                 ->comment('référence du statut')
                 ->constrained()->onDelete('set null');
 
-            $table->foreignId('workflow_exec_id')->nullable()
-                ->comment('référence de l instance d exécution de workflow')
+            $table->foreignId('workflow_exec_step_id')->nullable()
+                ->comment('référence de l instance d exécution de l etape de workflow')
                 ->constrained()->onDelete('set null');
 
-            $table->bigInteger('model_id')->nullable()->comment('référence de l instance du modèle');
-            $table->string('model_type')->nullable()->comment('type de modèle (définit à la création)');
+            $table->foreignId('user_id')->nullable()
+                ->comment('référence de l utilisateur')
+                ->constrained()->onDelete('set null');
 
-            $table->string('motif_rejet')->nullable()->comment('motif rejet le cas échéant');
+            $table->string('username')->nullable()->comment('l utilisateur qui a exécuté l action');
+
+            $table->integer('posi')->default(0)->comment('position de l action dans l étape d execution de workflow');
+
+            $table->string('model_type')->nullable()->comment('type du modèle modifié');
+            $table->integer('model_id')->nullable()->comment('id du modèle modifié');
+            $table->string('field_name')->nullable()->comment('nom du champs');
+            $table->string('old_value')->nullable()->comment('ancienne valeur');
+            $table->string('new_value')->nullable()->comment('nouvelle valeur');
+
+            $table->string('save_result')->nullable()->comment('resultat de l enregistrement de la modif apportee a l objet');
+
             $table->json('report')->comment('rapport d exécution');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
@@ -53,7 +65,8 @@ class CreateWorkflowExecActionsTable extends Migration
     {
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
-            $table->dropForeign(['workflow_exec_id']);
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['workflow_exec_step_id']);
             $table->dropForeign(['workflow_action_id']);
             $table->dropForeign(['workflow_status_id']);
         });

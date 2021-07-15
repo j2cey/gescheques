@@ -21,10 +21,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property string $titre
  *
- * @property integer|null $workflow_action_type_id
  * @property integer|null $workflow_step_id
  * @property integer|null $workflow_object_field_id
- * @property string|null $model_type
  *
  * @property boolean $field_required
  * @property string|null $field_required_msg
@@ -47,10 +45,6 @@ class WorkflowAction extends BaseModel implements Auditable
     public $validation_messages;
 
     #region Eloquent Relationships
-
-    public function type() {
-        return $this->belongsTo(WorkflowActionType::class, 'workflow_action_type_id');
-    }
 
     public function step() {
         return $this->belongsTo(WorkflowStep::class, 'workflow_step_id');
@@ -102,6 +96,22 @@ class WorkflowAction extends BaseModel implements Auditable
     #endregion
 
     #region Custom Functions
+
+    public function launch($exec_step) : WorkflowExecAction {
+        $execaction = WorkflowExecAction::where('workflow_exec_step_id', $exec_step->id)
+            ->where('workflow_action_id', $this->id)
+            ->first();
+        if ($execaction) {
+            return $execaction;
+        } else {
+            return WorkflowExecAction::create([
+                'workflow_exec_step_id' => $exec_step->id,
+                'workflow_action_id' => $this->id,
+                'posi' => WorkflowExecAction::where('workflow_exec_step_id', $exec_step->id)->count() + 1,
+                'report' => json_encode([]),
+            ]);
+        }
+    }
 
     public function setValidationRules($reset_befor = true) {
         if ($reset_befor || is_null($this->validation_rules)) {
@@ -243,61 +253,6 @@ class WorkflowAction extends BaseModel implements Auditable
             }
         }
         return $list_name;
-    }
-
-    public function Traiter(WorkflowExecModelStep $workflowexecmodelstep, $request, $images_dir) {
-        $input_vals = $request->all();
-        $val = isset($input_vals[$this->objectfield->db_field_name]) ? $input_vals[$this->objectfield->db_field_name] : "";
-        if ($this->type->code === "2") {
-            // action sur objet
-            $model_type = $workflowexecmodelstep->model_type;
-            $model = $model_type::where('id', $workflowexecmodelstep->model_id)->first();
-
-            if ($this->objectfield->valuetype_boolean) {
-                // Type Booleen
-                $bool_val = ($val === "null" || $val === null || $val === "false" || $val === "") ? 0 : 1;
-                $model->{$this->objectfield->db_field_name} = $bool_val;
-            } elseif ($this->objectfield->valuetype_datetime) {
-                // Type DateTime
-                if (! empty($val)) {
-                    $model->{$this->objectfield->db_field_name} = $val; // Carbon::parse($formInput[$action->objectfield->db_field_name]);
-                }
-            } elseif ($this->objectfield->valuetype_image) {
-                // Type Image
-                $model->{$this->objectfield->db_field_name} = $this->verifyAndStoreImage($request, $this->objectfield->db_field_name, $images_dir);
-            } elseif ($this->objectfield->valuetype_string) {
-                // Type string
-                $str_val = ($val === "null" || $val === null) ? "" : $val;
-                $model->{$this->objectfield->db_field_name} = $str_val;
-            } elseif ($this->objectfield->valuetype_integer) {
-                // Type integer
-                $str_val = ($val === "null" || $val === null || $val === null) ? 0 : (int)$val;
-                $model->{$this->objectfield->db_field_name} = $str_val;
-            } else {
-                $model->{$this->objectfield->db_field_name} = $val;
-            }
-
-            $model->save();
-
-            // Marquer l'action traitée
-            $affected = $this->marquerTraitee($workflowexecmodelstep->id);
-            // Traiter le modelStep
-            $workflowexecmodelstep->Traiter();
-            return 1;
-        } else {
-            // action sur workflow
-            return 0;
-        }
-    }
-
-    public function marquerTraitee($exec_id, $rejetee = false) {
-        return DB::table('model_step_actions')
-            ->where('workflow_exec_model_step_id', $exec_id)
-            ->where('workflow_action_id', $this->id)
-            ->update([
-                'traitement_effectif' => 1,
-                'rejete' => $rejetee ? 1 : 0,
-            ]);
     }
 
     #endregion
