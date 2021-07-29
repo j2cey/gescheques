@@ -24,7 +24,8 @@ class CreateWorkflowObjectFieldTypesTable extends Migration
             $table->baseFields();
 
             $table->string('name')->unique()->comment('nom du type de champs');
-            $table->string('code')->comment('code du type de champs');
+            $table->string('code')->unique()->comment('code du type de champs');
+            $table->string('description')->nullable()->comment('description du type de champs');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }

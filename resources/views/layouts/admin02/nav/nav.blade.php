@@ -14,9 +14,11 @@
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
+                @role('Admin')
                 <li class="nav-item">
                     <a href="/dashboards" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
+                @endrole
                 <li class="nav-item dropdown">
                     <a id="chequesMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Cheques</a>
                     <ul aria-labelledby="chequesMenu" class="dropdown-menu border-0 shadow">
@@ -46,6 +48,7 @@
                         <!-- End Level two -->
                     </ul>
                 </li>
+                @role('Admin')
                 <li class="nav-item dropdown">
                     <a id="traitementsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Traitements</a>
                     <ul aria-labelledby="traitementsMenu" class="dropdown-menu border-0 shadow">
@@ -55,7 +58,9 @@
                         <!-- End Level two -->
                     </ul>
                 </li>
+                @endrole
 
+                @role('Admin')
                 <li class="nav-item dropdown">
                     <a id="workflowsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Workflows</a>
                     <ul aria-labelledby="workflowsMenu" class="dropdown-menu border-0 shadow">
@@ -64,6 +69,9 @@
                         </li>
                     </ul>
                 </li>
+                @endrole
+
+                @role('Admin')
                 <li class="nav-item dropdown">
                     <a id="usersMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Utilisateurs</a>
                     <ul aria-labelledby="usersMenu" class="dropdown-menu border-0 shadow">
@@ -80,6 +88,7 @@
                         </li>
                     </ul>
                 </li>
+                @endrole
             </ul>
 
             <!-- SEARCH FORM -->

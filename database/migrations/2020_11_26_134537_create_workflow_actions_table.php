@@ -25,6 +25,7 @@ class CreateWorkflowActionsTable extends Migration
 
             $table->string('titre')->comment('intitule de l action');
             $table->string('description')->nullable()->comment('description de l action');
+            $table->string('code')->unique()->nullable()->comment('code de l action');
             $table->string('model_type')->nullable()->comment('type du modèle lié');
 
             $table->foreignId('workflow_step_id')->nullable()
@@ -33,6 +34,10 @@ class CreateWorkflowActionsTable extends Migration
 
             $table->foreignId('workflow_object_field_id')->nullable()
                 ->comment('référence du champs d objet')
+                ->constrained()->onDelete('set null');
+
+            $table->foreignId('workflow_action_type_id')->nullable()
+                ->comment('référence du type d action')
                 ->constrained()->onDelete('set null');
 
             $table->boolean('field_required')->default(false)->comment('determine si le champs est requis');
@@ -58,6 +63,7 @@ class CreateWorkflowActionsTable extends Migration
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
             $table->dropForeign(['workflow_step_id']);
+            $table->dropForeign(['workflow_action_type_id']);
             $table->dropForeign(['workflow_object_field_id']);
         });
         Schema::dropIfExists($this->table_name);

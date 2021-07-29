@@ -105,28 +105,43 @@ class ChequeController extends Controller
     public function show(Cheque $cheque)
     {
         $user = auth()->user();
-        $userprofile = $user->roles()->first();
+        $userprofiles = $user->roles()->get();
 
         $exec_step_profile = $cheque->workflowexec->currentstep->profile;
 
         // récupérer le bon profile utilisateur
-        if (! is_null($exec_step_profile)) {
+        /*if (! is_null($exec_step_profile)) {
             if ($user->hasRole([$exec_step_profile->name])) {
                 $userprofile = $exec_step_profile;
             }
-        }
+        }*/
 
         $cheque = Cheque::where('id',$cheque->id)
             ->first();
 
-        $cheque->load(['workflowexec','workflowexec.nextstep','workflowexec.currentprofile','workflowexec.currentstep','workflowexec.currentstep.actions','workflowexec.execsteps','workflowexec.execsteps.step','workflowexec.execsteps.execstatus']);
+        $cheque->load([
+            'workflowexec',
+            'workflowexec.prevstep',
+            'workflowexec.nextstep',
+            'workflowexec.execsteps',
+            'workflowexec.execsteps.step',
+            'workflowexec.currentprofile',
+            'workflowexec.execsteps.effectiverole',
+            'workflowexec.execsteps.execactions',
+            'workflowexec.execsteps.execactions.file',
+            'workflowexec.execsteps.execactions.file.mimetype',
+            'workflowexec.execsteps.execactions.workflowprocessstatus',
+            'workflowexec.currentstep','workflowexec.currentstep.actions',
+            'workflowexec.workflowstatus','workflowexec.workflowprocessstatus',
+            'workflowexec.execsteps.workflowstatus','workflowexec.execsteps.workflowprocessstatus'
+        ]);
         $cheque->load(['encaissement','encaissement.agence']);
 
         $hasexecrole = $exec_step_profile ? ( $user->hasRole([$exec_step_profile->name]) ? 1 : 0 ) : 0;
 
         $actionvalues = [];
 
-        return view('cheques.show', ['cheque' => $cheque, 'actionvalues' => json_encode($actionvalues), 'hasexecrole' => $hasexecrole, 'userprofile' => $userprofile]);
+        return view('cheques.show', ['cheque' => $cheque, 'actionvalues' => json_encode($actionvalues), 'hasexecrole' => $hasexecrole, 'userprofiles' => $userprofiles]);
     }
 
     /**

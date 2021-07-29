@@ -20,7 +20,7 @@ let routes = [
     {
         name: 'workflows.index',
         path: '/workflows',
-        component: require('./views/workflows/workflows').default
+        component: require('./views/workflows/list').default
     }
 ];
 

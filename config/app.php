@@ -59,6 +59,7 @@ return [
     'encaissements_files' => env('ENCAISSEMENTS_FILES', 'XXX'),
     'encaissements_files_tmp' => env('ENCAISSEMENTS_FILES_TMP', 'XXX'),
 
+    'files_folder' => env('FILES_FOLDER', 'XXXX'),
     'RAW_FOLDER' => env('RAW_FOLDER', '/var/www/gesbordremise/public'),
 
     /*

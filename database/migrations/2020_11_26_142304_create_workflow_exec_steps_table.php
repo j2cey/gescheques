@@ -33,8 +33,16 @@ class CreateWorkflowExecStepsTable extends Migration
                 ->comment('référence de l etape de workflow')
                 ->constrained()->onDelete('set null');
 
+            $table->foreignId('effective_role_id')->nullable()
+                ->comment('référence de l etape de workflow')
+                ->constrained('roles')->onDelete('set null');
+
             $table->foreignId('workflow_status_id')->nullable()
                 ->comment('référence du statut de workflow')
+                ->constrained()->onDelete('set null');
+
+            $table->foreignId('workflow_process_status_id')->nullable()
+                ->comment('référence du statut d exécution du workflow')
                 ->constrained()->onDelete('set null');
 
             $table->foreignId('user_id')->nullable()
@@ -42,8 +50,15 @@ class CreateWorkflowExecStepsTable extends Migration
                 ->constrained()->onDelete('set null');
 
             $table->string('username')->nullable()->comment('l utilisateur qui a exécuté l étape');
+
             $table->boolean('rejected')->default(false)->comment('détermine si l étape a été rejétée');
             $table->string('reject_comment')->nullable()->comment('commentaire de rejet le cas échéant');
+
+            $table->boolean('expired')->default(false)->comment('détermine si l étape est expirée');
+            $table->string('expire_comment')->nullable()->comment('commentaire d expiration le cas échéant');
+
+            $table->timestamp('start_at')->nullable()->comment('date de début d exécution de l étape de workflow');
+            $table->timestamp('end_at')->nullable()->comment('date de fin d exécution de l étape de workflow');
 
             $table->json('report')->comment('rapport d exécution');
         });
@@ -61,7 +76,9 @@ class CreateWorkflowExecStepsTable extends Migration
             $table->dropBaseForeigns();
             $table->dropForeign(['workflow_exec_id']);
             $table->dropForeign(['workflow_step_id']);
+            $table->dropForeign(['effective_role_id']);
             $table->dropForeign(['workflow_status_id']);
+            $table->dropForeign(['workflow_process_status_id']);
             $table->dropForeign(['user_id']);
         });
         Schema::dropIfExists($this->table_name);

@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use App\Rules\StepCanExpire;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Eloquent\ChequeRepository;
 use App\Repositories\Eloquent\ProductRepository;
@@ -68,5 +70,11 @@ class AppServiceProvider extends ServiceProvider
         config([
             'Settings' => Setting::getAllGrouped()
         ]);
+
+        /*Validator::extend('stepcanexpire_if', function($attribute, $value, $parameters, $validator) {
+            $rule = new StepCanExpire($parameters[0]);
+
+            return $rule->passes($attribute, $value);
+        });*/
     }
 }

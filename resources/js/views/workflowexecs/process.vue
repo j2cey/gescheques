@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade draggable" id="treatModelStep" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade draggable" id="processExec" tabindex="-1" role="dialog" aria-labelledby="processExecLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -8,8 +8,8 @@
                         <span class="description" v-if="moredata">
                             <dl class="row">
                                 <span v-for="(value, propertyName) in moredata" class="text-lighter hidden-sm-down">
-                                    <dt class="col-lg-6"><small><strong>{{ propertyName }}</strong></small></dt>
-                                    <dd class="col-lg-6">{{ value }}</dd>
+                                    <dt class="col-sm-12 text-xs"><small><strong>{{ propertyName }}</strong></small></dt>
+                                    <dd class="col-sm-12 text-xs">{{ value }}</dd>
                                 </span>
                             </dl>
                         </span>
@@ -24,32 +24,76 @@
 
                         <div class="card-body">
                             <div class="form-group row" v-for="(action, index) in currentstep.actions" v-if="currentstep">
-                                <div class="col-sm-10" v-if="action.objectfield.objectfieldtype.code == 'valuetype_string' || action.objectfield.objectfieldtype.code == 'valuetype_integer'">
-                                    <input type="text" class="form-control" :id="action.objectfield.db_field_name" :name="action.objectfield.db_field_name" :placeholder="action.titre" v-model="workflowexecForm[action.objectfield.db_field_name]">
-                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.objectfield.db_field_name}`)" v-text="workflowexecForm.errors.get(`${action.objectfield.db_field_name}`)"></span>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'BIGINT_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
                                 </div>
-                                <div class="col-sm-10" v-else-if="action.objectfield.objectfieldtype.code == 'valuetype_boolean'">
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'BLOB_value'">
+                                    <input type="text" class="form-control form-control-sm" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-else-if="action.actiontype.code === 'BOOLEAN_value'">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" :id="action.objectfield.db_field_name" :name="action.objectfield.db_field_name" :placeholder="action.titre" v-model="workflowexecForm[action.objectfield.db_field_name]">
-                                        <label class="form-check-label" :for="action.objectfield.db_field_name">{{ action.titre }}</label>
-                                        <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.objectfield.db_field_name}`)" v-text="workflowexecForm.errors.get(`${action.objectfield.db_field_name}`)"></span>
+                                        <input type="checkbox" class="form-check-input" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                        <label class="form-check-label" :for="action.code">{{ action.titre }}</label>
+                                        <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
                                     </div>
                                 </div>
-                                <div class="col-sm-10" v-else-if="action.objectfield.objectfieldtype.code == 'valuetype_datetime'">
-                                    <VueCtkDateTimePicker v-model="workflowexecForm[action.objectfield.db_field_name]" :label="action.titre" format="YYYY-MM-DD hh:mm:ss" />
-                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.objectfield.db_field_name}`)" v-text="workflowexecForm.errors.get(`${action.objectfield.db_field_name}`)"></span>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'CHAR_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
                                 </div>
-                                <div class="col-sm-10" v-else-if="action.objectfield.objectfieldtype.code == 'valuetype_image'">
-                                    <input type="file" class="custom-file-input" :id="action.objectfield.db_field_name" :name="action.objectfield.db_field_name"  :ref="action.objectfield.db_field_name" @change="handleFileUpload">
-                                    <label class="custom-file-label" :for="action.objectfield.db_field_name">{{ filename }}</label>
-                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.objectfield.db_field_name}`)" v-text="workflowexecForm.errors.get(`${action.objectfield.db_field_name}`)"></span>
+                                <div class="col-sm-10" v-else-if="action.actiontype.code === 'DATETIME_value'">
+                                    <VueCtkDateTimePicker v-model="workflowexecForm[action.code]" :label="action.titre" format="YYYY-MM-DD hh:mm:ss" />
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-else-if="action.code === 'DATE_value'">
+                                    <VueCtkDateTimePicker v-model="workflowexecForm[action.code]" :label="action.titre" format="YYYY-MM-DD" />
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'DECIMAL_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'DOUBLE_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'FLOAT_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'INTEGER_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'IPADDRESS_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'STRING_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'TEXT_value'">
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-else-if="action.actiontype.code === 'FILE_ref'">
+                                    <input type="file" class="custom-file-input" :id="action.code" :name="action.code"  :ref="action.code" @change="handleFileUpload">
+                                    <label class="custom-file-label" :for="action.code">{{ filename }}</label>
+                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
                                 </div>
                                 <div class="col-sm-10" v-else>
-
                                 </div>
                             </div>
+
                             <div class="form-group row" v-if="isNextstepRoleDynamic">
-                                <div class="col-sm-10">
+                                <div class="custom-control custom-radio col-sm-4">
+                                    <input type="radio" class="custom-control-input" id="role_dynamic_selected" name="role_dynamic_selection" v-model="workflowexecForm.role_dynamic_selection" @change="roleDynamicSelectionTypeChange($event)" value="role_dynamic_selected">
+                                    <label for="role_dynamic_selected" class="custom-control-label"><span class="text text-xs">{{ exec.nextstep.role_dynamic_label }}</span></label>
+                                </div>
+                                <div class="col-sm-8">
                                     <multiselect
                                         id="m_select_current_step_role"
                                         v-model="workflowexecForm.current_step_role"
@@ -64,6 +108,15 @@
                                         :placeholder="exec.nextstep.role_dynamic_label"
                                     >
                                     </multiselect>
+                                </div>
+                            </div>
+                            <div class="form-group row" v-if="isNextstepRoleDynamic && exec.lastexecstep && exec.lastexecstep.effectiverole">
+                                <div class="custom-control custom-radio col-sm-4">
+                                    <input type="radio" class="custom-control-input" id="role_dynamic_previous" name="role_dynamic_selection" v-model="workflowexecForm.role_dynamic_selection" @change="roleDynamicSelectionTypeChange($event)" value="role_dynamic_previous">
+                                    <label for="role_dynamic_previous" class="custom-control-label"><span class="text text-xs">{{ exec.nextstep.role_dynamic_previous_label }}</span></label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" readonly class="form-control form-control-sm text-xs" id="role_dynamic_previous_chosen" name="role_dynamic_previous_chosen" :placeholder="exec.nextstep.role_dynamic_previous_label" v-model="exec.lastexecstep.effectiverole.name">
                                 </div>
                             </div>
                         </div>
@@ -102,10 +155,10 @@
                 this.exec = process_data.exec
                 this.currentstep = process_data.currentstep
                 this.moredata = process_data.moredata
-                //this.workflowexecForm = new Form({ 'actionvalues': this.actionvalues })
+
                 this.workflowexecForm = new Form(process_data.actionvalues)
 
-                //$('#treatModelStep').modal()
+                //$('#processExec').modal()
 
                 // reset modal if it isn't visible
                 if (!($('.modal.in').length)) {
@@ -114,7 +167,7 @@
                         left: 50
                     });
                 }
-                $('#treatModelStep').modal({
+                $('#processExec').modal({
                     backdrop: false,
                     keyboard: false,
                     show: true
@@ -171,6 +224,9 @@
                 this.$emit('validate_reject', {execId})
             },
             submitForm(execId) {
+                if (this.workflowexecForm.role_dynamic_selection === 'role_dynamic_previous') {
+                    this.workflowexecForm.current_step_role = this.exec.lastexecstep.effectiverole
+                }
                 const fd = this.addFileToForm(this.filefieldname)
 
                 this.workflowexecForm
@@ -179,7 +235,7 @@
 
                         console.log("etape_traitee: ",data)
                         this.$parent.$emit('etape_traitee', data)
-                        $('#treatModelStep').modal('hide')
+                        $('#processExec').modal('hide')
 
                     }).catch(error => {
                     this.loading = false
@@ -205,10 +261,13 @@
                     type: 'success'
                 })
             },
+            roleDynamicSelectionTypeChange(event) {
+                console.log('roleDynamicSelectionTypeChange: ', this.workflowexecForm.role_dynamic_selection);
+            },
         },
         computed: {
             isValidCreateForm() {
-                return !this.loading && (this.isNextstepRoleDynamic ? (this.workflowexecForm.current_step_role && true) : true)
+                return !this.loading && (this.isNextstepRoleDynamic ? ( this.workflowexecForm.role_dynamic_selection === 'role_dynamic_selected' ? (this.workflowexecForm.current_step_role && true) : true ) : true)
             },
             isNextstepRoleDynamic() {
                 if (this.exec.nextstep) {
@@ -222,7 +281,7 @@
 </script>
 
 <style scoped>
-    #treatModelStep {
+    #processExec {
         position: relative;
     }
 

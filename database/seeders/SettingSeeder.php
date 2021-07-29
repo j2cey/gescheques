@@ -14,28 +14,47 @@ class SettingSeeder extends Seeder
      */
     public function run()
     {
-        $settings = [
-            [ 'name' => "ldap", 'description' => "settings LDAP." ], // 1
-            [
-                'group_id' => 1, 'name' => "liste_sigles", 'value' => "gt,rh,si,it,sav,in,bss,msan,rva,erp,dr", 'type' => "array", 'description' => "liste des sigles (à prendre en compte dans l importation LDAP)."
-            ],
-            [ 'name' => "roles", 'description' => "settings Roles." ], // 3
-            [
-                'group_id' => 3, 'name' => "default", 'value' => "1", 'type' => "integer", 'description' => "Role par défaut à la creéation d un utilisateur dont le role n est pas explicitement déterminé."
-            ],
-            [ 'name' => "bordereaux_remise", 'description' => "settings bordereaux de remise" ], // 5
-            [ 'group_id' => 5, 'name' => "fichier", 'description' => "settings fichiers de bordereaux de remise" ], // 6
-            [
-                'group_id' => 6, 'name' => "separateur_colonnes", 'value' => "|", 'type' => "string", 'description' => "Caractère séparateur de colonnes du fichier de Bordereaux de Remise"
-            ],
-            [ 'group_id' => 5, 'name' => "importation", 'description' => "settings importation de bordereaux de remise" ], // 8
-            [
-                'group_id' => 8, 'name' => "nb_max_lines", 'value' => "100", 'type' => "integer", 'description' => "Nombre Max de Ligne pouvant être importées par exécution du script dédié."
-            ],
-            [ 'name' => "app_name", 'value' => "Gest-Bordereaux-Remise", 'description' => "settings LDAP." ], // 1
-        ];
-        foreach ($settings as $setting) {
-            Setting::create($setting);
+        // groupe app_name
+        $this->createNew("app_name", null, "Gestion-Cheques", "string", ",", "Application Name.");
+        // groupe roles
+        $group = $this->createNew("roles", null, null, "string", ",", "settings Roles.");
+        $this->createNew("default", $group->id, "1", "integer", ",", "Role par défaut à la creéation d un utilisateur dont le role n est pas explicitement déterminé.");
+        // groupe files
+        $group = $this->createNew("files", null, null, null, ",", "settings Files.");
+        // sub groupe files.uploads
+        $group = $this->createNew("uploads", $group->id, null, null, ",", "Uploads.");
+        // sub groupe files.uploads.max_size
+        $group = $this->createNew("max_size", $group->id, null, null, ",", "Max Size.");
+        $this->createNew("any", $group->id, "10", "integer", ",", "Any file Max size.");
+        $this->createNew("image", $group->id, "5", "integer", ",", "Image file Max size.");
+        $this->createNew("video", $group->id, "10", "integer", ",", "Video file Max size.");
+
+        // groupe ldap
+        $group = $this->createNew("ldap", null, null, "string", ",", "settings LDAP.");
+        // value ldap.liste_sigles
+        $this->createNew("liste_sigles", $group->id, "gt,rh,si,it,sav,in,bss,msan,rva,erp,dr", "array", ",", "liste des sigles (à prendre en compte dans l importation LDAP).");
+
+        // groupe roles
+        $group = $this->createNew("roles", null, null, "string", ",", "settings Roles.");
+        // value roles.default
+        $this->createNew("default", $group->id, "1", "integer", ",", "Role par défaut à la creéation d un utilisateur dont le role n est pas explicitement déterminé.");
+    }
+
+    private function createNew($name, $group_id = null, $value = null, $type = null, $array_sep = ",", $description = null)
+    {
+        $data = ['name' => $name, 'array_sep' => $array_sep];
+        if (!is_null($group_id)) {
+            $data['group_id'] = $group_id;
         }
+        if (!is_null($value)) {
+            $data['value'] = $value;
+        }
+        if (!is_null($type)) {
+            $data['type'] = $type;
+        }
+        if (!is_null($description)) {
+            $data['description'] = $description;
+        }
+        return Setting::create($data);
     }
 }

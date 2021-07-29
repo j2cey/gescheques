@@ -23,6 +23,7 @@ class CreateWorkflowStepsTable extends Migration
             $table->id();
             $table->baseFields();
 
+            // Champs principaux
             $table->string('titre')->comment('titre de l étape');
             $table->integer('posi')->default(0)->comment('position de l étape dans le workflow');
             $table->string('description')->nullable()->comment('description de l étape');
@@ -35,6 +36,11 @@ class CreateWorkflowStepsTable extends Migration
                 ->comment('référence du profile de l acteur potentiel')
                 ->constrained()->onDelete('set null');
 
+            // Etape parente (fait de l étape une sous-étape)
+            $table->foreignId('step_parent_id')->nullable()
+                ->comment('référence de l étape parente le cas échéant')
+                ->constrained('workflow_steps')->onDelete('set null');
+
             $table->foreignId('validated_nextstep_id')->nullable()
                 ->comment('référence de la prochaine etape apres validation')
                 ->constrained('workflow_steps')->onDelete('set null');
@@ -43,10 +49,26 @@ class CreateWorkflowStepsTable extends Migration
                 ->comment('référence de la prochaine etape apres rejet')
                 ->constrained('workflow_steps')->onDelete('set null');
 
+            $table->foreignId('expired_nextstep_id')->nullable()
+                ->comment('référence de la prochaine etape apres expiration de l étape')
+                ->constrained('workflow_steps')->onDelete('set null');
+
             $table->string('code')->unique()->comment('code de l étape');
-            $table->boolean('role_static')->default(false)->comment('détermine si le role de l étape doit être statique (donné au cours de l étape précédente)');
-            $table->boolean('role_dynamic')->default(true)->comment('détermine si le role de l étape doit être dynamique (donné dans la description de l étape)');
+            $table->boolean('role_static')->default(true)->comment('détermine si le role de l étape doit être statique (donné au cours de l étape précédente)');
+
+            $table->boolean('role_dynamic')->default(false)->comment('détermine si le role de l étape doit être dynamique (donné dans la description de l étape)');
             $table->string('role_dynamic_label')->nullable()->comment('libellé de role dynamique');
+            $table->string('role_dynamic_previous_label')->nullable()->comment('libellé de role précédent (cas de profile dynamique)');
+            $table->boolean('role_previous')->default(false)->comment('détermine si le role de l étape doit être pris dans l étape précédente');
+
+            // expiration de l étape
+            $table->boolean('can_expire')->default(false)->comment('détermine si l étape peut expirer');
+            $table->integer('expire_hours')->nullable()->comment('nombre d heure de validité de l étape');
+            $table->integer('expire_days')->nullable()->comment('nombre de jours de validité de l étape');
+
+            // Notification de l étape
+            $table->boolean('notify_to_profile')->default(false)->comment('notifier à tous les acteurs ayant le profile de l étape');
+            $table->boolean('notify_to_others')->default(false)->comment('notifier à d autres personnes');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }
@@ -62,9 +84,11 @@ class CreateWorkflowStepsTable extends Migration
             $table->dropBaseForeigns();
             $table->dropForeign(['workflow_id']);
             $table->dropForeign(['role_id']);
+            $table->dropForeign(['step_parent_id']);
 
             $table->dropForeign(['validated_nextstep_id']);
             $table->dropForeign(['rejected_nextstep_id']);
+            $table->dropForeign(['expired_nextstep_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

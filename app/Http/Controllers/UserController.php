@@ -54,6 +54,10 @@ class UserController extends Controller
         );
     }
 
+    public function fetchall() {
+        return User::all();
+    }
+
     /**
      * [edit description]
      * @param  User $user [description]

@@ -4,11 +4,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ChequeController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WorkflowController;
+use App\Http\Controllers\MimeTypeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BordereauController;
 use App\Http\Controllers\CustomLdapController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\EncaissementController;
 use App\Http\Controllers\WorkflowActionController;
 use App\Http\Controllers\WorkflowObjectController;
 use App\Http\Controllers\WorkflowExecActionController;
+use App\Http\Controllers\WorkflowActionTypeController;
 use App\Http\Controllers\WorkflowObjectFieldController;
 use App\Http\Controllers\WorkflowExecModelStepController;
 
@@ -68,7 +71,6 @@ Route::get('roles.fetch',[RoleController::class,'fetch'])
     ->name('roles.fetch')
     ->middleware('auth');
 Route::get('hasrole/{roleid}',[RoleController::class, 'hasrole'])->middleware('auth');
-Route::resource('users',UserController::class)->middleware('auth');
 
 Route::resource('workflows',WorkflowController::class)->middleware('auth');
 Route::get('workflows.fetch',[WorkflowController::class,'fetch'])
@@ -76,7 +78,28 @@ Route::get('workflows.fetch',[WorkflowController::class,'fetch'])
     ->middleware('auth');
 
 Route::resource('workflowsteps',WorkflowStepController::class)->middleware('auth');
+Route::get('workflowsteps.fetchbyworkflow/{id}',[WorkflowStepController::class, 'fetchbyworkflow'])
+    ->name('workflowsteps.fetchbyworkflow')
+    ->middleware('auth');
+
 Route::resource('workflowactions',WorkflowActionController::class)->middleware('auth');
+Route::get('workflowactions.fetchbystep/{id}',[WorkflowActionController::class, 'fetchbystep'])
+    ->name('workflowactions.fetchbystep')
+    ->middleware('auth');
+
+Route::resource('workflowactiontypes',WorkflowActionTypeController::class)->middleware('auth');
+Route::get('workflowactiontypes.fetch',[WorkflowActionTypeController::class, 'fetch'])
+    ->name('workflowactiontypes.fetch')
+    ->middleware('auth');
+Route::resource('mimetypes',MimeTypeController::class)->middleware('auth');
+Route::get('mimetypes.fetch',[MimeTypeController::class, 'fetch'])
+    ->name('mimetypes.fetch')
+    ->middleware('auth');
+
+Route::resource('files',FileController::class)->middleware('auth');
+Route::get('files.previewpdf/{filename}',[FileController::class, 'previewpdf'])
+    ->name('files.previewpdf')
+    ->middleware('auth');
 
 Route::resource('workflowobjects',WorkflowObjectController::class)->middleware('auth');
 Route::resource('workflowobjectfields',WorkflowObjectFieldController::class)->middleware('auth');
@@ -129,4 +152,7 @@ Route::get('bordereaus.fetch',[BordereauController::class,'fetch'])
 Route::resource('users',UserController::class)->middleware('auth');
 Route::get('users.fetch',[UserController::class,'fetch'])
     ->name('users.fetch')
+    ->middleware('auth');
+Route::get('users.fetchall',[UserController::class,'fetchall'])
+    ->name('users.fetchall')
     ->middleware('auth');

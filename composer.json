@@ -18,7 +18,10 @@
         "laravel/ui": "^3.1",
         "maatwebsite/excel": "^3.1",
         "owen-it/laravel-auditing": "^11.0",
-        "spatie/laravel-permission": "^3.18"
+        "spatie/laravel-permission": "^3.18",
+
+        "ext-mongodb": "*",
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

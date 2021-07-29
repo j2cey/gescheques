@@ -41,6 +41,7 @@ class Reset extends Command
         exec('rm -rf public/uploads/cheques/files/*.xlsx');
         exec('rm -rf public/uploads/cheques/scans/*');
         exec('rm -rf public/uploads/encaissements/files/*.xlsx');
+        exec('rm -rf public/uploads/files/*');
 
         Artisan::call('migrate:reset');
 

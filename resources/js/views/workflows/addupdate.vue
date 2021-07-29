@@ -3,8 +3,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" v-if="editing">Modifier Workflow</h5>
-                    <h5 class="modal-title" id="exampleModalLabel" v-else>Créer Nouveau Workflow</h5>
+                    <h5 class="modal-title text-sm" id="exampleModalLabel" v-if="editing">Modifier Workflow</h5>
+                    <h5 class="modal-title text-sm" id="exampleModalLabel" v-else>Créer Nouveau Workflow</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -14,16 +14,16 @@
                     <form class="form-horizontal" @submit.prevent @keydown="workflowForm.errors.clear()">
                         <div class="card-body">
                             <div class="form-group row">
-                                <label for="workflow_titre" class="col-sm-2 col-form-label">Titre</label>
+                                <label for="workflow_titre" class="col-sm-2 col-form-label text-xs">Titre</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="workflow_titre" name="titre" autocomplete="titre" autofocus placeholder="Titre" v-model="workflowForm.titre">
-                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowForm.errors.has('titre')" v-text="workflowForm.errors.get('titre')"></span>
+                                    <input type="text" class="form-control text-xs" id="workflow_titre" name="titre" autocomplete="titre" autofocus placeholder="Titre" v-model="workflowForm.titre">
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowForm.errors.has('titre')" v-text="workflowForm.errors.get('titre')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="m_select_workflow_object" class="col-sm-2 col-form-label">Objet</label>
-                                <div class="col-sm-10">
-                                    <multiselect
+                                <label for="m_select_workflow_object" class="col-sm-2 col-form-label text-xs">Objet</label>
+                                <div class="col-sm-10 text-xs">
+                                    <multiselect class="text text-xs"
                                         id="m_select_workflow_object"
                                         v-model="workflowForm.object"
                                         selected.sync="workflowForm.object"
@@ -37,14 +37,14 @@
                                         placeholder="Objet"
                                     >
                                     </multiselect>
-                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowForm.errors.has('object')" v-text="workflowForm.errors.get('object')"></span>
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowForm.errors.has('object')" v-text="workflowForm.errors.get('object')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="workflow_description" class="col-sm-2 col-form-label">Description</label>
+                                <label for="workflow_description" class="col-sm-2 col-form-label text-xs">Description</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="workflow_description" name="description" required autocomplete="description" autofocus placeholder="Description" v-model="workflowForm.description">
-                                    <span class="invalid-feedback d-block" role="alert" v-if="workflowForm.errors.has('description')" v-text="workflowForm.errors.get('description')"></span>
+                                    <input type="text" class="form-control text-xs" id="workflow_description" name="description" required autocomplete="description" autofocus placeholder="Description" v-model="workflowForm.description">
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowForm.errors.has('description')" v-text="workflowForm.errors.get('description')"></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -54,9 +54,9 @@
 
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary" @click="updateWorkflow()" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</button>
-                    <button type="button" class="btn btn-primary" @click="createWorkflow()" :disabled="!isValidCreateForm" v-else>Créer Workflow</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary btn-sm" @click="updateWorkflow()" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</button>
+                    <button type="button" class="btn btn-primary btn-sm" @click="createWorkflow()" :disabled="!isValidCreateForm" v-else>Créer Workflow</button>
                 </div>
             </div>
             <!-- /.modal-content -->

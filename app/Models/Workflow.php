@@ -47,6 +47,10 @@ class Workflow extends BaseModel implements Auditable
         return $this->belongsTo(User::class);
     }
 
+    public function workflowstatus() {
+        return $this->belongsTo(WorkflowStatus::class,'workflow_status_id');
+    }
+
     #endregion
 
     #region Validation Rules
@@ -85,6 +89,7 @@ class Workflow extends BaseModel implements Auditable
                 'report' => json_encode([]),
             ]);
             $exec->setCurrentRole();
+
             return $exec;
         } else {
             return false;

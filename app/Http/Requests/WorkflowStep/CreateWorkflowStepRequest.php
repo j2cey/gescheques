@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\WorkflowStep;
 
-use App\WorkflowStep;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\WorkflowStep;
 
-class CreateWorkflowStepRequest extends FormRequest
+class CreateWorkflowStepRequest extends WorkflowStepRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +23,31 @@ class CreateWorkflowStepRequest extends FormRequest
      */
     public function rules()
     {
-        return WorkflowStep::createRules();
+        return WorkflowStep::createRules($this->can_expire,$this->expire_hours,$this->expire_days);
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'profile' => $this->setRelevantRole($this->input('profile')),
+            'validatednextstep' => $this->setRelevantStep($this->input('validatednextstep')),
+            'rejectednextstep' => $this->setRelevantStep($this->input('rejectednextstep')),
+            'expirednextstep' => $this->setRelevantStep($this->input('expirednextstep')),
+            'role_static' => $this->setCheckOrOptionValue($this->input('role_static')),
+            'role_dynamic' => $this->setCheckOrOptionValue($this->input('role_dynamic')),
+            'role_previous' => $this->setCheckOrOptionValue($this->input('role_previous')),
+            'can_expire' => $this->setCheckOrOptionValue($this->input('can_expire')),
+            'notify_to_profile' => $this->setCheckOrOptionValue($this->input('notify_to_profile')),
+            'notify_to_others' => $this->setCheckOrOptionValue($this->input('notify_to_others')),
+            'expire_hours' => intval($this->input('expire_hours')),
+            'expire_days' => intval($this->input('expire_days')),
+            'otherstonotify' => $this->setRelevantIdsList($this->input('otherstonotify')),
+            'stepparent' => $this->setRelevantStep($this->input('stepparent')),
+        ]);
     }
 }

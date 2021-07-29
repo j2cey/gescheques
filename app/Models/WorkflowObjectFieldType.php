@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $name
  * @property string $code
+ * @property string $description
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at

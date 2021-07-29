@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CleanRequestTrait;
 use App\Models\Workflow;
 use App\Models\WorkflowExec;
-use App\Models\WorkflowStatus;
 use App\Models\WorkflowStep;
 use Illuminate\Http\Request;
+use App\Models\WorkflowStatus;
 use Illuminate\Support\Carbon;
+use App\Http\Requests\CleanRequestTrait;
 
 class WorkflowExecController extends Controller
 {
@@ -54,26 +54,19 @@ class WorkflowExecController extends Controller
     {
         $workflowexec = WorkflowExec::where('id', $workflowexec->id)
             ->first()
-            ->load(['workflow','nextstep']);
+            ->load(['workflow','nextstep','lastexecstep','lastexecstep.effectiverole']);
         $currentstep = WorkflowStep::where('id', $workflowexec->current_step_id)
             ->first()
-            ->load(['actions','actions.objectfield','actions.objectfield.objectfieldtype']);
-        $actionvalues = ['rejected' => false, 'reject_comment' => "", 'current_step_role' => null];
+            ->load(['actions','actions.actiontype']);
+        $actionvalues = [
+            'rejected' => false,
+            'reject_comment' => "",
+            'current_step_role' => null,
+            'role_dynamic_selection' => "role_dynamic_selected",
+        ];
         if ($workflowexec && $workflowexec->currentstep) {
             foreach ($workflowexec->currentstep->actions as $action) {
-                if ($action->objectfield->valuetype_string) {
-                    $actionvalues[$action->objectfield->db_field_name] = "";
-                } elseif ($action->objectfield->valuetype_integer) {
-                    $actionvalues[$action->objectfield->db_field_name] = "";
-                } elseif ($action->objectfield->valuetype_boolean) {
-                    $actionvalues[$action->objectfield->db_field_name] = "";
-                } elseif ($action->objectfield->valuetype_datetime) {
-                    $actionvalues[$action->objectfield->db_field_name] = "";
-                } elseif ($action->objectfield->valuetype_image) {
-                    $actionvalues[$action->objectfield->db_field_name] = "";
-                } else {
-                    $actionvalues[$action->objectfield->db_field_name] = "";
-                }
+                $actionvalues = $action->addToArrayAssoc($actionvalues);
             }
         }
 
@@ -103,7 +96,7 @@ class WorkflowExecController extends Controller
         $formInput = $request->all();
 
         // Validation
-        $exec = WorkflowExec::with(['workflow','currentstep','currentstep.actions','currentstep.actions.objectfield'])->where('id', $workflowexec->id)->first();
+        $exec = WorkflowExec::with(['workflow','currentstep','currentstep.actions','currentstep.actions.actiontype'])->where('id', $workflowexec->id)->first();
         $validation_rules = [];
         $validation_messages = [];
 
@@ -117,12 +110,28 @@ class WorkflowExecController extends Controller
 
         $workflowexec->process($request);
 
-        $model_type = $exec->model_type;
-        $model = $model_type::where('id', $exec->model_id)->first();
+        //$model_type = $exec->model_type;
+        //$model = $model_type::where('id', $exec->model_id)->first();
 
-        $model->load(['workflowexec','workflowexec.currentprofile','workflowexec.currentstep','workflowexec.execsteps','workflowexec.execsteps.step','workflowexec.execsteps.execstatus']);
+        //$model->load(['workflowexec','workflowexec.currentprofile','workflowexec.currentstep','workflowexec.execsteps','workflowexec.execsteps.step','workflowexec.execsteps.workflowstatus','workflowexec.execsteps.workflowprocessstatus']);
 
-        return $model;
+        $workflowexec->load([
+            'prevstep',
+            'nextstep',
+            'execsteps',
+            'execsteps.step',
+            'currentprofile',
+            'execsteps.effectiverole',
+            'execsteps.execactions',
+            'execsteps.execactions.file',
+            'execsteps.execactions.file.mimetype',
+            'execsteps.execactions.workflowprocessstatus',
+            'currentstep','currentstep.actions',
+            'workflowstatus','workflowprocessstatus',
+            'execsteps.workflowstatus','execsteps.workflowprocessstatus'
+        ]);
+
+        return $workflowexec;
     }
 
     /**

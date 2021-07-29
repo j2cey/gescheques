@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Traits\File;
 
 use SplFileInfo;

@@ -10,7 +10,7 @@ class CreateWorkflowStatusesTable extends Migration
     use BaseMigrationTrait;
 
     public $table_name = 'workflow_statuses';
-    public $table_comment = 'statut de workflow et d exécution de workflow.';
+    public $table_comment = 'statut de workflow.';
 
     /**
      * Run the migrations.

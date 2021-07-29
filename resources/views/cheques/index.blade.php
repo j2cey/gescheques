@@ -189,7 +189,7 @@
                                             <span class="tw-text-sm">@{{ record.CHEQUE_NB }}</span>
                                         </td>
                                         <td class="tw-px-4 tw-py-2">
-                                            <span class="tw-text-sm tw-w-36">@{{ record.DESCRIPTION }}</span>
+                                            <span class="tw-text-sm tw-w-36">@{{ record.COMPLEMENTS1 === 'NULL' || record.COMPLEMENTS1 === 'undefined' ? record.DESCRIPTION : record.DESCRIPTION + '' + record.COMPLEMENTS1 }}</span>
                                         </td>
                                         <td class="tw-px-4 tw-py-2">
                                             <span class="tw-text-sm">@{{ record.TRN_AMOUNT | formatNumber }}</span>
@@ -205,10 +205,12 @@
                                             </span>
                                         </td>
                                         <td class="tw-px-6 tw-py-2">
-                                            <span v-if="record.workflowexec.currentstep.code == 'step_end'" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-green-600 tw-bg-green-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
-                                            <span v-else-if="record.workflowexec.currentstep.code == 'step_0'" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-purple-600 tw-bg-purple-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
-                                            <span v-else-if="record.workflowexec.currentstep.code == 'step_1'" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-indigo-600 tw-bg-indigo-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
-                                            <span v-else-if="record.workflowexec.currentstep.code == 'step_2'" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-blue-600 tw-bg-blue-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
+                                            <span v-if="record.workflowexec.currentstep.code === 'step_end'" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-green-600 tw-bg-green-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
+                                            <span v-else-if="record.workflowexec.currentstep.code === 'step_rejected'" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-black-600 tw-bg-red-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
+                                            <span v-else-if="record.workflowexec.currentstep.code === 'step_expired'" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-black-600 tw-bg-red-600 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
+                                            <span v-else-if="record.workflowexec.currentstep.posi === 0" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-purple-600 tw-bg-purple-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
+                                            <span v-else-if="record.workflowexec.currentstep.posi === 1" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-indigo-600 tw-bg-indigo-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
+                                            <span v-else-if="record.workflowexec.currentstep.posi === 2" class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-blue-600 tw-bg-blue-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
                                             <span v-else class="tw-text-xs tw-font-semibold tw-inline-block tw-py-1 tw-px-2 tw-rounded tw-text-teal-600 tw-bg-red-200 tw-w-32 last:tw-mr-0 tw-mr-1">@{{ record.workflowexec.currentstep.titre }}</span>
                                         </td>
                                         <td class="tw-px-4 tw-py-2"><a

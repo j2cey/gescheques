@@ -17,6 +17,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $TRN_AMOUNT
  * @property string $CHEQUE_NB
  * @property string $DESCRIPTION
+ * @property string $COMPLEMENTS1
  *
  * @property string $workflow_currentstep_code
  * @property string $workflow_currentstep_titre
@@ -40,6 +41,7 @@ class Cheque extends JsonResource
             'TRN_AMOUNT' => $this->TRN_AMOUNT,
             'CHEQUE_NB' => $this->CHEQUE_NB,
             'DESCRIPTION' => $this->DESCRIPTION,
+            'COMPLEMENTS1' => $this->COMPLEMENTS1,
 
             'workflow_currentstep_titre' => $this->workflow_currentstep_titre,
             'workflow_currentstep_code' => $this->workflow_currentstep_code,

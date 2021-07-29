@@ -9,12 +9,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
                     <div v-if="img_url" max-width="85vw">
                         <img :src="img_url" alt="" width="100%" @click.stop="img_url = null">
                         <hr>
                     </div>
-
                 </div>
 
             </div>
@@ -22,9 +20,12 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+
 </template>
 
 <script>
+    import ImgScanBus from "../workflowexecs/imgscanBus";
+
     export default {
         name: "imgscan",
         props: {
@@ -35,11 +36,17 @@
             };
         },
         mounted() {
-            this.$parent.$on('show_image', (img_url) => {
+            ImgScanBus.$on('show_image', (img_url) => {
                 this.img_url = img_url
+                console.log('show_image',img_url,this.img_url)
                 $('#imgDetail').modal()
             })
         },
+        computed: {
+            imgurl() {
+                return this.img_url;
+            }
+        }
     }
 </script>
 

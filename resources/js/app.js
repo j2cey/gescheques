@@ -93,7 +93,7 @@ Vue.component('vue2-datepicker', require('vue2-datepicker').default);
 Vue.component('vue-datepicker', require('vuejs-datepicker').default);
 
 Vue.component('dashboard-index', require('./views/dashboard/index').default);
-Vue.component('workflows-index', require('./views/workflows/workflows').default);
+Vue.component('workflows-index', require('./views/workflows/list').default);
 Vue.component('workflow-execaction', require('./views/workflowexecactions/show').default);
 Vue.component('workflow-execstep', require('./views/workflowexecsteps/show').default);
 

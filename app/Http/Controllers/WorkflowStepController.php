@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CleanRequestTrait;
-use App\Http\Requests\WorkflowStep\CreateWorkflowStepRequest;
+use App\Models\Workflow;
 use App\Models\WorkflowStep;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use App\Rules\StepCanExpire;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Http\Requests\CleanRequestTrait;
+use Illuminate\Database\Eloquent\Collection;
+use App\Http\Requests\WorkflowStep\CreateWorkflowStepRequest;
+use App\Http\Requests\WorkflowStep\UpdateWorkflowStepRequest;
 
 class WorkflowStepController extends Controller
 {
@@ -41,26 +43,31 @@ class WorkflowStepController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateWorkflowStepRequest $request
-     * @return Response
+     * @return WorkflowStep
      */
     public function store(CreateWorkflowStepRequest $request)
     {
+        /*$request->validate([
+            'expire_hours' => [ new StepCanExpire($request->can_expire,$request->expire_hours,$request->expire_days) ],
+            'expire_days' => [ new StepCanExpire($request->can_expire,$request->expire_hours,$request->expire_days) ],
+        ]);*/
         $user = auth()->user();
 
         $formInput = $request->all();
 
-        $posi = WorkflowStep::where('workflow_id', $formInput['workflow_id'])->count('id');
+        $workflow = Workflow::where('id', $formInput['workflow_id'])->first();
+        //$titre, $description, $workflow = null, $code = null, $validated_nextstep = null, $rejected_nextstep = null
+        $new_workflowstep = WorkflowStep::createNew($formInput['titre'], $formInput['description'], $workflow, null, $formInput['validatednextstep'], $formInput['rejectednextstep'])
+            ->setProfileStatic($formInput['role_static'],$formInput['profile'],true)
+            ->setProfileDynamic($formInput['role_dynamic'], $formInput['role_dynamic_label'], $formInput['role_dynamic_previous_label'],true)
+            ->setProfilePrevious($formInput['role_previous'],true)
+            ->setExpiration($formInput['can_expire'], $formInput['expirednextstep'], $formInput['expire_hours'], $formInput['expire_days'],true)
+            ->setNotifyToProfile($formInput['notify_to_profile'], true)
+            ->setNotifyToOthers($formInput['notify_to_others'], $formInput['otherstonotify'], true)
+            ->setSetpParent($formInput['stepparent'], true)
+        ;
 
-        $new_workflowstep = WorkflowStep::create([
-            'titre' => $formInput['titre'],
-            'code' => "step_" . $posi,//(string) Str::orderedUuid(),
-            'description' => $formInput['description'],
-            'workflow_id' => $formInput['workflow_id'],
-            'role_id' => $formInput['profile']['id'],
-            'posi' => $posi,
-        ]);
-
-        return $new_workflowstep->load(['actions','profile']);
+        return $new_workflowstep->load(['actions','profile','stepparent','validatednextstep','rejectednextstep','expirednextstep','otherstonotify']);
     }
 
     /**
@@ -88,33 +95,42 @@ class WorkflowStepController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateWorkflowStepRequest $request
      * @param WorkflowStep $workflowstep
      * @return WorkflowStep|WorkflowStep[]|Collection
      */
-    public function update(Request $request, WorkflowStep $workflowstep)
+    public function update(UpdateWorkflowStepRequest $request, WorkflowStep $workflowstep)
     {
         $user = auth()->user();
 
-        //$request->replace($request->all());
         $formInput = $request->all();
 
         if ($request->has('oldIndex') && $request->has('newIndex')) {
+            // Déplacement de l'étape
             $this->reorder($workflowstep, $formInput['oldIndex'], $formInput['newIndex']);
             $workflowsteps = WorkflowStep::where('workflow_id',$formInput['workflow_id'])->orderBy('posi','ASC')->get();
             return $workflowsteps->load(['actions','profile']);
         } else {
-
-            $formInput['profile'] = json_decode($formInput['profile'], true);
+            // Modification simple
 
             $workflowstep->update([
                 'titre' => $formInput['titre'],
                 'description' => $formInput['description'],
                 'workflow_id' => $formInput['workflow_id'],
-                'role_id' => $formInput['profile']['id'],
             ]);
 
-            return $workflowstep->load(['actions','profile']);
+            $workflowstep->setProfileStatic($formInput['role_static'],$formInput['profile'],true)
+                ->setProfileDynamic($formInput['role_dynamic'], $formInput['role_dynamic_label'], $formInput['role_dynamic_previous_label'],true)
+                ->setProfilePrevious($formInput['role_previous'],true)
+                ->setNextStepAfterValidated($formInput['validatednextstep'], true)
+                ->setNextStepAfterRejected($formInput['rejectednextstep'], true)
+                ->setExpiration($formInput['can_expire'], $formInput['expirednextstep'], $formInput['expire_hours'], $formInput['expire_days'],true)
+                ->setNotifyToProfile($formInput['notify_to_profile'], true)
+                ->setNotifyToOthers($formInput['notify_to_others'], $formInput['otherstonotify'], true)
+                ->setSetpParent($formInput['stepparent'], true)
+            ;
+
+            return $workflowstep->load(['actions','profile','stepparent','validatednextstep','rejectednextstep','expirednextstep','otherstonotify']);
         }
     }
 
@@ -146,5 +162,16 @@ class WorkflowStepController extends Controller
         $workflowstep->update([
             'posi' => $newIndex,
         ]);
+    }
+
+    public function fetchbyworkflow($id) {
+        if ($id == 0) {
+            return WorkflowStep::all();
+        } else {
+            $steps = WorkflowStep::where('workflow_id', $id)->orWhere('code', "step_end")
+                ->orderBy('id', 'desc')
+                ->get();
+            return $steps;
+        }
     }
 }

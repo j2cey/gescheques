@@ -12,7 +12,7 @@ class UserSearch extends Search
     /**
      * @inheritDoc
      */
-    protected function query()//: Builder
+    protected function query(): Builder
     {
         $query = User::query();
 

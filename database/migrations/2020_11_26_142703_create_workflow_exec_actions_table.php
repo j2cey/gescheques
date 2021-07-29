@@ -31,6 +31,10 @@ class CreateWorkflowExecActionsTable extends Migration
                 ->comment('référence du statut')
                 ->constrained()->onDelete('set null');
 
+            $table->foreignId('workflow_process_status_id')->nullable()
+                ->comment('référence du statut d exécution du workflow')
+                ->constrained()->onDelete('set null');
+
             $table->foreignId('workflow_exec_step_id')->nullable()
                 ->comment('référence de l instance d exécution de l etape de workflow')
                 ->constrained()->onDelete('set null');
@@ -51,6 +55,24 @@ class CreateWorkflowExecActionsTable extends Migration
 
             $table->string('save_result')->nullable()->comment('resultat de l enregistrement de la modif apportee a l objet');
 
+            $table->bigInteger('BIGINT_value')->nullable()->comment('BIGINT equivalent column');
+            $table->binary('BLOB_value')->nullable()->comment('BLOB equivalent column (binary)');
+            $table->boolean('BOOLEAN_value')->nullable()->comment('BOOLEAN equivalent column');
+            $table->char('CHAR_value')->nullable()->comment('CHAR equivalent column with of a given length');
+            $table->dateTime('DATETIME_value')->nullable()->comment('DATETIME equivalent column with an optional precision (total digits)');
+            $table->date('DATE_value')->nullable()->comment('DATE equivalent column');
+            $table->decimal('DECIMAL_value', $precision = 8, $scale = 2)->nullable()->comment('DECIMAL equivalent column with the given precision (total digits) and scale (decimal digits)');
+            $table->double('DOUBLE_value', 8, 2)->nullable()->comment('DOUBLE equivalent column with the given precision (total digits) and scale (decimal digits)');
+            $table->float('FLOAT_value', 8, 2)->nullable()->comment('a FLOAT equivalent column with the given precision (total digits) and scale (decimal digits)');
+            $table->integer('INTEGER_value')->nullable()->comment('an INTEGER equivalent column');
+            $table->ipAddress('IPADDRESS_value')->nullable()->comment('a VARCHAR equivalent column');
+            $table->string('STRING_value')->nullable()->comment('a VARCHAR equivalent column of the given length');
+            $table->text('TEXT_value')->nullable()->comment('a TEXT equivalent column');
+            $table->bigInteger('FILE_ref')->nullable()->comment('File reference');
+
+            $table->timestamp('start_at')->nullable()->comment('date de début d exécution de l action d étape de workflow');
+            $table->timestamp('end_at')->nullable()->comment('date de fin d exécution de l action d étape de workflow');
+
             $table->json('report')->comment('rapport d exécution');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
@@ -69,6 +91,7 @@ class CreateWorkflowExecActionsTable extends Migration
             $table->dropForeign(['workflow_exec_step_id']);
             $table->dropForeign(['workflow_action_id']);
             $table->dropForeign(['workflow_status_id']);
+            $table->dropForeign(['workflow_process_status_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

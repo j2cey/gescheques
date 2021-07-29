@@ -15,15 +15,15 @@ class WorkflowObjectFieldSeeder extends Seeder
      */
     public function run()
     {
-        $valuetype_datetime = WorkflowObjectFieldType::where('code', "valuetype_datetime")->first();
-        $valuetype_string = WorkflowObjectFieldType::where('code', "valuetype_string")->first();
-        $valuetype_image = WorkflowObjectFieldType::where('code', "valuetype_image")->first();
+        $valuetype_datetime = WorkflowObjectFieldType::where('code', "DATETIME_value")->first();
+        $valuetype_string = WorkflowObjectFieldType::where('code', "STRING_value")->first();
+        $valuetype_file = WorkflowObjectFieldType::where('code', "FILE_ref")->first();
         // 10 - date_traitement_finance
         $this->createNew("date_traitement_finance", "Date Traitement Finance", 2, $valuetype_datetime);
         // 11 - commentaire_finance
         $this->createNew("commentaire_finance", "Commentaire Finances", 2, $valuetype_string);
         // 12 - scan_cheque
-        $this->createNew("scan_cheque", "Scan Cheque", 2, $valuetype_image);
+        $this->createNew("scan_cheque", "Scan Cheque", 2, $valuetype_file);
         // 13 - date_traitement_agence
         $this->createNew("date_traitement_agence", "Date Traitement Agence", 2, $valuetype_datetime);
         // 14 - commentaire_agence

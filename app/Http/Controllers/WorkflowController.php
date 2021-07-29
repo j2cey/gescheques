@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Workflow\CreateWorkflowRequest;
 use App\Models\Workflow;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Collection;
+use App\Http\Requests\Workflow\CreateWorkflowRequest;
 
 class WorkflowController extends Controller
 {
@@ -23,8 +22,17 @@ class WorkflowController extends Controller
 
     public function fetch() {
         $workflows = Workflow::all();
-        //$workflows->load(['object','steps','steps.profile','steps.actions','steps.actions.type','steps.actions.objectfield','steps.actions.fieldsrequiredwithout','steps.actions.fieldsrequiredwith']);
-        $workflows->load(['object','steps','steps.profile','steps.actions','steps.actions.objectfield','steps.actions.fieldsrequiredwithout','steps.actions.fieldsrequiredwith']);
+        //$workflows->load(['object','steps','steps.profile','steps.actions','steps.actions.actiontype','steps.actions.actiontype','steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith']);
+        $workflows->load([
+            'object',
+            'steps',
+            'steps.profile','steps.stepparent','steps.validatednextstep','steps.rejectednextstep',
+            'steps.expirednextstep','steps.otherstonotify',
+            'steps.actions',
+            'steps.actions.actiontype',
+            'steps.actions.mimetypes',
+            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith'
+        ]);
         return $workflows;
     }
 
@@ -64,7 +72,14 @@ class WorkflowController extends Controller
             'model_type' => $formInput['object']['model_type'],
         ]);*/
 
-        return $new_workflow->load(['object','steps','steps.profile','steps.actions','steps.actions.type','steps.actions.objectfield','steps.actions.fieldsrequiredwithout','steps.actions.fieldsrequiredwith']);
+        return $new_workflow->load([
+            'object',
+            'steps',
+            'steps.profile','steps.stepparent','steps.actions',
+            'steps.actions.actiontype',
+            'steps.actions.mimetypes',
+            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith'
+        ]);
     }
 
     /**
@@ -116,7 +131,7 @@ class WorkflowController extends Controller
             'model_type' => $formInput['object']['model_type'],
         ]);
 
-        return $workflow->load(['object','steps','steps.profile','steps.actions','steps.actions.type','steps.actions.objectfield','steps.actions.fieldsrequiredwithout','steps.actions.fieldsrequiredwith']);
+        return $workflow->load(['object','steps','steps.profile','steps.stepparent','steps.actions','steps.actions.actiontype','steps.actions.mimetypes','steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith']);
     }
 
     /**
