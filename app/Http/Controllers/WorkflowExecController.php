@@ -57,20 +57,29 @@ class WorkflowExecController extends Controller
             ->load(['workflow','nextstep','lastexecstep','lastexecstep.effectiverole']);
         $currentstep = WorkflowStep::where('id', $workflowexec->current_step_id)
             ->first()
-            ->load(['actions','actions.actiontype']);
+            ->load(['actions','rejectaction','rejectaction.enumtype','rejectaction.enumtype.enumvalues','actions.actiontype']);
         $actionvalues = [
             'rejected' => false,
             'reject_comment' => "",
             'current_step_role' => null,
             'role_dynamic_selection' => "role_dynamic_selected",
         ];
+        $enumvalues = [];
+
         if ($workflowexec && $workflowexec->currentstep) {
             foreach ($workflowexec->currentstep->actions as $action) {
                 $actionvalues = $action->addToArrayAssoc($actionvalues);
             }
         }
 
-        return ['exec' => $workflowexec, 'currentstep' => $currentstep, 'actionvalues' => $actionvalues];
+        if ($workflowexec && $workflowexec->currentstep) {
+            $action = $workflowexec->currentstep->rejectaction;
+            if ($action) {
+                $enumvalues = $action->addToEnumTypeList($enumvalues);
+            }
+        }
+
+        return ['exec' => $workflowexec, 'currentstep' => $currentstep, 'actionvalues' => $actionvalues, 'enumvalues' => $enumvalues];
     }
 
     /**
@@ -94,6 +103,7 @@ class WorkflowExecController extends Controller
     public function update(Request $request, WorkflowExec $workflowexec)
     {
         $formInput = $request->all();
+        //dd($formInput);
 
         // Validation
         $exec = WorkflowExec::with(['workflow','currentstep','currentstep.actions','currentstep.actions.actiontype'])->where('id', $workflowexec->id)->first();

@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property integer|null $workflow_step_id
  * @property integer|null $workflow_action_type_id
+ * @property integer|null $enum_type_id
+ * @property string $dedicated_form
+ *
  * @property integer|null $workflow_object_field_id
  *
  * @property boolean $field_required
@@ -56,6 +59,10 @@ class WorkflowAction extends BaseModel implements Auditable
 
     public function actiontype() {
         return $this->belongsTo(WorkflowActionType::class, 'workflow_action_type_id');
+    }
+
+    public function enumtype() {
+        return $this->belongsTo(EnumType::class, 'enum_type_id');
     }
 
     public function mimetypes()
@@ -221,12 +228,36 @@ class WorkflowAction extends BaseModel implements Auditable
         return $this;
     }
 
-    public function setMimeTypes($mimetypes, $save = true) {
+    public function setMimeTypes($mimetypes, $save = true) : WorkflowAction {
         if ( is_null($mimetypes) || ( empty($mimetypes) ) ) {
             $this->mimetypes()->detach();
         } else {
             $this->mimetypes()->sync($mimetypes);
         }
+        if ($save) { $this->save(); }
+
+        return $this;
+    }
+
+    public function setEnumType(EnumType $enum_value = null, $save = true) : WorkflowAction {
+        if ( is_null($enum_value) ) {
+            $this->enumtype()->disassociate();
+        } else {
+            $this->enumtype()->associate($enum_value);
+        }
+
+        if ($save) { $this->save(); }
+
+        return $this;
+    }
+
+    public function setDedicatedForm($dedicated_form = null, $save = true) : WorkflowAction {
+        if ( is_null($dedicated_form) ) {
+            $this->dedicated_form = "validation";
+        } else {
+            $this->dedicated_form = $dedicated_form;
+        }
+
         if ($save) { $this->save(); }
 
         return $this;
@@ -265,6 +296,14 @@ class WorkflowAction extends BaseModel implements Auditable
 
     #region Custom Functions - Exec Validations
 
+    public function addToEnumTypeList($arr) {
+        if ($this->actiontype->code === "EnumType") {
+            $arr[$this->code] = $this->enumtype->enumvalues;
+        }
+
+        return $arr;
+    }
+
     public function addToArrayAssoc($arr) {
         if ($this->actiontype->code === "BIGINT_value") {
             $arr[$this->code] = "";
@@ -292,7 +331,9 @@ class WorkflowAction extends BaseModel implements Auditable
             $arr[$this->code] = "";
         } elseif ($this->actiontype->code === "TEXT_value") {
             $arr[$this->code] = "";
-        } elseif ($this->actiontype->code === "FILE_ref") {
+        } elseif ($this->actiontype->code === "Enum_ref") {
+            $arr[$this->code] = "";
+        } elseif ($this->actiontype->code === "EnumType") {
             $arr[$this->code] = "";
         }
 

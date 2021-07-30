@@ -17,7 +17,23 @@
 
                             <div class="form-group row">
                                 <label for="motif" class="col-sm-2 col-form-label">Motif Réjet</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-10" v-if="rejectaction && enumvalues">
+                                    <multiselect
+                                        :id="execId"
+                                        v-model="motif"
+                                        selected.sync="motif"
+                                        value=""
+                                        :options="enumvalues[rejectaction.code]"
+                                        :searchable="true"
+                                        :multiple="false"
+                                        label="val"
+                                        track-by="val"
+                                        key="val"
+                                        :placeholder="rejectaction.titre"
+                                    >
+                                    </multiselect>
+                                </div>
+                                <div class="col-sm-10" v-else>
                                     <input type="text" class="form-control" id="motif" name="motif" required autocomplete="titre" autofocus placeholder="Motif" v-model="motif">
                                     <span class="invalid-feedback d-block" role="alert" v-if="!isValidForm" text="Veuillez Renseigner le Motif"></span>
                                 </div>
@@ -39,16 +55,20 @@
 </template>
 
 <script>
+    import Multiselect from 'vue-multiselect'
+
     export default {
         name: "reject",
         props: {
         },
-        components: {},
+        components: { Multiselect },
         mounted() {
             this.$parent.$on('validate_reject', (data) => {
-                console.log("validate_reject received", data)
+                console.log("validate_reject received", data) //, rejectaction, enumvalues
                 this.execId = data.execId
                 this.motif = null;
+                this.enumvalues = data.enumvalues;
+                this.rejectaction = data.rejectaction;
                 $('#rejectStep').modal()
             })
         },
@@ -57,11 +77,18 @@
         data() {
             return {
                 execId: null,
-                motif: null
+                motif: null,
+                enumvalues: null,
+                rejectaction: null
             }
         },
         methods: {
-            validateForm(execId, motif) {
+            validateForm(execId, raw_motif) {
+                let motif = raw_motif
+                if (this.rejectaction && this.enumvalues) {
+                    motif = raw_motif.val
+                }
+                console.log('final_motif',motif,raw_motif)
                 this.$parent.$emit('reject_validated', {execId, motif})
                 $('#rejectStep').modal('hide')
             },

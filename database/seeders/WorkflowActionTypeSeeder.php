@@ -29,6 +29,7 @@ class WorkflowActionTypeSeeder extends Seeder
         $this->createNew("Texte", "TEXT_value");
 
         $this->createNew("Fichier", "FILE_ref");
+        $this->createNew("Enumération", "EnumType");
     }
 
     private function createNew($name, $code)

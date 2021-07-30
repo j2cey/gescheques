@@ -130,8 +130,9 @@
                         let actionvalues = data.actionvalues
                         let exec = data.exec
                         let currentstep = data.currentstep
+                        let enumvalues = data.enumvalues
 
-                        this.$emit('traiter_etape', {exec, currentstep, actionvalues, moredata})
+                        this.$emit('traiter_etape', {exec, currentstep, actionvalues, enumvalues, moredata})
                     });
             },
             updateData(data) {

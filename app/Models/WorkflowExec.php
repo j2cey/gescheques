@@ -144,6 +144,8 @@ class WorkflowExec extends BaseModel implements Auditable
 
     public function process(Request $request) {
 
+        $prev_step_exec = $this->lastexecstep;
+
         // marquer la date de début d exécution
         if ( is_null($this->start_at) ) {
             $this->setStartAt(true);
@@ -213,20 +215,26 @@ class WorkflowExec extends BaseModel implements Auditable
 
         $this->save();
 
-        $dynamic_role = json_decode($request->current_step_role, true);
-
-        $this->setCurrentRole($dynamic_role ? $dynamic_role["id"] : null);
+        if ($this->currentstep->role_dynamic) {
+            $custom_role = json_decode($request->current_step_role, true);
+            $custom_role_id = $custom_role ? $custom_role["id"] : null;
+        } else {
+            $custom_role_id = $prev_step_exec ? $prev_step_exec->effectiverole->id : null;
+        }
+        $this->setCurrentRole($custom_role_id);
 
         $this->save();
 
         return $this;
     }
 
-    public function setCurrentRole($dynamic_role_id = null) {
+    public function setCurrentRole($custom_role_id = null) {
         $currentstep = WorkflowStep::where('id',$this->current_step_id)->first();
         if ($currentstep) {
             if ($currentstep->role_dynamic) {
-                $this->update(['current_step_role_id' => $dynamic_role_id]);
+                $this->update(['current_step_role_id' => $custom_role_id]);
+            } elseif ($currentstep->role_previous) {
+                $this->update(['current_step_role_id' => $custom_role_id]);
             } else {
                 $currentrole = Role::where('id',$currentstep->role_id)->first();
                 if ($currentrole) {

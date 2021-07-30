@@ -48,6 +48,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer|null $validated_nextstep_id
  * @property integer|null $rejected_nextstep_id
  * @property integer|null $expired_nextstep_id
+ * @property integer|null $reject_action_id
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -74,6 +75,10 @@ class WorkflowStep extends BaseModel implements Auditable
 
     public function actions() {
         return $this->hasMany(WorkflowAction::class, 'workflow_step_id');
+    }
+
+    public function rejectaction() {
+        return $this->belongsTo(WorkflowAction::class, 'reject_action_id');
     }
 
     public function validatednextstep() {
@@ -373,6 +378,18 @@ class WorkflowStep extends BaseModel implements Auditable
             $this->stepparent()->disassociate();
         } else {
             $this->stepparent()->associate($step_parent);
+        }
+
+        if ($save) { $this->save(); }
+
+        return $this;
+    }
+
+    public function setRejectAction(WorkflowAction $action = null, $save = true) {
+        if ( is_null($action) ) {
+            $this->rejectaction()->disassociate();
+        } else {
+            $this->rejectaction()->associate($action);
         }
 
         if ($save) { $this->save(); }
