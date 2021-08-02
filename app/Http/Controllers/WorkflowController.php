@@ -22,7 +22,7 @@ class WorkflowController extends Controller
 
     public function fetch() {
         $workflows = Workflow::all();
-        //$workflows->load(['object','steps','steps.profile','steps.actions','steps.actions.actiontype','steps.actions.actiontype','steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith']);
+
         $workflows->load([
             'object',
             'steps',
@@ -31,7 +31,16 @@ class WorkflowController extends Controller
             'steps.actions',
             'steps.actions.actiontype',
             'steps.actions.mimetypes',
-            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith'
+            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
+            'steps.validationactions',
+            'steps.validationactions.actiontype','steps.validationactions.mimetypes',
+            'steps.validationactions.actionsrequiredwithout','steps.validationactions.actionsrequiredwith',
+            'steps.rejectionactions',
+            'steps.rejectionactions.actiontype','steps.rejectionactions.mimetypes',
+            'steps.rejectionactions.actionsrequiredwithout','steps.rejectionactions.actionsrequiredwith',
+            'steps.expirationactions',
+            'steps.expirationactions.actiontype','steps.expirationactions.mimetypes',
+            'steps.expirationactions.actionsrequiredwithout','steps.expirationactions.actionsrequiredwith'
         ]);
         return $workflows;
     }
@@ -66,19 +75,23 @@ class WorkflowController extends Controller
             'model_type' => $formInput['object']['model_type'],
         ]);
 
-        // Insert model_workflow
-        /*DB::table('model_has_workflow')->insert([
-            'workflow_id' => $new_workflow->id,
-            'model_type' => $formInput['object']['model_type'],
-        ]);*/
-
         return $new_workflow->load([
             'object',
             'steps',
-            'steps.profile','steps.stepparent','steps.actions',
+            'steps.profile','steps.stepparent',
+            'steps.actions',
             'steps.actions.actiontype',
             'steps.actions.mimetypes',
-            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith'
+            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
+            'steps.validationactions',
+            'steps.validationactions.actiontype','steps.validationactions.mimetypes',
+            'steps.validationactions.actionsrequiredwithout','steps.validationactions.actionsrequiredwith',
+            'steps.rejectionactions',
+            'steps.rejectionactions.actiontype','steps.rejectionactions.mimetypes',
+            'steps.rejectionactions.actionsrequiredwithout','steps.rejectionactions.actionsrequiredwith',
+            'steps.expirationactions',
+            'steps.expirationactions.actiontype','steps.expirationactions.mimetypes',
+            'steps.expirationactions.actionsrequiredwithout','steps.expirationactions.actionsrequiredwith'
         ]);
     }
 
@@ -131,7 +144,21 @@ class WorkflowController extends Controller
             'model_type' => $formInput['object']['model_type'],
         ]);
 
-        return $workflow->load(['object','steps','steps.profile','steps.stepparent','steps.actions','steps.actions.actiontype','steps.actions.mimetypes','steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith']);
+        return $workflow->load(['object','steps','steps.profile','steps.stepparent',
+            'steps.actions',
+            'steps.actions.actiontype',
+            'steps.actions.mimetypes',
+            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
+            'steps.validationactions',
+            'steps.validationactions.actiontype','steps.validationactions.mimetypes',
+            'steps.validationactions.actionsrequiredwithout','steps.validationactions.actionsrequiredwith',
+            'steps.rejectionactions',
+            'steps.rejectionactions.actiontype','steps.rejectionactions.mimetypes',
+            'steps.rejectionactions.actionsrequiredwithout','steps.rejectionactions.actionsrequiredwith',
+            'steps.expirationactions',
+            'steps.expirationactions.actiontype','steps.expirationactions.mimetypes',
+            'steps.expirationactions.actionsrequiredwithout','steps.expirationactions.actionsrequiredwith'
+        ]);
     }
 
     /**

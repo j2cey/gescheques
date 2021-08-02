@@ -102,10 +102,15 @@ class WorkflowExecStep extends BaseModel implements Auditable
 
         $user = auth()->user();
         if ($request->rejected) {
-            $this->rejected = true;
-            $this->reject_comment = $request->reject_comment;
+            //$this->rejected = true;
+            //$this->reject_comment = $request->reject_comment;
 
-            $this->processMotifRejet($request->reject_comment);
+            //$this->processMotifRejet($request->reject_comment);
+
+            foreach ($this->step->rejectionactions as $action) {
+                $execaction = $action->launch($this);
+                $execaction->process($request);
+            }
 
             // on marque l exec d étape comme Rejété
             $this->setWorkflowStatus('rejected', true)
@@ -114,7 +119,7 @@ class WorkflowExecStep extends BaseModel implements Auditable
             // Parcourir et traiter les actions
             $nb_actions_process = 0;
             $nb_actions_failed = 0;
-            foreach ($this->step->actions as $action) {
+            foreach ($this->step->validationactions as $action) {
                 $execaction = $action->launch($this);
 
                 $execaction->process($request);

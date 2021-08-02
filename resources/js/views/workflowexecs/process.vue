@@ -23,7 +23,7 @@
                     <form class="form-horizontal" @submit.prevent @keydown="workflowexecForm.errors.clear()">
 
                         <div class="card-body">
-                            <div class="form-group row" v-for="(action, index) in currentstep.actions" v-if="currentstep">
+                            <div class="form-group row" v-for="(action, index) in currentstep.validationactions" v-if="currentstep.validationactions">
                                 <div class="col-sm-10" v-if="action.actiontype.code === 'BIGINT_value' && action.dedicated_form === 'validation'">
                                     <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="workflowexecForm[action.code]">
                                     <span class="invalid-feedback d-block" role="alert" v-if="workflowexecForm.errors.has(`${action.code}`)" v-text="workflowexecForm.errors.get(`${action.code}`)"></span>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-danger btn-sm" @click="rejeterEtape(exec.uuid,currentstep.rejectaction,enumvalues)">Rejéter</button>
+                    <button type="button" class="btn btn-danger btn-sm" @click="rejeterEtape(exec.uuid,currentstep.rejectionactions,enumvalues)">Rejéter</button>
                     <button type="button" class="btn btn-warning btn-sm" @click="validerEtape(exec.uuid)" :disabled="!isValidCreateForm">Valider</button>
                 </div>
             </div>
@@ -168,6 +168,7 @@
                 console.log('traiter_etape: ', process_data)
 
                 this.actionvalues = process_data.actionvalues
+                this.rejectactionvalues = process_data.rejectactionvalues
                 this.enumvalues = process_data.enumvalues
                 this.exec = process_data.exec
                 this.currentstep = process_data.currentstep
@@ -201,8 +202,10 @@
 
             this.$on('reject_validated', (data) => {
 
+                //this.workflowexecForm.rejected = true
+                //this.workflowexecForm.reject_comment = data.motif
+                this.workflowexecForm = data.rejectform
                 this.workflowexecForm.rejected = true
-                this.workflowexecForm.reject_comment = data.motif
 
                 this.submitForm(data.execId);
             })
@@ -217,6 +220,7 @@
                 exec: {},
                 currentstep: {},
                 actionvalues: {},
+                rejectactionvalues: {},
                 enumvalues: {},
                 moredata: {},
                 workflowexecForm: new Form({ 'actionvalues': this.actionvalues }),
@@ -238,8 +242,9 @@
             validerEtape(execId) {
                 this.submitForm(execId);
             },
-            rejeterEtape(execId, rejectaction, enumvalues) {
-                this.$emit('validate_reject', {execId, rejectaction, enumvalues})
+            rejeterEtape(execId, rejectactions, enumvalues) {
+                let rejectactionvalues = this.rejectactionvalues
+                this.$emit('validate_reject', {execId, rejectactions, rejectactionvalues, enumvalues})
             },
             submitForm(execId) {
                 if (this.workflowexecForm.role_dynamic_selection === 'role_dynamic_previous') {

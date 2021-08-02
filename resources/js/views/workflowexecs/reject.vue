@@ -15,27 +15,35 @@
                     <form class="form-horizontal" @submit.prevent>
                         <div class="card-body">
 
-                            <div class="form-group row">
-                                <label for="motif" class="col-sm-2 col-form-label">Motif Réjet</label>
-                                <div class="col-sm-10" v-if="rejectaction && enumvalues">
+                            <div class="form-group row" v-for="(action, index) in rejectactions" v-if="rejectactions">
+
+                                <div class="col-sm-10" v-if="action.actiontype.code === 'DATETIME_value' && action.dedicated_form === 'validation'">
+                                    <VueCtkDateTimePicker v-model="rejectForm[action.code]" :label="action.titre" format="YYYY-MM-DD hh:mm:ss" />
+                                    <span class="invalid-feedback d-block" role="alert" v-if="rejectForm.errors.has(`${action.code}`)" v-text="rejectForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-else-if="action.code === 'DATE_value' && action.dedicated_form === 'validation'">
+                                    <VueCtkDateTimePicker v-model="rejectForm[action.code]" :label="action.titre" format="YYYY-MM-DD" />
+                                    <span class="invalid-feedback d-block" role="alert" v-if="rejectForm.errors.has(`${action.code}`)" v-text="rejectForm.errors.get(`${action.code}`)"></span>
+                                </div>
+                                <div class="col-sm-10" v-else-if="action.actiontype.code === 'EnumType' && action.dedicated_form === 'validation'">
                                     <multiselect
-                                        :id="execId"
-                                        v-model="motif"
-                                        selected.sync="motif"
-                                        value=""
-                                        :options="enumvalues[rejectaction.code]"
+                                        :id="action.code"
+                                        v-model="rejectForm[action.code]"
+                                        selected.sync="rejectForm[action.code]"
+                                        :value="enumvalues[action.code].val"
+                                        :options="enumvalues[action.code]"
                                         :searchable="true"
                                         :multiple="false"
                                         label="val"
                                         track-by="val"
                                         key="val"
-                                        :placeholder="rejectaction.titre"
+                                        :placeholder="action.titre"
                                     >
                                     </multiselect>
                                 </div>
                                 <div class="col-sm-10" v-else>
-                                    <input type="text" class="form-control" id="motif" name="motif" required autocomplete="titre" autofocus placeholder="Motif" v-model="motif">
-                                    <span class="invalid-feedback d-block" role="alert" v-if="!isValidForm" text="Veuillez Renseigner le Motif"></span>
+                                    <input type="text" class="form-control form-control-sm text-xs" :id="action.code" :name="action.code" :placeholder="action.titre" v-model="rejectForm[action.code]">
+                                    <span class="invalid-feedback d-block" role="alert" v-if="rejectForm.errors.has(`${action.code}`)" v-text="rejectForm.errors.get(`${action.code}`)"></span>
                                 </div>
                             </div>
 
@@ -68,7 +76,11 @@
                 this.execId = data.execId
                 this.motif = null;
                 this.enumvalues = data.enumvalues;
-                this.rejectaction = data.rejectaction;
+                this.rejectactions = data.rejectactions;
+                this.rejectactionvalues = data.rejectactionvalues;
+
+                this.rejectForm = new Form(data.rejectactionvalues)
+
                 $('#rejectStep').modal()
             })
         },
@@ -78,18 +90,32 @@
             return {
                 execId: null,
                 motif: null,
-                enumvalues: null,
-                rejectaction: null
+                rejectactions: null,
+                rejectactionvalues: {},
+                enumvalues: {},
+                rejectForm: new Form({ 'actionvalues': this.rejectactionvalues }),
             }
         },
         methods: {
             validateForm(execId, raw_motif) {
-                let motif = raw_motif
-                if (this.rejectaction && this.enumvalues) {
+                //let motif = raw_motif
+                /*if (this.rejectaction && this.enumvalues) {
                     motif = raw_motif.val
+                }*/
+
+                console.log("this.rejectForm",this.rejectForm)
+
+                // set enum val
+                let enum_code = this.rejectactions.findIndex(a => {
+                    return a.actiontype.code === 'EnumType'
+                })
+
+                if (enum_code > -1) {
+                    this.rejectForm[this.rejectactions[enum_code].code] = this.rejectForm[this.rejectactions[enum_code].code].val
                 }
-                console.log('final_motif',motif,raw_motif)
-                this.$parent.$emit('reject_validated', {execId, motif})
+
+                let rejectform = this.rejectForm
+                this.$parent.$emit('reject_validated', {execId, rejectform})
                 $('#rejectStep').modal('hide')
             },
             closeForm() {
@@ -98,7 +124,8 @@
         },
         computed: {
             isValidForm() {
-                return this.motif && this.motif !== "null"
+                // TODO: boucler sur tous les actionvalues pour s'assurer que tout est renseigné
+                return true;// this.motif && this.motif !== "null"
             }
         }
     }

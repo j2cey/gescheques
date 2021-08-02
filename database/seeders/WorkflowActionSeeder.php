@@ -28,59 +28,50 @@ class WorkflowActionSeeder extends Seeder
 
         // 0 - motif rejet
         $workflow_step = WorkflowStep::where('code', "step_rejected")->first();
-        WorkflowAction::createNew("Motif Rejet", "Motif Rejet", null, null, "motif_rejet_action")
-            ->setStep($workflow_step, true)
+        $motif_rejet_action = WorkflowAction::createNew("Motif Rejet", "Motif Rejet", null, "motif_rejet_action")
             ->setActionType($string_type, true)
             ->setRequired(false,null, true)
         ;
+        $workflow_step->addRejectionAction($motif_rejet_action, true);
 
-        // 1 - date_traitement_finance
+        // 1 - Step: Réception Finances
         $workflow_step = WorkflowStep::where('titre', "Réception Finances")->first();
-        /*WorkflowAction::createNew("Date Traitement (Finances)", "Date Traitement (Finances)")
-            ->setStep($workflow_step, true)
-            ->setActionType($date_type, true)
-            ->setRequired(false,null, true)
-        ;*/
+        $workflow_step->addRejectionAction($motif_rejet_action, true);
 
         // 2 - commentaire_finance
-        WorkflowAction::createNew("Commentaire (Finances)", "Commentaire (Finances)")
-            ->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Commentaire (Finances)", "Commentaire (Finances)")
             ->setActionType($string_type, true)
             ->setRequired(false,null, true)
         ;
+        $workflow_step->addValidationAction($action, true);
 
         // 3 - scan_cheque
-        WorkflowAction::createNew("Scan Cheque", "Scan Cheque")
-            ->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Scan Cheque", "Scan Cheque")
             ->setActionType($file_type, true)
             ->setRequired(false,null, true)
             ->setMimeTypes($mime_types_ids, true)
         ;
+        $workflow_step->addValidationAction($action, true);
 
         // Réception Agences
         $workflow_step = WorkflowStep::where('titre', "Réception Agences")->first();
 
-        /*WorkflowAction::createNew("Date Traitement (Agences)", "Date Traitement (Agences)")
-            ->setStep($workflow_step, true)
-            ->setActionType($date_type, true)
-            ->setRequired(false,null, true)
-        ;*/
-
         // 5 - Commentaire Agences
-        WorkflowAction::createNew("Commentaire (Agences)", "Commentaire (Agences)")
-            ->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Commentaire (Agences)", "Commentaire (Agences)")
             ->setActionType($string_type, true)
             ->setRequired(false,null, true)
         ;
+        $workflow_step->addValidationAction($action, true);
+        $workflow_step->addRejectionAction($motif_rejet_action, true);
 
         // Relance Client
         $workflow_step = WorkflowStep::where('titre', "Relance Client")->first();
 
-        WorkflowAction::createNew("Commentaire", "Commentaire (Relance Client)")
-            ->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Commentaire", "Commentaire (Relance Client)")
             ->setActionType($string_type, true)
             ->setRequired(false,null, true)
         ;
+        $workflow_step->addValidationAction($action, true);
 
         $motif_rejet_agence_enumtype = EnumType::createNew("Motif Réjet Agences")
             ->addValues([
@@ -89,46 +80,47 @@ class WorkflowActionSeeder extends Seeder
             ])
         ;
 
-        $reject_action = WorkflowAction::createNew("Motif Réjet", "Motif Réjet (Agences)")
-            //->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Motif Réjet", "Motif Réjet (Agences)")
             ->setActionType($enum_type, true)
             ->setRequired(true,"Prière de préciser le Motif de réjet", true)
             ->setDedicatedForm("rejection", true)
             ->setEnumType($motif_rejet_agence_enumtype, true)
         ;
-
-        $workflow_step->setRejectAction($reject_action, true);
+        $workflow_step->addRejectionAction($action, true);
 
         // Reouverture Facture
         $workflow_step = WorkflowStep::where('titre', "Reouverture Facture")->first();
-        WorkflowAction::createNew("Numéro facture", "Numéro facture")
-            ->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Numéro facture", "Numéro facture")
             ->setActionType($string_type, true)
             ->setRequired(true,"Prière de renseigner le numéro de facture", true)
         ;
+        $workflow_step->addValidationAction($action, true);
+        $workflow_step->addRejectionAction($motif_rejet_action, true);
 
         // Encaissement Facture
         $workflow_step = WorkflowStep::where('titre', "Encaissement Facture")->first();
-        WorkflowAction::createNew("Montant encaissé", "Montant encaissé")
-            ->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Montant encaissé", "Montant encaissé")
             ->setActionType($string_type, true)
             ->setRequired(true,"Prière de renseigner le Montant", true)
         ;
+        $workflow_step->addValidationAction($action, true);
+        $workflow_step->addRejectionAction($motif_rejet_action, true);
 
 
         // 6 - date_traitement_dfr
         $workflow_step = WorkflowStep::where('titre', "Traitement DFR")->first();
-        WorkflowAction::createNew("Date Traitement (DFR)", "Date Traitement (DFR)")
-            ->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Date Traitement (DFR)", "Date Traitement (DFR)")
             ->setActionType($date_type, true)
             ->setRequired(false,null, true)
         ;
+        $workflow_step->addValidationAction($action, true);
+        $workflow_step->addRejectionAction($motif_rejet_action, true);
 
         // 7 - date_traitement_dfr
-        WorkflowAction::createNew("Commentaire (DFR)", "Commentaire (DFR)")
-            ->setStep($workflow_step, true)
+        $action = WorkflowAction::createNew("Commentaire (DFR)", "Commentaire (DFR)")
             ->setActionType($string_type, true)
             ->setRequired(false,null, true)
         ;
+        $workflow_step->addValidationAction($action, true);
     }
 }

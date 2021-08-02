@@ -18,11 +18,28 @@
 
                 <span class="text text-sm" data-toggle="collapse" data-parent="#workflowlist" :href="'#collapse-workflowstep-'+element.id">{{ element.titre }}</span>
                 <!-- Emphasis label -->
-                <small class="badge badge-pill badge-warning" v-if="element.profile"><i class="fa fa-user"></i> {{ element.profile.name }}</small>
-                <span v-if="element.actions" class="text text-xs">
-                    <small v-if="element.actions.length === 0" class="badge badge-pill badge-danger" ><i class="fa fa-tasks"></i> actions (0)</small>
-                    <small v-else class="badge badge-pill badge-success" ><i class="fa fa-tasks"></i> actions ({{ element.actions.length }})</small>
-                </span>
+                <a class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
+                    <i class="fas fa-users"></i>
+                    <span v-if="element.profile">{{ element.profile.name }}</span>
+                    <span v-else-if="element.role_dynamic">Dynamique</span>
+                    <span v-else-if="element.role_previous">Précédent</span>
+                    <span v-else>ND</span>
+                </a>
+                <a v-if="element.validationactions" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
+                    <span v-if="element.validationactions.length === 0" class="badge bg-danger">{{ element.validationactions.length }}</span>
+                    <span v-else class="badge bg-success">{{ element.validationactions.length }}</span>
+                    <i class="fas fa-check"></i> Validation
+                </a>
+                <a v-if="element.rejectionactions" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
+                    <span v-if="element.rejectionactions.length === 0" class="badge bg-danger">{{ element.rejectionactions.length }}</span>
+                    <span v-else class="badge bg-success">{{ element.rejectionactions.length }}</span>
+                    <i class="fas fa-times"></i> Réjet
+                </a>
+                <a v-if="element.expirationactions" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
+                    <span v-if="element.expirationactions.length === 0" class="badge bg-danger">{{ element.expirationactions.length }}</span>
+                    <span v-else class="badge bg-success">{{ element.expirationactions.length }}</span>
+                    <i class="fas fa-clock"></i> Expiration
+                </a>
 
 
                 <!-- General tools such as edit or delete-->
@@ -201,5 +218,54 @@
     }
     .text {
         margin: 20px;
+    }
+
+    .btn-app {
+        border-radius: 3px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        color: #6c757d;
+        font-size: 12px;
+        height: 60px;
+        margin: 0 0 10px 10px;
+        min-width: 80px;
+        padding: 15px 5px;
+        position: relative;
+        text-align: center;
+    }
+
+    .btn-app > .fa,
+    .btn-app > .fas,
+    .btn-app > .far,
+    .btn-app > .fab,
+    .btn-app > .glyphicon,
+    .btn-app > .ion {
+        display: block;
+        font-size: 20px;
+    }
+
+    .btn-app:hover {
+        background: #f8f9fa;
+        border-color: #aaaaaa;
+        color: #444;
+    }
+
+    .btn-app:active, .btn-app:focus {
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    }
+
+    .btn-app > .badge {
+        font-size: 10px;
+        font-weight: 400;
+        position: absolute;
+        right: -10px;
+        top: -3px;
+    }
+
+    .btn-xs {
+        padding: 0.125rem 0.25rem;
+        font-size: 0.75rem;
+        line-height: 1.5;
+        border-radius: 0.15rem;
     }
 </style>

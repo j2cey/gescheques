@@ -48,7 +48,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer|null $validated_nextstep_id
  * @property integer|null $rejected_nextstep_id
  * @property integer|null $expired_nextstep_id
- * @property integer|null $reject_action_id
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -77,8 +76,22 @@ class WorkflowStep extends BaseModel implements Auditable
         return $this->hasMany(WorkflowAction::class, 'workflow_step_id');
     }
 
-    public function rejectaction() {
-        return $this->belongsTo(WorkflowAction::class, 'reject_action_id');
+    public function validationactions() {
+        $validation_treatment_type = WorkflowTreatmentType::where('code', "validation_treatment")->first();
+        return $this->hasMany(WorkflowAction::class)
+            ->where('workflow_treatment_type_id', $validation_treatment_type->id);
+    }
+
+    public function rejectionactions() {
+        $rejection_treatment_type = WorkflowTreatmentType::where('code', "rejection_treatment")->first();
+        return $this->hasMany(WorkflowAction::class)
+            ->where('workflow_treatment_type_id', $rejection_treatment_type->id);
+    }
+
+    public function expirationactions() {
+        $expiration_treatment_type = WorkflowTreatmentType::where('code', "expiration_treatment")->first();
+        return $this->hasMany(WorkflowAction::class)
+            ->where('workflow_treatment_type_id', $expiration_treatment_type->id);
     }
 
     public function validatednextstep() {
@@ -151,7 +164,7 @@ class WorkflowStep extends BaseModel implements Auditable
 
     #endregion
 
-    #region Custom Functions
+    #region Custom Functions - CRUD
 
     /**
      * Crée et retourne une nouvelle étape de workflow
@@ -183,6 +196,42 @@ class WorkflowStep extends BaseModel implements Auditable
         $step->save();
 
         return $step;
+    }
+
+    public function addAction($action, $save = true) {
+        if ( ! is_null($action) ) {
+
+            $this->actions()->save($action);
+
+            if ($save) {
+                $this->save();
+            }
+        }
+    }
+
+    public function addValidationAction($titre, $description, $actiontype = null, $code = null) : WorkflowAction {
+        return WorkflowAction::createValidationAction($titre, $description, $this, $actiontype, $code);
+    }
+
+    public function addRejectionAction($titre, $description, $actiontype = null, $code = null) : WorkflowAction {
+        return WorkflowAction::createRejectionAction($titre, $description, $this, $actiontype, $code);
+    }
+
+    public function addRejectionEnumTypeAction($enum_name, array $enum_values, $titre, $description, $code = null) : WorkflowAction {
+        return WorkflowAction::createRejectionEnumTypeAction($enum_name, $enum_values, $titre, $description, $this, $code);
+    }
+
+    public function addExpirationAction($titre, $description, $actiontype = null, $code = null) : WorkflowAction {
+        return WorkflowAction::createExpirationAction($titre, $description, $this, $actiontype, $code);
+    }
+
+    public function addMotifRejet() : WorkflowAction {
+        $string_type = WorkflowActionType::where('code', "STRING_value")->first();
+        return $this->addRejectionAction("Motif Rejet", "Motif Rejet",$string_type);
+    }
+
+    public function addValidationFileAction($titre, $description, $code = null) : WorkflowAction {
+        return WorkflowAction::createValidationFileAction($titre, $description, $this, $code);
     }
 
     /**
@@ -385,22 +434,6 @@ class WorkflowStep extends BaseModel implements Auditable
         return $this;
     }
 
-    public function setRejectAction(WorkflowAction $action = null, $save = true) {
-        if ( is_null($action) ) {
-            $this->rejectaction()->disassociate();
-        } else {
-            $this->rejectaction()->associate($action);
-        }
-
-        if ($save) { $this->save(); }
-
-        return $this;
-    }
-
-    public function isLastStep() {
-        return $this->code === "step_end";
-    }
-
     #endregion
 
     #region Custom Functions - Exec
@@ -432,6 +465,10 @@ class WorkflowStep extends BaseModel implements Auditable
         } else {
             return null;
         }
+    }
+
+    public function isLastStep() {
+        return $this->code === "step_end";
     }
 
     #endregion

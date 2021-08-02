@@ -30,7 +30,7 @@ class CreateWorkflowActionsTable extends Migration
             $table->string('dedicated_form')->default("validation")->comment('type de formulaire pour cette action');
 
             $table->foreignId('workflow_step_id')->nullable()
-                ->comment('référence de l étape de workflow parent')
+                ->comment('référence de l étape')
                 ->constrained()->onDelete('set null');
 
             $table->foreignId('workflow_object_field_id')->nullable()
@@ -39,6 +39,10 @@ class CreateWorkflowActionsTable extends Migration
 
             $table->foreignId('workflow_action_type_id')->nullable()
                 ->comment('référence du type d action')
+                ->constrained()->onDelete('set null');
+
+            $table->foreignId('workflow_treatment_type_id')->nullable()
+                ->comment('référence du type de traitement')
                 ->constrained()->onDelete('set null');
 
             $table->foreignId('enum_type_id')->nullable()
@@ -69,6 +73,7 @@ class CreateWorkflowActionsTable extends Migration
             $table->dropBaseForeigns();
             $table->dropForeign(['workflow_step_id']);
             $table->dropForeign(['workflow_action_type_id']);
+            $table->dropForeign(['workflow_treatment_type_id']);
             $table->dropForeign(['enum_type_id']);
             $table->dropForeign(['workflow_object_field_id']);
         });

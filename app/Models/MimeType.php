@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MimeType
@@ -44,6 +44,14 @@ class MimeType extends BaseModel implements Auditable
         $mimetype->save();
 
         return $mimetype;
+    }
+
+    #endregion
+
+    #region Custom Functions
+
+    public static function defaultFileMimeTypes() : Collection {
+        return MimeType::whereIn('extension', ['png','jpg','bmp','pdf'])->get()->pluck('id');
     }
 
     #endregion

@@ -128,11 +128,12 @@
                     .then(({data}) => {
                         console.log('get workflowexecs', data)
                         let actionvalues = data.actionvalues
+                        let rejectactionvalues = data.rejectactionvalues
                         let exec = data.exec
                         let currentstep = data.currentstep
                         let enumvalues = data.enumvalues
 
-                        this.$emit('traiter_etape', {exec, currentstep, actionvalues, enumvalues, moredata})
+                        this.$emit('traiter_etape', {exec, currentstep, actionvalues, rejectactionvalues, enumvalues, moredata})
                     });
             },
             updateData(data) {

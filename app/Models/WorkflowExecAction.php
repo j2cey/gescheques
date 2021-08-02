@@ -258,6 +258,9 @@ class WorkflowExecAction extends BaseModel implements Auditable
                 $file = $this->verifyAndStoreFile($request, $request_field, 'file', 'files_folder');
                 $this->FILE_ref = $file->id;
                 $nb_processed += 1;
+            } elseif ($this->action->actiontype->code === "EnumType") {
+                $this->STRING_value = $this->new_value;
+                $nb_processed += 1;
             } else {
                 $nb_failed += 1;
                 $failed_msg = "aucune correspondance au type de donnees";

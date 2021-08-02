@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use http\Encoding\Stream;
 use Illuminate\Support\Str;
 use App\Traits\File\HasFiles;
 use Illuminate\Support\Carbon;
@@ -26,8 +27,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property integer|null $workflow_step_id
  * @property integer|null $workflow_action_type_id
+ * @property integer|null $workflow_treatment_type_id
  * @property integer|null $enum_type_id
- * @property string $dedicated_form
  *
  * @property integer|null $workflow_object_field_id
  *
@@ -59,6 +60,10 @@ class WorkflowAction extends BaseModel implements Auditable
 
     public function actiontype() {
         return $this->belongsTo(WorkflowActionType::class, 'workflow_action_type_id');
+    }
+
+    public function treatmenttype() {
+        return $this->belongsTo(WorkflowTreatmentType::class, 'workflow_treatment_type_id');
     }
 
     public function enumtype() {
@@ -146,7 +151,7 @@ class WorkflowAction extends BaseModel implements Auditable
 
     #endregion
 
-    #region Custom Functions - Create/Update
+    #region Custom Functions - CRUD
 
     public static function createNew($titre, $description, $workflowstep = null, $actiontype = null, $code = null): WorkflowAction {
         $action = WorkflowAction::create([
@@ -155,10 +160,68 @@ class WorkflowAction extends BaseModel implements Auditable
             'description' => $description,
         ]);
 
-        if( ! is_null($workflowstep) ) $action->setSetStep($workflowstep, false);
+        if( ! is_null($workflowstep) ) $action->setStep($workflowstep, false);
         if( ! is_null($actiontype) ) $action->setActionType($actiontype, false);
 
         $action->save();
+
+        return $action;
+    }
+
+    #region Validation Action
+
+    public static function createValidationAction($titre, $description, $workflowstep = null, $actiontype = null, $code = null) : WorkflowAction {
+
+        $action = self::createNew($titre, $description, $workflowstep, $actiontype, $code)
+            ->setValidationTreatmentType(true)
+        ;
+
+        return $action;
+    }
+
+    public static function createValidationFileAction($titre, $description, $workflowstep = null, $code = null) : WorkflowAction {
+        $file_type = WorkflowActionType::where('code', "FILE_ref")->first();
+        $mime_types_ids = MimeType::defaultFileMimeTypes();
+        return self::createNew($titre, $description, $workflowstep, $file_type, $code)
+            ->setValidationTreatmentType(true)
+            ->setMimeTypes($mime_types_ids, true)
+        ;
+    }
+
+    #endregion
+
+    #region Rejection Action
+
+    public static function createRejectionAction($titre, $description, $workflowstep = null, $actiontype = null, $code = null) : WorkflowAction {
+
+        $action = self::createNew($titre, $description, $workflowstep, $actiontype, $code)
+            ->setRejectionTreatmentType(true)
+        ;
+
+        return $action;
+    }
+
+    public static function createRejectionEnumTypeAction($enum_name, array $enum_values, $titre, $description, $workflowstep = null, $code = null) : WorkflowAction {
+
+        $enum_type = WorkflowActionType::where('code', "EnumType")->first();
+
+        $action_enumtype = EnumType::createNew($enum_name)
+            ->addValues($enum_values)
+        ;
+
+        return self::createNew($titre, $description, $workflowstep, $enum_type, $code)
+            ->setRejectionTreatmentType(true)
+            ->setEnumType($action_enumtype, true)
+        ;
+    }
+
+    #endregion
+
+    public static function createExpirationAction($titre, $description, $workflowstep = null, $actiontype = null, $code = null) : WorkflowAction {
+
+        $action = self::createNew($titre, $description, $workflowstep, $actiontype, $code)
+            ->setExpirationTreatmentType(true)
+        ;
 
         return $action;
     }
@@ -180,6 +243,18 @@ class WorkflowAction extends BaseModel implements Auditable
             $this->actiontype()->disassociate();
         } else {
             $this->actiontype()->associate($workflow_action_type);
+        }
+
+        if ($save) { $this->save(); }
+
+        return $this;
+    }
+
+    public function setTreatmentType(WorkflowTreatmentType $workflow_treatment_type = null, $save = true) {
+        if ( is_null($workflow_treatment_type) ) {
+            $this->treatmenttype()->disassociate();
+        } else {
+            $this->treatmenttype()->associate($workflow_treatment_type);
         }
 
         if ($save) { $this->save(); }
@@ -251,14 +326,32 @@ class WorkflowAction extends BaseModel implements Auditable
         return $this;
     }
 
-    public function setDedicatedForm($dedicated_form = null, $save = true) : WorkflowAction {
-        if ( is_null($dedicated_form) ) {
-            $this->dedicated_form = "validation";
-        } else {
-            $this->dedicated_form = $dedicated_form;
+    public function setValidationTreatmentType($save = true) {
+        $validation_treatment_type = WorkflowTreatmentType::where('code', "validation_treatment")->first();
+        if ( $validation_treatment_type) {
+            $this->setTreatmentType($validation_treatment_type, $save);
+            if ($save) { $this->save(); }
         }
 
-        if ($save) { $this->save(); }
+        return $this;
+    }
+
+    public function setRejectionTreatmentType($save = true) {
+        $rejection_treatment_type = WorkflowTreatmentType::where('code', "rejection_treatment")->first();
+        if ( $rejection_treatment_type) {
+            $this->setTreatmentType($rejection_treatment_type, $save);
+            if ($save) { $this->save(); }
+        }
+
+        return $this;
+    }
+
+    public function setExpirationTreatmentType($save = true) {
+        $expiration_treatment_type = WorkflowTreatmentType::where('code', "expiration_treatment")->first();
+        if ( $expiration_treatment_type) {
+            $this->setTreatmentType($expiration_treatment_type, $save);
+            if ($save) { $this->save(); }
+        }
 
         return $this;
     }
@@ -364,8 +457,8 @@ class WorkflowAction extends BaseModel implements Auditable
     }
 
     private function setRequiredRule() {
-
-        if ($this->field_required) {
+        // TODO: Valider les enumType
+        if ($this->field_required && $this->actiontype->code !== "EnumType") {
 
             $validation_keys = $this->getValidationKeys();
 
@@ -507,9 +600,6 @@ class WorkflowAction extends BaseModel implements Auditable
         } elseif ($this->actiontype->code === "FILE_ref") {
             // file required
             list($key, $msg) = ["file", "veuillez renseigner un fichier valide"];
-        } else {
-            // default required
-            list($key, $msg) = ["type_non_defini", " "];
         }
 
         return [

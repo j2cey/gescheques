@@ -21,13 +21,17 @@ class DatabaseSeeder extends Seeder
         $this->call(MimeTypeSeeder::class);
         $this->call(WorkflowStatusSeeder::class);
         $this->call(WorkflowProcessStatusSeeder::class);
+        $this->call(WorkflowTreatmentTypeSeeder::class);
         $this->call(WorkflowObjectSeeder::class);
         $this->call(WorkflowObjectFieldTypeSeeder::class);
         $this->call(WorkflowObjectFieldSeeder::class);
-        $this->call(WorkflowSeeder::class);
-        $this->call(WorkflowStepSeeder::class);
+
+        //$this->call(WorkflowSeeder::class);
+        //$this->call(WorkflowStepSeeder::class);
         $this->call(WorkflowActionTypeSeeder::class);
-        $this->call(WorkflowActionSeeder::class);
+        //$this->call(WorkflowActionSeeder::class);
+        $this->call(InitWorkflowSeeder::class);
+
         $this->call(TypeDepartementSeeder::class);
         $this->call(EtatRapprochementSeeder::class);
         $this->call(ProductSeeder::class);

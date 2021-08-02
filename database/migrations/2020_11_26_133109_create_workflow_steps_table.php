@@ -69,6 +69,14 @@ class CreateWorkflowStepsTable extends Migration
             // Notification de l étape
             $table->boolean('notify_to_profile')->default(false)->comment('notifier à tous les acteurs ayant le profile de l étape');
             $table->boolean('notify_to_others')->default(false)->comment('notifier à d autres personnes');
+
+            // Prochaine étape après validation
+            $table->boolean('validated_nextstep_dynamic')->default(false)->comment('détermine si la prochaine etape apres validation doit être dynamique');
+            $table->boolean('validated_nextstep_static')->default(false)->comment('détermine si la prochaine etape apres validation doit être statique');
+
+            // Prochaine étape après réjet
+            $table->boolean('rejected_nextstep_dynamic')->default(false)->comment('détermine si la prochaine etape apres réjet doit être dynamique');
+            $table->boolean('rejected_nextstep_static')->default(false)->comment('détermine si la prochaine etape apres réjet doit être statique');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }

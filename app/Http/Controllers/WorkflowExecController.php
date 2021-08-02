@@ -57,9 +57,24 @@ class WorkflowExecController extends Controller
             ->load(['workflow','nextstep','lastexecstep','lastexecstep.effectiverole']);
         $currentstep = WorkflowStep::where('id', $workflowexec->current_step_id)
             ->first()
-            ->load(['actions','rejectaction','rejectaction.enumtype','rejectaction.enumtype.enumvalues','actions.actiontype']);
+            ->load(['actions',
+                'rejectionactions',
+                'rejectionactions.actiontype',
+                'rejectionactions.enumtype',
+                'rejectionactions.enumtype.enumvalues',
+                'actions.actiontype',
+                'validationactions',
+                'validationactions.actiontype',
+                'validationactions.enumtype',
+                'validationactions.enumtype.enumvalues']);
         $actionvalues = [
             'rejected' => false,
+            'reject_comment' => "",
+            'current_step_role' => null,
+            'role_dynamic_selection' => "role_dynamic_selected",
+        ];
+        $rejectactionvalues = [
+            'rejected' => true,
             'reject_comment' => "",
             'current_step_role' => null,
             'role_dynamic_selection' => "role_dynamic_selected",
@@ -67,19 +82,31 @@ class WorkflowExecController extends Controller
         $enumvalues = [];
 
         if ($workflowexec && $workflowexec->currentstep) {
-            foreach ($workflowexec->currentstep->actions as $action) {
+            foreach ($workflowexec->currentstep->validationactions as $action) {
                 $actionvalues = $action->addToArrayAssoc($actionvalues);
             }
         }
 
         if ($workflowexec && $workflowexec->currentstep) {
-            $action = $workflowexec->currentstep->rejectaction;
-            if ($action) {
+            foreach ($workflowexec->currentstep->rejectionactions as $action) {
+                $rejectactionvalues = $action->addToArrayAssoc($rejectactionvalues);
+            }
+        }
+
+        if ($workflowexec && $workflowexec->currentstep) {
+            foreach ($workflowexec->currentstep->actions as $action) {
                 $enumvalues = $action->addToEnumTypeList($enumvalues);
             }
         }
 
-        return ['exec' => $workflowexec, 'currentstep' => $currentstep, 'actionvalues' => $actionvalues, 'enumvalues' => $enumvalues];
+        /*if ($workflowexec && $workflowexec->currentstep) {
+            $action = $workflowexec->currentstep->rejectaction;
+            if ($action) {
+                $enumvalues = $action->addToEnumTypeList($enumvalues);
+            }
+        }*/
+
+        return ['exec' => $workflowexec, 'currentstep' => $currentstep, 'actionvalues' => $actionvalues, 'rejectactionvalues' => $rejectactionvalues, 'enumvalues' => $enumvalues];
     }
 
     /**
