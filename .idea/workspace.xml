@@ -11,8 +11,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a9bae0d-26fa-4747-a5f9-2a2dcc0c8f3a" name="Default Changelist" comment="before workflow enum vals">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ArisController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Aris.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -231,7 +229,7 @@
       <workItem from="1627810557040" duration="36891000" />
       <workItem from="1627888865837" duration="6941000" />
       <workItem from="1627935887318" duration="3940000" />
-      <workItem from="1627978068996" duration="3785000" />
+      <workItem from="1627978068996" duration="4069000" />
     </task>
     <task id="LOCAL-00001" summary="before workflow enum vals">
       <created>1627590178208</created>

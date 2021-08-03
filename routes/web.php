@@ -158,6 +158,6 @@ Route::get('users.fetchall',[UserController::class,'fetchall'])
     ->name('users.fetchall')
     ->middleware('auth');
 
-Route::get('aris.getchequeinfos',[ArisController::class,'getchequeinfos'])
+Route::get('aris.getchequeinfos/{ref}',[ArisController::class,'getchequeinfos'])
     ->name('aris.getchequeinfos')
     ->middleware('auth');
