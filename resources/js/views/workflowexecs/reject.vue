@@ -30,7 +30,7 @@
                                         :id="action.code"
                                         v-model="rejectForm[action.code]"
                                         selected.sync="rejectForm[action.code]"
-                                        :value="enumvalues[action.code].val"
+                                        value=""
                                         :options="enumvalues[action.code]"
                                         :searchable="true"
                                         :multiple="false"
@@ -98,22 +98,6 @@
         },
         methods: {
             validateForm(execId, raw_motif) {
-                //let motif = raw_motif
-                /*if (this.rejectaction && this.enumvalues) {
-                    motif = raw_motif.val
-                }*/
-
-                console.log("this.rejectForm",this.rejectForm)
-
-                // set enum val
-                let enum_code = this.rejectactions.findIndex(a => {
-                    return a.actiontype.code === 'EnumType'
-                })
-
-                if (enum_code > -1) {
-                    this.rejectForm[this.rejectactions[enum_code].code] = this.rejectForm[this.rejectactions[enum_code].code].val
-                }
-
                 let rejectform = this.rejectForm
                 this.$parent.$emit('reject_validated', {execId, rejectform})
                 $('#rejectStep').modal('hide')

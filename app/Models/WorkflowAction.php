@@ -376,6 +376,7 @@ class WorkflowAction extends BaseModel implements Auditable
                     'workflow_action_id' => $this->id,
                     'posi' => WorkflowExecAction::where('workflow_exec_step_id', $exec_step->id)->count() + 1,
                     'report' => json_encode([]),
+                    'EnumType_value' => json_encode([]),
                 ]);
 
                 return $execaction;

@@ -11,42 +11,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a9bae0d-26fa-4747-a5f9-2a2dcc0c8f3a" name="Default Changelist" comment="before workflow enum vals">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowTreatmentTypeController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/WorkflowTreatmentType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/factories/WorkflowTreatmentTypeFactory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_113309_create_workflow_treatment_types_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_07_31_235529_create_workflow_action_workflow_step_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/seeders/InitWorkflowSeeder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/seeders/WorkflowTreatmentTypeSeeder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/cheques/files/0cfa02c9ffaffeaea9e15b1e87f4cfc4.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/encaissements/files/7a28d8516110c97919dd3f1f87514263.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/files/21a6821d294f97df7e4cbac8075ca3de.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/files/b1ee5b59306aa45d7de082a48aba6fce.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/files/cd9b8f63f3ef40b844734b70f0adc887.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/process-form.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Console/Commands/Aris/ConnectionTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/cheques/files/40b06b17cd896f886a88e855e8fc2620.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/encaissements/files/01a11eb03937db5ca59ecb666128ae15.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/files/d3422f656c66ffb051ce9527a5a3220e.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/MimeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/MimeType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/WorkflowAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowAction.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExecAction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecStep.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExecStep.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowStep.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowStep.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_133109_create_workflow_steps_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_133109_create_workflow_steps_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_134537_create_workflow_actions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_134537_create_workflow_actions_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowActionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowActionSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_142703_create_workflow_exec_actions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_142703_create_workflow_exec_actions_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/cheques/files/008afd206fbcdab058840f8217b1b75e.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/encaissements/files/2731cb6141f5e9e349e4d70e82bfc4b4.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/files/4ae0b764c45b339eff4ed73e1571bf89.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/files/55d4e962c55244f5e3ea24858fce12d6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/files/a61ba0f10b415cc0a3ec25ac6c35a206.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/files/b7864f58db4872754bf8a200333aad16.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/item.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/process.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/process.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/cheques/files/0cfa02c9ffaffeaea9e15b1e87f4cfc4.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/encaissements/files/7a28d8516110c97919dd3f1f87514263.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/files/21a6821d294f97df7e4cbac8075ca3de.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/files/222a67fae993520d5f499bac6c109d9d.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/files/b1ee5b59306aa45d7de082a48aba6fce.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/files/cd9b8f63f3ef40b844734b70f0adc887.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/reject.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/reject.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowsteps/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowsteps/list.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,7 +242,9 @@
       <workItem from="1627561625961" duration="28375000" />
       <workItem from="1627769069979" duration="13128000" />
       <workItem from="1627810557040" duration="36891000" />
-      <workItem from="1627888865837" duration="6769000" />
+      <workItem from="1627888865837" duration="6941000" />
+      <workItem from="1627935887318" duration="3940000" />
+      <workItem from="1627978068996" duration="2516000" />
     </task>
     <task id="LOCAL-00001" summary="before workflow enum vals">
       <created>1627590178208</created>

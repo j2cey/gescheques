@@ -54,6 +54,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $STRING_value
  * @property string|null $TEXT_value
  * @property integer|null $FILE_ref
+ * @property Json $EnumType_value
  *
  * @property Json $report
  * @property integer|null $workflow_status_id
@@ -259,7 +260,9 @@ class WorkflowExecAction extends BaseModel implements Auditable
                 $this->FILE_ref = $file->id;
                 $nb_processed += 1;
             } elseif ($this->action->actiontype->code === "EnumType") {
-                $this->STRING_value = $this->new_value;
+                $enum_object = json_decode($this->new_value, true);
+                $this->STRING_value = $enum_object['val'];
+                $this->EnumType_value = $this->new_value;
                 $nb_processed += 1;
             } else {
                 $nb_failed += 1;

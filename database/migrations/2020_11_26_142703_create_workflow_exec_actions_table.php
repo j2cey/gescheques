@@ -69,6 +69,7 @@ class CreateWorkflowExecActionsTable extends Migration
             $table->string('STRING_value')->nullable()->comment('a VARCHAR equivalent column of the given length');
             $table->text('TEXT_value')->nullable()->comment('a TEXT equivalent column');
             $table->bigInteger('FILE_ref')->nullable()->comment('File reference');
+            $table->json('EnumType_value')->nullable()->comment('EnumType value');
 
             $table->timestamp('start_at')->nullable()->comment('date de début d exécution de l action d étape de workflow');
             $table->timestamp('end_at')->nullable()->comment('date de fin d exécution de l action d étape de workflow');
