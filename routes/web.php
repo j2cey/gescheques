@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\ArisController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ChequeController;
 use App\Http\Controllers\SettingController;
@@ -155,4 +156,8 @@ Route::get('users.fetch',[UserController::class,'fetch'])
     ->middleware('auth');
 Route::get('users.fetchall',[UserController::class,'fetchall'])
     ->name('users.fetchall')
+    ->middleware('auth');
+
+Route::get('aris.getchequeinfos',[ArisController::class,'getchequeinfos'])
+    ->name('aris.getchequeinfos')
     ->middleware('auth');
