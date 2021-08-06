@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\EncaissementsFile;
 use App\Imports\EncaissementsImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EncaissementsCsvImport;
 
 class EncaissementImport extends Command
 {
@@ -53,10 +54,24 @@ class EncaissementImport extends Command
                 $encaissementsfile->fileimportresult->update([
                     'import_processing' => 1,
                 ]);
-                Excel::import(new EncaissementsImport($encaissementsfile->fileimportresult), $raw_dir . '/' . config('app.encaissements_files') . '/' . $encaissementsfile->fichier);
+                if ($encaissementsfile->file->extension === "csv") {
+                    //Excel::import(new EncaissementsCsvImport($encaissementsfile->fileimportresult), $raw_dir . '/' . $encaissementsfile->file->relativepath);
+                    $import = new EncaissementsCsvImport($encaissementsfile->fileimportresult);
+                    $import->import($raw_dir . '/' . $encaissementsfile->file->relativepath);
+                    //dd($import->errors(),$import->failures());
+                } elseif ($encaissementsfile->file->extension === "xls" || $encaissementsfile->file->extension === "xlsx") {
+                    //Excel::import(new EncaissementsImport($encaissementsfile->fileimportresult), $raw_dir . '/' . $encaissementsfile->file->relativepath);
+                    $import = new EncaissementsImport($encaissementsfile->fileimportresult);
+                    $import->import($raw_dir . '/' . $encaissementsfile->file->relativepath);
+                    //dd($import->errors(),$import->failures());
+                } else {
+                    \Log::info("Type de fichier non pris en charge.");
+                }
                 $encaissementsfile->fileimportresult->update([
                     'import_processing' => 0,
+                    'imported' => 1
                 ]);
+                //$this->import_result->imported = 1;
             }
             $nb_to_imported++;
         }

@@ -60,10 +60,16 @@ Route::prefix('ldap')->group(function(){
 // Route pour test de Master/Details avec Vuejs et VueX
 Route::get('persons', [PersonController::class,'index']);
 
+#region product
+
 Route::get('/product', [ProductController::class, 'index'])->name('product');
 Route::get('/product/fetch', [ProductController::class, 'fetch'])->name('product.fetch');
 Route::get('/product/{product_id}/edit', [ProductController::class, 'edit'])->name('product.edit');
 Route::get('/product/{product_id}/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
+
+#endregion
+
+#region permissions & roles
 
 Route::get('permissions',[RoleController::class, 'permissions'])->middleware('auth');
 
@@ -73,20 +79,36 @@ Route::get('roles.fetch',[RoleController::class,'fetch'])
     ->middleware('auth');
 Route::get('hasrole/{roleid}',[RoleController::class, 'hasrole'])->middleware('auth');
 
+#endregion
+
+#region workflows
+
 Route::resource('workflows',WorkflowController::class)->middleware('auth');
 Route::get('workflows.fetch',[WorkflowController::class,'fetch'])
     ->name('workflows.fetch')
     ->middleware('auth');
+
+#endregion
+
+#region workflowsteps
 
 Route::resource('workflowsteps',WorkflowStepController::class)->middleware('auth');
 Route::get('workflowsteps.fetchbyworkflow/{id}',[WorkflowStepController::class, 'fetchbyworkflow'])
     ->name('workflowsteps.fetchbyworkflow')
     ->middleware('auth');
 
+#endregion
+
+#region workflowactions
+
 Route::resource('workflowactions',WorkflowActionController::class)->middleware('auth');
 Route::get('workflowactions.fetchbystep/{id}',[WorkflowActionController::class, 'fetchbystep'])
     ->name('workflowactions.fetchbystep')
     ->middleware('auth');
+
+#endregion
+
+#region workflowactiontypes & mimetypes
 
 Route::resource('workflowactiontypes',WorkflowActionTypeController::class)->middleware('auth');
 Route::get('workflowactiontypes.fetch',[WorkflowActionTypeController::class, 'fetch'])
@@ -97,20 +119,36 @@ Route::get('mimetypes.fetch',[MimeTypeController::class, 'fetch'])
     ->name('mimetypes.fetch')
     ->middleware('auth');
 
+#endregion
+
 Route::resource('files',FileController::class)->middleware('auth');
 Route::get('files.previewpdf/{filename}',[FileController::class, 'previewpdf'])
     ->name('files.previewpdf')
     ->middleware('auth');
 
+#endregion
+
+#region workflowobjects & workflowobjectfields
+
 Route::resource('workflowobjects',WorkflowObjectController::class)->middleware('auth');
 Route::resource('workflowobjectfields',WorkflowObjectFieldController::class)->middleware('auth');
+
+#endregion
+
+#region workflowexecs & workflowexecactions
 
 Route::resource('workflowexecs',WorkflowExecController::class)->middleware('auth');
 Route::resource('workflowexecactions',WorkflowExecActionController::class)->middleware('auth');
 
+#endregion
+
+#region workflowexecmodelsteps & canexecstep & actionstoexec
+
 Route::resource('workflowexecmodelsteps', WorkflowExecModelStepController::class)->middleware('auth');
 Route::get('canexecstep/{stepid}', [WorkflowExecModelStepController::class,'canexecstep'])->middleware('auth');
 Route::post('actionstoexec', [WorkflowExecModelStepController::class,'actionstoexec'])->middleware('auth');
+
+#endregion
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
@@ -137,6 +175,8 @@ Route::get('cheques.fetch',[ChequeController::class,'fetch'])
     ->name('cheques.fetch')
     ->middleware('auth');
 
+#region encaissements
+
 Route::resource('encaissements',EncaissementController::class)->middleware('auth');
 Route::get('encaissements.upload',[EncaissementController::class,'upload'])
     ->name('encaissements.upload')
@@ -144,6 +184,11 @@ Route::get('encaissements.upload',[EncaissementController::class,'upload'])
 Route::post('encaissements.uploadpost',[EncaissementController::class,'uploadpost'])
     ->name('encaissements.uploadpost')
     ->middleware('auth');
+Route::get('encaissements.fetch',[EncaissementController::class,'fetch'])
+    ->name('encaissements.fetch')
+    ->middleware('auth');
+
+#endregion
 
 Route::resource('bordereaus',BordereauController::class)->middleware('auth');
 Route::get('bordereaus.fetch',[BordereauController::class,'fetch'])

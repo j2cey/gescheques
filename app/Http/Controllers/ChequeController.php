@@ -184,7 +184,32 @@ class ChequeController extends Controller
      */
     public function update(Request $request, Cheque $cheque)
     {
-        //
+        $cheque->update([
+            'CHEQUE_NB' => $request->CHEQUE_NB,
+            'ACC_CODE' => $request->ACC_CODE,
+            'DESCRIPTION' => $request->DESCRIPTION,
+            'COMPLEMENTS1' => $request->COMPLEMENTS1,
+        ]);
+
+        $cheque->load([
+            'workflowexec',
+            'workflowexec.prevstep',
+            'workflowexec.nextstep',
+            'workflowexec.execsteps',
+            'workflowexec.execsteps.step',
+            'workflowexec.currentprofile',
+            'workflowexec.execsteps.effectiverole',
+            'workflowexec.execsteps.execactions',
+            'workflowexec.execsteps.execactions.file',
+            'workflowexec.execsteps.execactions.file.mimetype',
+            'workflowexec.execsteps.execactions.workflowprocessstatus',
+            'workflowexec.currentstep','workflowexec.currentstep.actions',
+            'workflowexec.workflowstatus','workflowexec.workflowprocessstatus',
+            'workflowexec.execsteps.workflowstatus','workflowexec.execsteps.workflowprocessstatus'
+        ]);
+        $cheque->load(['encaissement','encaissement.agence']);
+
+        return $cheque;
     }
 
     /**

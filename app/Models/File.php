@@ -122,6 +122,17 @@ class File extends BaseModel implements Auditable
 
     #endregion
 
+    #region Custom Functions - CRUD
+
+    public static function createNew($config_dir,$model_type,$model_id,$name,$role,$type,$size,$extension) : File {
+        return File::create([
+            'config_dir' => $config_dir, 'model_type' => $model_type, 'model_id' => $model_id, 'name' => $name, 'role' => $role,
+            'type' => $type, 'size' => $size, 'extension' => $extension
+        ]);
+    }
+
+    #endregion
+
     public static function boot ()
     {
         parent::boot();

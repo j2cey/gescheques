@@ -146,7 +146,7 @@ class Cheque extends BaseWorkflowable implements Auditable
         });
 
         // Après enregistrement
-        self::saved(function($model){
+        self::saving(function($model){
             $model->updateEncaissement();
         });
     }

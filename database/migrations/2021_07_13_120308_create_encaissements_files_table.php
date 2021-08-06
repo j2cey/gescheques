@@ -23,9 +23,9 @@ class CreateEncaissementsFilesTable extends Migration
             $table->id();
             $table->baseFields();
 
-            $table->string('fichier')->nullable()->comment('file name');
-            $table->integer('fichier_size')->nullable()->comment('file size');
-            $table->string('fichier_type')->nullable()->comment('file type');
+            //$table->string('fichier')->nullable()->comment('file name');
+            //$table->integer('fichier_size')->nullable()->comment('file size');
+            //$table->string('fichier_type')->nullable()->comment('file type');
 
             $table->foreignId('file_import_result_id')->nullable()
                 ->comment('référence du résultat d importation')

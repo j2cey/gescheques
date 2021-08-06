@@ -93,6 +93,8 @@ class WorkflowExecAction extends BaseModel implements Auditable
         return $this->belongsTo(WorkflowProcessStatus::class,'workflow_process_status_id');
     }
 
+    #region File
+
     public function fileinfos() {
         return $this->file()
             ->where('role', "infos_file");
@@ -107,6 +109,8 @@ class WorkflowExecAction extends BaseModel implements Auditable
         return $this->file()
             ->where('role', "local_file");
     }
+
+    #endregion
 
     #endregion
 

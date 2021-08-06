@@ -12,10 +12,12 @@ use App\Repositories\Eloquent\ChequeRepository;
 use App\Repositories\Eloquent\ProductRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Repositories\Eloquent\BordereauRepository;
+use App\Repositories\Eloquent\EncaissementRepository;
 use App\Repositories\Contracts\IUserRepositoryContract;
 use App\Repositories\Contracts\IChequeRepositoryContract;
 use App\Repositories\Contracts\IProductRepositoryContract;
 use App\Repositories\Contracts\IBordereauRepositoryContract;
+use App\Repositories\Contracts\IEncaissementRepositoryContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,10 +28,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(IUserRepositoryContract::class, UserRepository::class);
+        $this->app->bind(IChequeRepositoryContract::class, ChequeRepository::class);
         $this->app->bind(IProductRepositoryContract::class, ProductRepository::class);
         $this->app->bind(IBordereauRepositoryContract::class, BordereauRepository::class);
-        $this->app->bind(IChequeRepositoryContract::class, ChequeRepository::class);
-        $this->app->bind(IUserRepositoryContract::class, UserRepository::class);
+        $this->app->bind(IEncaissementRepositoryContract::class, EncaissementRepository::class);
     }
 
     /**

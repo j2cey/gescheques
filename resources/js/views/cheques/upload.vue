@@ -40,7 +40,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary btn-sm" @click="closeWindow">Fermer</button>
                     <button type="button" class="btn btn-primary btn-sm" @click="createCheques()" :disabled="!isValidCreateForm">Valider</button>
                 </div>
             </div>
@@ -96,14 +96,23 @@
                     .post('/cheques.uploadpost', fd)
                     .then(newdata => {
                         this.loading = false
-                        window.noty({
-                            message: 'Fichier téléchargé avec succès !',
-                            type: 'success'
-                        })
                         this.resetForm();
+
+                        this.$swal({
+                            html: '<small>Fichier téléchargé avec succès !</small>',
+                            type: 'success',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            window.location = '/cheques'
+                        })
+
                     }).catch(error => {
                     this.loading = false
                 });
+            },
+            closeWindow() {
+                window.location = '/cheques'
             },
             resetForm() {
                 this.chequeForm.reset();

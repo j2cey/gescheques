@@ -98,7 +98,7 @@ trait HasFiles
         return null;
     }
 
-    public function createFileInfos($name, $role, $filepath) {
+    public function createFile($name, $role, $config_dir, $filepath) {
         $elem_type = get_called_class();
         //$file_arr = explode($relativepath, "/");
         $file = new \SplFileInfo($filepath);
@@ -107,6 +107,7 @@ trait HasFiles
             'model_id' => $this->id,
             'name' => $name,
             'role' => $role,
+            'config_dir' => $config_dir,
             'type' => mime_content_type($filepath),
             'size' => $file->getSize(),
             'extension' => $file->getExtension(),
@@ -168,5 +169,14 @@ trait HasFiles
     public static function getVideoUploadMaxSize($type_wanted) {
         $val_mo = config('Settings.files.uploads.max_size.video');
         return self::convert_bytes($val_mo, "Mo", $type_wanted);
+    }
+
+    public function setFile(File $file) : File {
+        $elem_type = get_called_class();
+        $file->update(['model_type' => $elem_type]);
+
+        $this->files()->save($file);
+
+        return $file;
     }
 }

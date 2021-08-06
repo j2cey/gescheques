@@ -5,16 +5,23 @@ namespace App\Imports;
 use Carbon\Carbon;
 use App\Models\Agence;
 use App\Models\Encaissement;
+use Illuminate\Validation\Rule;
 use App\Models\FileImportResult;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeImport;
+use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\RemembersRowNumber;
 
-class EncaissementsImport implements ToModel, WithChunkReading, WithEvents
+class EncaissementsImport implements ToModel, WithChunkReading, WithEvents, WithValidation, SkipsOnError
 {
-    use RemembersRowNumber;
+    use RemembersRowNumber, Importable, SkipsFailures, SkipsErrors;
 
     private $rownum = 0;
     private $totalRows = 0;
@@ -46,10 +53,18 @@ class EncaissementsImport implements ToModel, WithChunkReading, WithEvents
             return null;
         }
 
-        $agence = Agence::firstOrCreate([
-            'Location' => $row[7],
-            'LocationName' => $row[8],
-        ]);
+        // Skip Duplicates
+        if( Encaissement::where('PaymentKey', $row[0])->count() > 0 ) {
+            return null;
+        }
+
+        $agence = Agence::where('Location', $row[7])->first();
+        if( ! $agence ) {
+            $agence = Agence::Create([
+                'Location' => $row[7],
+                'LocationName' => $row[8],
+            ]);
+        }
 
         $new_encaissement = new Encaissement([
             'PaymentKey' => $row[0],
@@ -63,7 +78,7 @@ class EncaissementsImport implements ToModel, WithChunkReading, WithEvents
             'PaymentClass' => $row[9],
             'OSS360_PaymentClass' => $row[10],
             'OSS360_PaymentType' => $row[11],
-            'HistoryDateTime' => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[4])),
+            'HistoryDateTime' => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[12])),
             'PaymentValidationStatus' => $row[13],
             'TrackingNumber' => $row[14],
             'TrackingNumberAmmount' => $row[15],
@@ -74,7 +89,7 @@ class EncaissementsImport implements ToModel, WithChunkReading, WithEvents
         ]);
 
         $this->import_result->row_last_processed = $currentRowNumber;
-        $this->import_result->imported = ($this->import_result->nb_rows == $currentRowNumber);
+        //$this->import_result->imported = ($this->import_result->nb_rows == $currentRowNumber);
         $this->import_result->save();
 
         $this->nextRow();
@@ -102,5 +117,21 @@ class EncaissementsImport implements ToModel, WithChunkReading, WithEvents
                 }
             }
         ];
+    }
+
+    public function rules(): array
+    {
+        // TODO: Implement rules() method.
+        return [
+            //'0' => Rule::unique('encaissements','PaymentKey'),
+        ];
+    }
+
+    /**
+     * @param Failure[] $failures
+     */
+    public function onFailure(Failure ...$failures)
+    {
+        // Handle the failures how you'd like.
     }
 }

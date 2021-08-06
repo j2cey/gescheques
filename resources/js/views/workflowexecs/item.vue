@@ -19,7 +19,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body p-0">
-            <div class="card-body table-responsive p-0" style="height: 300px;">
+            <div class="card-body table-responsive p-0" style="height: 200px;">
                 <table class="table m-0">
                     <thead v-if="exec.execsteps.length > 0">
                         <tr class="text text-sm">

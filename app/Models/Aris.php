@@ -13,6 +13,7 @@ class Aris extends Model
 
     public static function getChequeInfos($reference) {
         //return DB::connection("sqlsrv")->statement('exec _Encaissements_soumis_pour_chequesimpayes @reference='.$reference);
-        return DB::select('EXEC dbo._Encaissements_soumis_pour_chequesimpayes ?', array($reference));
+        $dbname = DB::connection('sqlsrv')->getDatabaseName();
+        return DB::connection("sqlsrv")->select('EXEC dbo._Encaissements_soumis_pour_chequesimpayes ?', array($reference));
     }
 }

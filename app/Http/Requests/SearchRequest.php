@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 
 use App\Search\Params;
 use App\Search\OrderBy;
+use Illuminate\Support\Carbon;
 use App\Search\Payloads\Payload;
 use App\Search\Payloads\SearchOnlyPayload;
 
@@ -15,16 +16,14 @@ use Illuminate\Validation\Rule;
  * @package App\Http\Requests
  *
  * @property string|null $search
- * @property string|null $dateremise_du
- * @property string|null $dateremise_au
- * @property string|null $localisation
- * @property string|null $type
- * @property string|null $statut
  * @property int $per_page
  * @property int $page
  * @property string $order_by
  * @property string $order_field
  * @property string $order_direction
+ *
+ * @property Carbon $createdat_du
+ * @property Carbon $createdat_au
  */
 trait SearchRequest
 {

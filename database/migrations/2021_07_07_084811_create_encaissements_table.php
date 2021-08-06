@@ -27,7 +27,7 @@ class CreateEncaissementsTable extends Migration
                 ->comment('référence de l agence')
                 ->constrained('agences')->onDelete('set null');
 
-            $table->string('PaymentKey')->nullable()->comment('PaymentKey');
+            $table->string('PaymentKey')->unique()->comment('PaymentKey');
             $table->string('ReceiptNum')->nullable()->comment('ReceiptNum');
             $table->string('Reference')->nullable()->comment('Reference');
             $table->string('PaymentID')->nullable()->comment('PaymentID');

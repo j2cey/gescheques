@@ -2,9 +2,10 @@
 <footer class="main-footer bg-dark">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-        Version 1.0.0
+        <span class="text text-xs">Version 1.0.0</span>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; {{ now()->year }} GT/DSI - Gest. Chèques</strong>. All rights reserved.
-
+    <span class="text text-xs">
+        <strong>Copyright &copy; {{ now()->year }} GT/DSI - Gest. Chèques</strong>. All rights reserved.
+    </span>
 </footer>

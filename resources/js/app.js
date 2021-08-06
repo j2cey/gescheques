@@ -79,6 +79,11 @@ import 'vue2-datepicker/locale/fr';
 // necessaire pour rendre un modal draggable (doit d'abord être installé: 'npm install --save jquery-ui-dist')
 import 'jquery-ui-dist/jquery-ui';
 
+import VueSweetalert2 from 'vue-sweetalert2';
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+Vue.use(VueSweetalert2);
+
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
@@ -101,6 +106,7 @@ Vue.component('cheques-upload', require('./views/cheques/upload').default);
 Vue.component('cheques-show', require('./views/cheques/show').default);
 
 Vue.component('encaissements-upload', require('./views/encaissements/upload').default);
+Vue.component('encaissements-show', require('./views/encaissements/show').default);
 
 Vue.component("rawDisplayer", rawDisplayer);
 

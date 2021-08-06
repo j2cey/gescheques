@@ -36,7 +36,7 @@
                             <div class="tw-col-span-4 md:tw-col-span-2">
                                 <label
                                     for="createdat_du"
-                                    class="tw-block tw-uppercase tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
+                                    class="tw-block tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
                                 >
                                     Du
                                 </label>
@@ -48,7 +48,7 @@
                             <div class="tw-col-span-4 md:tw-col-span-2">
                                 <label
                                     for="createdat_au"
-                                    class="tw-block tw-uppercase tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
+                                    class="tw-block tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
                                 >
                                     Au
                                 </label>
@@ -62,9 +62,9 @@
                             <div class="tw-col-span-4 md:tw-col-span-2">
                                 <label
                                     for="etatrappro"
-                                    class="tw-block tw-uppercase tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
+                                    class="tw-block tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
                                 >
-                                    Etat Rapprochement
+                                    Encaissement ARIS
                                 </label>
                                 <div class="tw-inline-flex">
                                     <div class="tw-relative">
@@ -90,7 +90,7 @@
                             <div class="tw-col-span-4 md:tw-col-span-2">
                                 <label
                                     for="agence"
-                                    class="tw-block tw-uppercase tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
+                                    class="tw-block tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
                                 >
                                     Agence
                                 </label>
@@ -117,7 +117,7 @@
                             <div class="tw-col-span-4 md:tw-col-span-2">
                                 <label
                                     for="statut"
-                                    class="tw-block tw-uppercase tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
+                                    class="tw-block tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2"
                                 >
                                     Statut
                                 </label>
@@ -166,8 +166,8 @@
                                         <th class="tw-px-4 tw-py-2">Enregistrement</th>
                                         <th class="tw-px-4 tw-py-2">Code Compte</th>
                                         <th class="tw-px-4 tw-py-2">Numéro Chèque</th>
-                                        <th class="tw-px-4 tw-py-2">Descriptoion</th>
-                                        <th class="tw-px-4 tw-py-2">Montant Banque</th>
+                                        <th class="tw-px-4 tw-py-2">Description</th>
+                                        <th class="tw-px-4 tw-py-2">Frais</th>
                                         <th class="tw-px-4 tw-py-2">Localité</th>
                                         <th class="tw-px-4 tw-py-2">Montant</th>
                                         <th class="tw-px-4 tw-py-2">Statut</th>
@@ -180,7 +180,7 @@
                                         class="tw-px-4 tw-border-b tw-border-dashed tw-border-gray-400 tw-text-gray-700 hover:tw-bg-gray-100"
                                     >
                                         <td class="tw-px-4 tw-py-2">
-                                            <span class="tw-text-sm">@{{ record.id }}</span>
+                                            <span class="tw-text-sm">@{{ record.NREC_BANK_MVT_ID }}</span>
                                         </td>
                                         <td class="tw-px-4 tw-py-2">
                                             <span class="tw-text-sm">@{{ record.ACC_CODE }}</span>
