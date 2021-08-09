@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Base\Uuidable;
 use Illuminate\Support\Carbon;
+use App\Traits\Base\HasDefault;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,13 +21,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property string $code
  * @property string $name
+ * @property string|null $description
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
 class Status extends Model implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable, Uuidable;
+    use HasFactory, \OwenIt\Auditing\Auditable, Uuidable, HasDefault;
 
     protected $guarded = [];
 

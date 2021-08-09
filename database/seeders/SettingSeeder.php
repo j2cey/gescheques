@@ -18,7 +18,7 @@ class SettingSeeder extends Seeder
         $this->createNew("app_name", null, "Gestion-Cheques", "string", ",", "Application Name.");
         // groupe roles
         $group = $this->createNew("roles", null, null, "string", ",", "settings Roles.");
-        $this->createNew("default", $group->id, "1", "integer", ",", "Role par défaut à la creéation d un utilisateur dont le role n est pas explicitement déterminé.");
+        $this->createNew("default", $group->id, "1", "integer", ",", "Role par défaut à la création d un utilisateur dont le role n est pas explicitement déterminé.");
         // groupe files
         $group = $this->createNew("files", null, null, null, ",", "settings Files.");
         // sub groupe files.uploads
@@ -33,11 +33,6 @@ class SettingSeeder extends Seeder
         $group = $this->createNew("ldap", null, null, "string", ",", "settings LDAP.");
         // value ldap.liste_sigles
         $this->createNew("liste_sigles", $group->id, "gt,rh,si,it,sav,in,bss,msan,rva,erp,dr", "array", ",", "liste des sigles (à prendre en compte dans l importation LDAP).");
-
-        // groupe roles
-        $group = $this->createNew("roles", null, null, "string", ",", "settings Roles.");
-        // value roles.default
-        $this->createNew("default", $group->id, "1", "integer", ",", "Role par défaut à la creéation d un utilisateur dont le role n est pas explicitement déterminé.");
     }
 
     private function createNew($name, $group_id = null, $value = null, $type = null, $array_sep = ",", $description = null)

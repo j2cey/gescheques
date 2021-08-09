@@ -16,7 +16,7 @@
                             <div class="form-group row">
                                 <label for="CHEQUE_NB" class="col-sm-4 col-form-label text-xs text-xs">Numéro Chèque</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm" id="CHEQUE_NB" name="titre" placeholder="Numéro Chèque" v-model="chequeForm.CHEQUE_NB">
+                                    <input type="text" class="form-control form-control-sm" id="CHEQUE_NB" name="CHEQUE_NB" placeholder="Numéro Chèque" v-model="chequeForm.CHEQUE_NB">
                                     <span class="invalid-feedback d-block text-xs" role="alert" v-if="chequeForm.errors.has('CHEQUE_NB')" v-text="chequeForm.errors.get('CHEQUE_NB')"></span>
                                 </div>
                             </div>
@@ -148,7 +148,6 @@
 
                         this.$swal({
                             html: '<small>Chèque modifié avec succès !</small>',
-                            type: 'success',
                             icon: 'success',
                             timer: 3000
                         }).then(() => {

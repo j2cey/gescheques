@@ -422,7 +422,7 @@ class WorkflowStep extends BaseModel implements Auditable
      * @param bool $save
      * @return WorkflowStep
      */
-    public function setSetpParent(WorkflowStep $step_parent = null, $save = true) {
+    public function setSetpParent(WorkflowStep $step_parent = null, $save = true) : WorkflowStep {
         if ( is_null($step_parent) ) {
             $this->stepparent()->disassociate();
         } else {

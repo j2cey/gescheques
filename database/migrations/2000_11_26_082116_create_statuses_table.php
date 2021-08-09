@@ -25,6 +25,7 @@ class CreateStatusesTable extends Migration
 
             $table->string('name')->comment('status name');
             $table->string('code', 100)->unique()->comment('status code');
+            $table->string('description')->nullable()->comment('status description');
 
             $table->boolean('is_default')->default(false)->comment('determine whether is the default one.');
 

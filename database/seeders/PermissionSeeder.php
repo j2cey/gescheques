@@ -21,8 +21,8 @@ class PermissionSeeder extends Seeder
             ['role-delete', 1],
             ['workflow-list', 4],
             ['workflow-create', 3],
-            ['workflow-edit', 3],
-            ['workflow-delete', 3]
+            ['workflow-edit', 2],
+            ['workflow-delete', 1]
         ];
 
         foreach ($permissions as $permission) {

@@ -26,6 +26,7 @@ class CreateSettingsTable extends Migration
             $table->string('type')->default("string")->comment('type de la donnée (valeur)');
             $table->string('array_sep')->default(",")->comment('séparateur de tableau le cas échéant');
             $table->string('description')->nullable()->comment('description');
+            $table->string('full_path')->nullable()->comment('chemin complet');
 
             $table->foreignId('group_id')->nullable()
                 ->comment('reference du goupe de l entrée (le cas échéant)')

@@ -108,9 +108,12 @@ Vue.component('cheques-show', require('./views/cheques/show').default);
 Vue.component('encaissements-upload', require('./views/encaissements/upload').default);
 Vue.component('encaissements-show', require('./views/encaissements/show').default);
 
+Vue.component('systems-index', require('./views/systems/index').default);
+
 Vue.component("rawDisplayer", rawDisplayer);
 
 Vue.component('user-show', require('./views/users/show').default);
+Vue.component('user-addupdate', require('./views/users/addupdate').default);
 
 Vue.component('times-circle', require('./components/Icons/TimesCircle').default);
 Vue.component('select-angle', require('./components/Form/SelectAngle').default);

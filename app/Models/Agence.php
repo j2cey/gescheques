@@ -44,7 +44,11 @@ class Agence extends BaseModel implements Auditable
     public function createRole() {
         $role = Role::where('name', $this->LocationName)->first();
         if (! $role) {
-            Role::create(['name' => $this->LocationName]);
+            Role::create([
+                    'name' => $this->LocationName,
+                    'description' => $this->LocationName
+                ]
+            );
         }
     }
 

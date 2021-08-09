@@ -8,6 +8,8 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ArisController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ChequeController;
+use App\Http\Controllers\SystemController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WorkflowController;
@@ -153,6 +155,9 @@ Route::post('actionstoexec', [WorkflowExecModelStepController::class,'actionstoe
 //Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('settings',SettingController::class);
+Route::get('settings.fetch',[SettingController::class,'fetch'])
+    ->name('settings.fetch')
+    ->middleware('auth');
 
 Route::get('dashboards',[DashboardController::class,'index'])
     ->name('dashboards.index')
@@ -205,4 +210,16 @@ Route::get('users.fetchall',[UserController::class,'fetchall'])
 
 Route::get('aris.getchequeinfos/{ref}',[ArisController::class,'getchequeinfos'])
     ->name('aris.getchequeinfos')
+    ->middleware('auth');
+
+Route::get('systems.index',[SystemController::class,'index'])
+    ->name('systems.index')
+    ->middleware('auth');
+
+Route::resource('statuses',StatusController::class);
+Route::get('statuses.fetch',[StatusController::class,'fetch'])
+    ->name('statuses.fetch')
+    ->middleware('auth');
+Route::get('statuses.fetchone/{id}',[StatusController::class,'fetchone'])
+    ->name('statuses.fetchone')
     ->middleware('auth');

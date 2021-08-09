@@ -127,7 +127,7 @@
             cheque_prop: {},
             actionvalues_prop: {},
             hasexecrole_prop: 0,
-            userprofiles_prop: {} // TODO: Recevoir tous les profiles de l utilisateur et écrire une fonction pour évaluer le droit
+            userprofiles_prop: {}
         },
         components: {
             ExecItem, EncaissementShow, ChequeAddUpdate, ImgShow: () => import('../workflowexecs/imgscan')

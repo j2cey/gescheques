@@ -14,4 +14,16 @@ trait StatusTrait
             }
         }
     }
+
+    public function setStatus(Status $status = null, $save = true) {
+        if ( is_null($status) ) {
+            $this->status()->disassociate();
+        } else {
+            $this->status()->associate($status);
+        }
+
+        if ($save) { $this->save(); }
+
+        return $this;
+    }
 }

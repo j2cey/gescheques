@@ -11,60 +11,87 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a9bae0d-26fa-4747-a5f9-2a2dcc0c8f3a" name="Default Changelist" comment="before workflow enum vals">
-      <change afterPath="$PROJECT_DIR$/app/Console/Commands/Aris/ScanDumpFiles.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Encaissement/FetchRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Imports/EncaissementsCsvImport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Repositories/Contracts/IEncaissementRepositoryContract.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Repositories/Eloquent/EncaissementRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Search/Queries/EncaissementSearch.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Traits/File/FilesScanning.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/cheques/files/52cb8cb16f72937a55e88bbf08b467bb.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/encaissements/files/20210806123130_0_.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/encaissements/files/7caf04e72681c2504c5dd8d23f8d8051.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/cheques/addupdate.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/cheques/chequeBus.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/encaissements/show.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/encaissements/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-29foS5bE95wIkpdG9FIxJ8Kkl6sXTvSm.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-3w6jJmF1rPVXccRoGLGIf2PORDjnA3GK.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-8nqGKf068u0QMWJRSma9S1BJLBqcoSaz.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-BnI46BDUWRQIJqYJBtaJt1c0jYVKCeAK.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-Dybga7RSjT0EK43FhnOwsHRVMezQpCcD.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-Kq5j7HkZtBD0cQoRbuA6Fo2oxPaX8IYg.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-OwrAGLpSVLR0jfK0Div6oMQl56nQnShf.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-l0VqOKMPyrEkizKEmReRd4pjxuGnPM5X.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-ojJveAGhsawk3CoyMoWVFC6fMGc6Ywgf.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-td3ii0ggg0nOVBU8qTYD2DeRtoMQWtZG.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-u2zBF8D7ioKiXd4IiQsXM1FdTsVrXejb.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/SystemController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Role/RoleRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Role/UpdateRoleRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Setting/SettingRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Setting/UpdateSettingRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Status/StatusRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Status/UpdateStatusRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/User/UpdateUserRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/User/UserRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Resources/RoleResource.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Traits/Base/HasDefault.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Traits/ReflexiveRelationship/HasReflexivePath.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Traits/ReflexiveRelationship/ReflexivePath.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/10.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/11.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/12.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/13.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/14.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/15.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/16.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/17.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/8.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/9.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/images/default/default-150x150.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/roles/display.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/roles/item-list.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/roles/item.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/roles/roleBus.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/settings/addupdate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/settings/item-list.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/settings/item.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/settings/settingBus.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/statuses/addupdate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/statuses/item-list.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/statuses/item.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/statuses/statusBus.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/systems/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/users/addupdate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/users/item-list.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/users/item.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/users/userBus.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/systems/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/Encaissement/EncaissementImport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/Encaissement/EncaissementImport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/System/Reset.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/System/Reset.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChequeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChequeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EncaissementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EncaissementController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/SearchRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/SearchRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/EncaissementResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/EncaissementResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Imports/EncaissementsImport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Imports/EncaissementsImport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Aris.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Aris.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Cheque.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Cheque.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/EncaissementsFile.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EncaissementsFile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/File.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExecAction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Search/Queries/ProductSearch.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Search/Queries/ProductSearch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Traits/File/HasFiles.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/File/HasFiles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_07_07_084811_create_encaissements_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_07_07_084811_create_encaissements_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_07_13_120308_create_encaissements_files_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_07_13_120308_create_encaissements_files_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RoleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SettingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/StatusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/StatusController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/AgenceResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/AgenceResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/StatusResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/StatusResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/WorkflowExecResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowExecResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/WorkflowStepResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowStepResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Agence.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Agence.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BaseModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BaseModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Setting.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Setting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Status.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Status.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowStep.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowStep.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/Base/StatusTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/Base/StatusTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/Request/RequestTraits.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/Request/RequestTraits.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2000_11_26_081727_create_settings_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2000_11_26_081727_create_settings_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2000_11_26_082116_create_statuses_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2000_11_26_082116_create_statuses_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/PermissionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/PermissionSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/SettingSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/SettingSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/StatusSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/StatusSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/1.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/2.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/3.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/3.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/4.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/4.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/5.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/5.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/6.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/6.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/cheques/files/40b06b17cd896f886a88e855e8fc2620.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/encaissements/files/01a11eb03937db5ca59ecb666128ae15.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/files/d3422f656c66ffb051ce9527a5a3220e.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/cheques/files/cf2b89a1d555e01bd46c0168343ce97f.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/encaissements/files/03d6677b03d8d3847b74e0985e543797.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/encaissements/files/20210806022003_0_.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/cheques/addupdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/cheques/addupdate.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/cheques/show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/cheques/show.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/cheques/upload.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/cheques/upload.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/encaissements/upload.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/encaissements/upload.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/item.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/cheques/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/cheques/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin02/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin02/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/permissions/display.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/permissions/display.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/roles/addupdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/roles/addupdate.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin02/nav/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin02/nav/nav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -235,10 +262,14 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/Http/Requests/Encaissement" />
-      <recent name="$PROJECT_DIR$/app/Http/Requests/WorkflowStep" />
-      <recent name="$PROJECT_DIR$/app/Http/Requests/Cheque" />
-      <recent name="$PROJECT_DIR$/app/Http/Requests/Bordereau" />
+      <recent name="$PROJECT_DIR$/app/Http/Requests/User" />
+      <recent name="$PROJECT_DIR$/app/Http/Requests/Role" />
+      <recent name="$PROJECT_DIR$/app/Http/Requests/Status" />
+      <recent name="$PROJECT_DIR$/app/Http/Requests" />
+      <recent name="$PROJECT_DIR$/app/Http/Requests/status" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/uploads/images/default" />
     </key>
   </component>
   <component name="RunManager">
@@ -288,7 +319,12 @@
       <workItem from="1628188253108" duration="8890000" />
       <workItem from="1628236382556" duration="684000" />
       <workItem from="1628237477288" duration="95000" />
-      <workItem from="1628237852124" duration="14490000" />
+      <workItem from="1628237852124" duration="15696000" />
+      <workItem from="1628340153911" duration="22606000" />
+      <workItem from="1628376179335" duration="11923000" />
+      <workItem from="1628414307210" duration="20244000" />
+      <workItem from="1628448336179" duration="4412000" />
+      <workItem from="1628516623633" duration="2303000" />
     </task>
     <task id="LOCAL-00001" summary="before workflow enum vals">
       <created>1627590178208</created>
@@ -325,10 +361,11 @@
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="354" y="33" key="#Inspections/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626311092291" />
-    <state x="525" y="36" key="#com.intellij.ide.util.MemberChooser" timestamp="1628251722212">
+    <state x="525" y="36" key="#com.intellij.ide.util.MemberChooser" timestamp="1628353539950">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="525" y="36" key="#com.intellij.ide.util.MemberChooser/0.25.1440.875/1440.-22.1302.999/-1920.-38.1920.1055@0.25.1440.875" timestamp="1628251722212" />
+    <state x="525" y="36" key="#com.intellij.ide.util.MemberChooser/0.25.1440.875/1440.111.1360.743/-1302.-22.1302.999@0.25.1440.875" timestamp="1628353539950" />
     <state x="525" y="36" key="#com.intellij.ide.util.MemberChooser/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626305170258" />
     <state x="415" y="31" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1628171952405">
       <screen x="0" y="25" width="1440" height="875" />
@@ -338,24 +375,28 @@
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="458" y="101" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626305841586" />
-    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1628251608578">
+    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1628518633597">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
+    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1440.875/-1360.70.1360.743@0.25.1440.875" timestamp="1628442548902" />
     <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626876473779" />
-    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1440.875/1440.-22.1302.999/-1920.-38.1920.1055@0.25.1440.875" timestamp="1628251608578" />
+    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1440.875/1440.-22.1302.999/-1920.-38.1920.1055@0.25.1440.875" timestamp="1628518633597" />
+    <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1440.875/1440.111.1360.743/-1302.-22.1302.999@0.25.1440.875" timestamp="1628454053798" />
     <state x="458" y="109" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1627827935759" />
-    <state x="502" y="305" key="NewPhpClassDialog" timestamp="1628171525281">
+    <state x="502" y="305" key="NewPhpClassDialog" timestamp="1628379257629">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="633" y="113" key="NewPhpClassDialog/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626876427452" />
     <state x="502" y="305" key="NewPhpClassDialog/0.25.1440.875/1440.-22.1302.999/-1920.-38.1920.1055@0.25.1440.875" timestamp="1628171525281" />
+    <state x="502" y="305" key="NewPhpClassDialog/0.25.1440.875/1440.111.1360.743/-1302.-22.1302.999@0.25.1440.875" timestamp="1628379257629" />
     <state x="377" y="80" key="NewPhpClassDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626828830765" />
     <state x="377" y="80" key="NewPhpClassDialog/0.25.1440.875@0.25.1440.875" timestamp="1626867756312" />
-    <state x="540" y="278" key="NewPhpFileDialog" timestamp="1628174755243">
+    <state x="540" y="278" key="NewPhpFileDialog" timestamp="1628352959909">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626178477082" />
     <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/1440.-22.1302.999/-1920.-38.1920.1055@0.25.1440.875" timestamp="1628174755243" />
+    <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/1440.111.1360.743/-1302.-22.1302.999@0.25.1440.875" timestamp="1628352959909" />
     <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1625685204699" />
     <state x="229" y="25" key="SettingsEditor" timestamp="1628157158348">
       <screen x="0" y="25" width="1440" height="875" />
@@ -376,8 +417,8 @@
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="511" y="274" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1627589988036" />
-    <state x="-1918" y="-38" width="1909" height="1050" maximized="true" key="dock-window-1" timestamp="1628255517730">
-      <screen x="-1920" y="-38" width="1920" height="1055" />
+    <state x="-1918" y="-38" width="1909" height="1050" maximized="true" key="dock-window-1" timestamp="1628340304382">
+      <screen x="-1302" y="-22" width="1302" height="999" />
     </state>
     <state x="-1920" y="-35" width="1858" height="1020" maximized="true" key="dock-window-1/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626682269474" />
     <state x="-1918" y="-38" width="1909" height="1050" maximized="true" key="dock-window-1/0.25.1440.875/1440.-22.1302.999/-1920.-38.1920.1055@0.25.1440.875" timestamp="1628255517730" />
@@ -388,9 +429,10 @@
     </state>
     <state x="420" y="107" width="599" height="486" key="find.popup/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626874801227" />
     <state x="420" y="107" width="599" height="486" key="find.popup/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626021324766" />
-    <state x="385" y="158" width="670" height="676" key="search.everywhere.popup" timestamp="1627842419408">
+    <state x="385" y="158" width="670" height="676" key="search.everywhere.popup" timestamp="1628369585946">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
+    <state x="385" y="158" width="670" height="676" key="search.everywhere.popup/0.25.1440.875/1440.111.1360.743/-1302.-22.1302.999@0.25.1440.875" timestamp="1628369585946" />
     <state x="385" y="158" width="670" height="676" key="search.everywhere.popup/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1627842419408" />
   </component>
 </project>

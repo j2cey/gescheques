@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status;
 use Illuminate\Http\Request;
+use App\Http\Requests\Status\UpdateStatusRequest;
 
 class StatusController extends Controller
 {
@@ -15,6 +16,16 @@ class StatusController extends Controller
     public function index()
     {
         //
+    }
+
+    public function fetch() {
+        $statuses = Status::all();
+
+        return $statuses;
+    }
+
+    public function fetchone($id) {
+        return Status::where('id', $id)->first();
     }
 
     /**
@@ -67,9 +78,17 @@ class StatusController extends Controller
      * @param Status $status
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Status $status)
+    public function update(UpdateStatusRequest $request, Status $status)
     {
-        //
+        $status->update([
+            'code' => $request->code,
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        $status->setDefault($request->is_default);
+
+        return $status;
     }
 
     /**

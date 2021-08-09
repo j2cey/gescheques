@@ -4,6 +4,7 @@ namespace App\Traits\Request;
 
 
 use App\Models\User;
+use App\Models\Status;
 use App\Models\WorkflowStep;
 use Spatie\Permission\Models\Role;
 use App\Models\WorkflowActionType;
@@ -25,7 +26,7 @@ trait RequestTraits
         if ($json_decode_before) {
             $value = $this->decodeJsonField($value);
         }
-        return $value ? Role::where('id', $value['id'])->first() : null;;
+        return $value ? Role::where('id', $value['id'])->first() : null;
     }
 
     public function setCheckOrOptionValue($value) {
@@ -49,6 +50,16 @@ trait RequestTraits
             $value = $this->decodeJsonField($value);
         }
         return $value ? User::where('id', $value['id'])->first() : null;
+    }
+
+    public function setRelevantStatus($value, $json_decode_before = false) {
+        if (is_null($value)) {
+            return null;
+        }
+        if ($json_decode_before) {
+            $value = $this->decodeJsonField($value);
+        }
+        return $value ? Status::where('id', $value['id'])->first() : null;
     }
 
     public function setRelevantIdsList($value, $json_decode_before = false) {
@@ -77,7 +88,7 @@ trait RequestTraits
         if ($json_decode_before) {
             $value = $this->decodeJsonField($value);
         }
-        return $value ? WorkflowStep::where('id', $value['id'])->first() : null;;
+        return $value ? WorkflowStep::where('id', $value['id'])->first() : null;
     }
 
     public function setRelevantActionType($value, $json_decode_before = false) {
@@ -87,6 +98,6 @@ trait RequestTraits
         if ($json_decode_before) {
             $value = $this->decodeJsonField($value);
         }
-        return $value ? WorkflowActionType::where('id', $value['id'])->first() : null;;
+        return $value ? WorkflowActionType::where('id', $value['id'])->first() : null;
     }
 }

@@ -31,6 +31,7 @@ class WorkflowStepResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'uuid' => $this->uuid,
             'is_default' => $this->is_default,
             'tags' => $this->tags,

@@ -30,6 +30,10 @@ class User extends JsonResource
             'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
+
+            'status' => StatusResource::make($this->status),
+            'roles' => RoleResource::collection($this->roles),
+
             'edit_url' => route('users.edit', $this->uuid),
             'destroy_url' => route('users.destroy', $this->uuid),
         ];

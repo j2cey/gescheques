@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Http\Requests\Setting\UpdateSettingRequest;
 
 class SettingController extends Controller
 {
@@ -21,6 +22,12 @@ class SettingController extends Controller
         $tree = $this->buildTree($all_settings);
         $tree_clean = $this->cleanTree($tree);
         dd($tree,$tree_clean);
+    }
+
+    public function fetch() {
+        $settings = Setting::all();
+
+        return $settings;
     }
 
     function buildTree(array $elements, $parentId = 0) {
@@ -115,13 +122,22 @@ class SettingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param UpdateSettingRequest $request
      * @param Setting $setting
-     * @return \Illuminate\Http\Response
+     * @return Setting
      */
-    public function update(Request $request, Setting $setting)
+    public function update(UpdateSettingRequest $request, Setting $setting)
     {
-        //
+        $setting->update([
+            'value' => $request->value,
+            'type' => $request->type,
+            'array_sep' => $request->array_sep,
+            'description' => $request->description,
+        ]);
+
+        $setting->setGroup($request->group, true);
+
+        return $setting->load('group');
     }
 
     /**

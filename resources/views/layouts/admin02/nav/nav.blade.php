@@ -89,6 +89,17 @@
                     </ul>
                 </li>
                 @endrole
+
+                @role('Admin')
+                <li class="nav-item dropdown">
+                    <a id="systemsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">System</a>
+                    <ul aria-labelledby="systemsMenu" class="dropdown-menu border-0 shadow">
+                        <li class="nav-item">
+                            <a href="/systems.index" class="nav-link">Index</a>
+                        </li>
+                    </ul>
+                </li>
+                @endrole
             </ul>
 
             <!-- SEARCH FORM -->

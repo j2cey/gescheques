@@ -122,11 +122,11 @@
                                     class="tw-flex tw-flex-wrap tw-p-4 tw-border-b tw-border-dashed tw-border-gray-400 tw-text-gray-700 hover:tw-bg-gray-100"
                                 >
                                     <div class="tw-flex-auto tw-pr-3">
-                                        @{{ record.name }} (&pound;@{{ record.email }})
+                                        @{{ record.name }} (@{{ record.email }})
                                     </div>
                                     <div class="tw-flex-shrink">
                                         <a
-                                            :href="record.edit_url"
+                                            v-on:click="$emit('user_edit',record)"
                                             class="tw-inline-block tw-mr-3 tw-text-green-500"
                                         >
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -165,6 +165,8 @@
 
             </div>
         </div>
+
+        <user-addupdate></user-addupdate>
 
     </section>
 

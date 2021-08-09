@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Http\Requests\Setting\SettingRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\ReflexiveRelationship\HasReflexivePath;
 
 /**
  * Class Setting
  * @package App\Models
  *
  * @property integer $id
- * @property string $group
+ * @property string $group_id
  * @property string $name
+ * @property string|null $full_path
  * @property string|null $value
  * @property string $type
  * @property string $array_sep
@@ -24,7 +27,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Setting extends Model implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasFactory, HasReflexivePath, \OwenIt\Auditing\Auditable;
+
+    protected $guarded = [];
+
+    #region Relationships
+
+    public function group() {
+        return $this->belongsTo(Setting::class, "group_id");
+    }
+
+    public function subsettings() {
+        return $this->hasMany(Setting::class, 'group_id');
+    }
+
+    #endregion
 
     #region Custom Functions
 
@@ -93,5 +110,42 @@ class Setting extends Model implements Auditable
         return $setting['value'];
     }
 
+    public function setGroup(Setting $group = null, $save = true) : Setting {
+        if ( is_null($group) ) {
+            $this->group()->disassociate();
+        } else {
+            $this->group()->associate($group);
+        }
+
+        if ($save) { $this->save(); }
+
+        return $this;
+    }
+
     #endregion
+
+    public function getReflexiveChildrenRelationName(): string
+    {
+        return "subsettings";
+    }
+
+    public static function getReflexiveParentIdField(): string
+    {
+        return "group_id";
+    }
+
+    public static function getTitleField(): string
+    {
+        return "name";
+    }
+
+    public static function getReflexiveFullPathField(): string
+    {
+        return "full_path";
+    }
+
+    public static function getReflexivePathSeparator(): string
+    {
+        return ".";
+    }
 }

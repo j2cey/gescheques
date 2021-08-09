@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Resources\SearchCollection;
 use App\Http\Requests\User\FetchRequest;
 use App\Http\Resources\User as UserResource;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Repositories\Contracts\IUserRepositoryContract;
 
 use Exception;
@@ -66,6 +67,30 @@ class UserController extends Controller
     public function edit(User $user): View {
         $user->load(['ldapaccount','status','roles']);
         return view('users.details')->with('user', $user);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateUserRequest $request
+     * @param User $user
+     * @return User
+     */
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+        ]);
+
+        // sync roles
+        $user->syncRoles($request->roles);
+
+        // set status
+        $user->setStatus($request->status);
+
+        return $user->load(['roles','status']);
     }
 
     /**

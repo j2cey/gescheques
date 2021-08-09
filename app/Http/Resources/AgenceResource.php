@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * Class AgenceResource
  * @package App\Http\Resources
  *
+ * @property integer $id
  * @property string $uuid
  * @property bool $is_default
  *
@@ -29,6 +30,7 @@ class AgenceResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'uuid' => $this->uuid,
             'Location' => $this->Location,
             'LocationName' => $this->LocationName,

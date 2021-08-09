@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Base\BaseTrait;
+use App\Traits\Base\HasDefault;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -23,7 +24,7 @@ use Illuminate\Support\Carbon;
 class BaseModel extends Model
 {
 	//comment to test git push
-    use BaseTrait;
+    use BaseTrait, HasDefault;
 
     public function getRouteKeyName() { return 'uuid'; }
 

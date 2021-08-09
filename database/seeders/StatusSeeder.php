@@ -14,12 +14,15 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = [
-            ['name' => "active", 'code' => "active",'is_default' => 1],
-            ['name' => "inactive", 'code' => "inactive",'is_default' => 0]
-        ];
-        foreach ($statuses as $status) {
-            Status::create($status);
-        }
+        $active_status = $this->createNew("active", "active", "active object");
+        $inactive_status = $this->createNew("inactive", "inactive", "inactive object");
+
+        $active_status->setDefault();
+    }
+
+    private function createNew($name, $code, $description) : Status {
+        return Status::create([
+            'name' => $name, 'code' => $code, 'description' => $description,
+            ]);
     }
 }

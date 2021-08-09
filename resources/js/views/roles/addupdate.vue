@@ -3,9 +3,9 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" v-if="editing">Modifier Profile</h5>
-                    <h5 class="modal-title" id="exampleModalLabel" v-else>Créer Nouveau Profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title text-sm" id="exampleModalLabel" v-if="editing">Modifier Profile</h5>
+                    <h5 class="modal-title text-sm" id="exampleModalLabel" v-else>Créer Nouveau Profile</h5>
+                    <button type="button" class="close" @click="closeModal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -14,14 +14,14 @@
                     <form class="form-horizontal" @submit.prevent @keydown="roleForm.errors.clear()">
                         <div class="card-body">
                             <div class="form-group row">
-                                <label for="name" class="col-sm-2 col-form-label">Titre</label>
+                                <label for="name" class="col-sm-2 col-form-label text-xs">Titre</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="name" name="name" autocomplete="name" autofocus placeholder="Titre" v-model="roleForm.name">
-                                    <span class="invalid-feedback d-block" role="alert" v-if="roleForm.errors.has('name')" v-text="roleForm.errors.get('name')"></span>
+                                    <input type="text" class="form-control form-control-sm" id="name" name="name" autocomplete="name" autofocus placeholder="Titre" v-model="roleForm.name">
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="roleForm.errors.has('name')" v-text="roleForm.errors.get('name')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="m_select" class="col-sm-2 col-form-label">Permission(s)</label>
+                                <label for="m_select" class="col-sm-2 col-form-label text-xs">Permission(s)</label>
                                 <div class="col-sm-10">
                                     <multiselect
                                         id="m_select"
@@ -37,14 +37,14 @@
                                         placeholder="Permission(s)"
                                     >
                                     </multiselect>
-                                    <span class="invalid-feedback d-block" role="alert" v-if="roleForm.errors.has('permissions')" v-text="roleForm.errors.get('permissions')"></span>
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="roleForm.errors.has('permissions')" v-text="roleForm.errors.get('permissions')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                <label for="description" class="col-sm-2 col-form-label text-xs">Description</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="description" name="description" required autocomplete="description" autofocus placeholder="Description" v-model="roleForm.description">
-                                    <span class="invalid-feedback d-block" role="alert" v-if="roleForm.errors.has('description')" v-text="roleForm.errors.get('description')"></span>
+                                    <input type="text" class="form-control form-control-sm" id="description" name="description" required autocomplete="description" autofocus placeholder="Description" v-model="roleForm.description">
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="roleForm.errors.has('description')" v-text="roleForm.errors.get('description')"></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -54,9 +54,9 @@
 
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary" @click="updateRole()" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</button>
-                    <button type="button" class="btn btn-primary" @click="createRole()" :disabled="!isValidCreateForm" v-else>Créer Profile</button>
+                    <button type="button" class="btn btn-secondary btn-sm" @click="closeModal">Fermer</button>
+                    <button type="button" class="btn btn-primary btn-sm" @click="updateRole()" :disabled="!isValidForm" v-if="editing">Enregistrer</button>
+                    <button type="button" class="btn btn-primary btn-sm" @click="createRole()" :disabled="!isValidForm" v-else>Créer Profile</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -67,6 +67,7 @@
 
 <script>
     import Multiselect from 'vue-multiselect'
+    import RoleBus from "./roleBus";
 
     class Role {
         constructor(role) {
@@ -76,13 +77,12 @@
         }
     }
     export default {
-        name: "addupdate",
+        name: "role-addupdate",
         props: {
-
         },
         components: { Multiselect },
         mounted() {
-            this.$parent.$on('create_new_role', () => {
+            RoleBus.$on('role_create', () => {
 
                 this.editing = false
                 this.role = new Role({})
@@ -91,8 +91,8 @@
                 $('#addUpdateRole').modal()
             })
 
-            this.$parent.$on('edit_role', ({ role }) => {
-                console.log("role received to edit: ", role)
+            RoleBus.$on('role_edit', (role) => {
+
                 this.editing = true
                 this.role = new Role(role)
                 this.roleForm = new Form(this.role)
@@ -123,8 +123,16 @@
                     .post('/roles')
                     .then(newrole => {
                         this.loading = false
-                        this.$parent.$emit('new_role_created', newrole)
-                        $('#addUpdateRole').modal('hide')
+                        this.closeModal();
+
+                        this.$swal({
+                            html: '<small>Profile créé avec succès !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            RoleBus.$emit('role_created', newrole)
+                        })
+
                     }).catch(error => {
                     this.loading = false
                 });
@@ -133,18 +141,33 @@
                 this.loading = true
 
                 this.roleForm
-                    .put(`/roles/${this.roleId}`,"")
+                    .put(`/roles/${this.roleId}`)
                     .then(updrole => {
                         this.loading = false
-                        this.$parent.$emit('role_updated', updrole)
-                        $('#addUpdateRole').modal('hide')
+                        this.closeModal();
+
+                        this.$swal({
+                            html: '<small>Profile modifié avec succès !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            RoleBus.$emit('role_updated', updrole)
+                        })
+
                     }).catch(error => {
                     this.loading = false
                 });
+            },
+            closeModal() {
+                this.resetForm()
+                $('#addUpdateRole').modal('hide')
+            },
+            resetForm() {
+                this.roleForm.reset();
             }
         },
         computed: {
-            isValidCreateForm() {
+            isValidForm() {
                 return this.roleForm.name && !this.loading
             }
         }
