@@ -1,7 +1,11 @@
 <template>
     <div class="card collapsed-card">
         <div class="card-header">
-            <h5 class="card-title">{{ list_title ? list_title : 'Settings' }}</h5>
+            <h5 class="card-title">{{ list_title }}
+                <small class="text text-xs">
+                    {{ searchSettings === "" ? "" : " (" + filteredSettings.length + ")" }}
+                </small>
+            </h5>
 
             <div class="card-tools">
 
@@ -92,7 +96,7 @@
     export default {
         name: "setting-item-list",
         props: {
-            list_title_prop: null,
+            list_title_prop: {default: "Settings", type: String},
             settings_prop: {},
             settings_grouped_prop: {}
         },
@@ -105,7 +109,7 @@
                 list_title: this.list_title_prop,
                 settings: this.settings_prop,
                 settings_grouped: this.settings_grouped_prop,
-                searchSettings: null,
+                searchSettings: "",
             };
         },
         methods: {

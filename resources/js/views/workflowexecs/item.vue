@@ -1,5 +1,5 @@
 <template>
-    <div class="card collapsed-card">
+    <div class="card collapsed-card border-0">
         <div class="card-header border-transparent">
             <h3 class="card-title">Traitement(s)</h3>
 
@@ -12,6 +12,8 @@
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-plus"></i>
                 </button>
+                <!-- Maximize Button -->
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
                 <!--<button type="button" class="btn btn-tool" data-card-widget="remove">
                     <i class="fas fa-times"></i>
                 </button>-->
@@ -92,7 +94,7 @@
 </template>
 
 <script>
-    import ExecProcess from '../workflowexecs/process'
+    import ExecProcess from '../workflowexecs/process_new'
     import ExecStep from '../workflowexecsteps/details'
 
     export default {
@@ -114,8 +116,6 @@
         },
         mounted() {
             this.$on('etape_traitee', (data) => {
-                // Maj des données
-                console.log("etape_traitee - recue", data)
                 this.updateData(data)
             })
         },
@@ -138,11 +138,6 @@
             },
             updateData(data) {
                 this.exec = data;
-
-                window.noty({
-                    message: 'Traitement effectué avec succès',
-                    type: 'success'
-                })
             },
         },
         computed: {

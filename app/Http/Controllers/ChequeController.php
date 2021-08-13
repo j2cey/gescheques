@@ -131,7 +131,13 @@ class ChequeController extends Controller
             'workflowexec.execsteps.execactions.file',
             'workflowexec.execsteps.execactions.file.mimetype',
             'workflowexec.execsteps.execactions.workflowprocessstatus',
-            'workflowexec.currentstep','workflowexec.currentstep.actions',
+
+            'workflowexec.currentstep',
+            'workflowexec.currentstep.actions',
+            'workflowexec.currentstep.validatednextstep',
+            'workflowexec.currentstep.rejectednextstep',
+            'workflowexec.currentstep.expirednextstep',
+
             'workflowexec.workflowstatus','workflowexec.workflowprocessstatus',
             'workflowexec.execsteps.workflowstatus','workflowexec.execsteps.workflowprocessstatus'
         ]);
@@ -203,7 +209,13 @@ class ChequeController extends Controller
             'workflowexec.execsteps.execactions.file',
             'workflowexec.execsteps.execactions.file.mimetype',
             'workflowexec.execsteps.execactions.workflowprocessstatus',
-            'workflowexec.currentstep','workflowexec.currentstep.actions',
+
+            'workflowexec.currentstep',
+            'workflowexec.currentstep.actions',
+            'workflowexec.currentstep.validatednextstep',
+            'workflowexec.currentstep.rejectednextstep',
+            'workflowexec.currentstep.expirednextstep',
+
             'workflowexec.workflowstatus','workflowexec.workflowprocessstatus',
             'workflowexec.execsteps.workflowstatus','workflowexec.execsteps.workflowprocessstatus'
         ]);

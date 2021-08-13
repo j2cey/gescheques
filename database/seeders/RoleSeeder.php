@@ -14,8 +14,8 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
+        $simplerole = Role::create(['name' => 'Simple', 'description' => "System Guess Role"]);
         $adminrole = Role::create(['name' => 'Admin', 'description' => "Administrateur du Système"]);
-        $defaultrole = Role::create(['name' => 'Simple User', 'description' => "Utilisateur invité"]);
         $agences = Role::create(['name' => 'Agences', 'description' => "Employé Agences"]);
         $finances = Role::create(['name' => 'Division Finances', 'description' => "Employé Division Finances"]);
         $dfr = Role::create(['name' => 'DFR', 'description' => "Employé DFR"]);

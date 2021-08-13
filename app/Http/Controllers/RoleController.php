@@ -45,7 +45,7 @@ class RoleController extends Controller
 
     public function fetch(Request $request)
     {
-        $roles = Role::all();
+        $roles = Role::orderBy('name','ASC')->get();
         $roles->load(['permissions']);
         return $roles;
 

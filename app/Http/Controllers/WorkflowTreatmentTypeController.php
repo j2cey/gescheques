@@ -17,6 +17,18 @@ class WorkflowTreatmentTypeController extends Controller
         //
     }
 
+    public function fetchsplitted() {
+        $validation_treatment_type = WorkflowTreatmentType::getValidationType();
+        $rejection_treatment_type = WorkflowTreatmentType::getRejectionType();
+        $expiration_treatment_type = WorkflowTreatmentType::getExpirationType();
+
+        return [
+            'validation_treatment_type' => $validation_treatment_type,
+            'rejection_treatment_type' => $rejection_treatment_type,
+            'expiration_treatment_type' => $expiration_treatment_type
+        ];
+    }
+
     /**
      * Show the form for creating a new resource.
      *

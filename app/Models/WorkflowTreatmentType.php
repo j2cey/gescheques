@@ -45,5 +45,17 @@ class WorkflowTreatmentType extends BaseModel implements Auditable
         return $action;
     }
 
+    public static function getRejectionType() {
+        return self::where('code', "rejection_treatment")->first();
+    }
+
+    public static function getValidationType() {
+        return self::where('code', "validation_treatment")->first();
+    }
+
+    public static function getExpirationType() {
+        return self::where('code', "expiration_treatment")->first();
+    }
+
     #endregion
 }

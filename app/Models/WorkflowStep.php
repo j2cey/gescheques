@@ -225,9 +225,13 @@ class WorkflowStep extends BaseModel implements Auditable
         return WorkflowAction::createExpirationAction($titre, $description, $this, $actiontype, $code);
     }
 
-    public function addMotifRejet() : WorkflowAction {
+    public function addMotifRejet($required = false, $required_msg = "") : WorkflowAction {
         $string_type = WorkflowActionType::where('code', "STRING_value")->first();
-        return $this->addRejectionAction("Motif Rejet", "Motif Rejet",$string_type);
+        $action = $this->addRejectionAction("Motif Rejet", "Motif Rejet",$string_type);
+        if ($required && $required_msg !== "") {
+            $action->setRequired($required, $required_msg, true);
+        }
+        return $action;
     }
 
     public function addValidationFileAction($titre, $description, $code = null) : WorkflowAction {

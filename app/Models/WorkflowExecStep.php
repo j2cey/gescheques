@@ -96,6 +96,66 @@ class WorkflowExecStep extends BaseModel implements Auditable
             $this->setStartAt(true);
         }
 
+        // on récupère les différent types de traitement
+        $rejection_treatment = WorkflowTreatmentType::getRejectionType();
+
+        // on marque l exec d étape comme en cours de traitement
+        $this->setWorkflowStatus('processing', true)
+            ->setWorkflowProcessStatus('processing', true);
+
+        $user = auth()->user();
+        if ($request->treatment_type->id === $rejection_treatment->id) {
+            $this->setWorkflowStatus('rejected', true)
+                ->setWorkflowProcessStatus('rejected', true);
+        } else {
+            $this->setWorkflowStatus('validated', true)
+                ->setWorkflowProcessStatus('processed', true);
+        }
+
+        // Parcourir et traiter les actions
+        $nb_actions_process = 0;
+        $nb_actions_failed = 0;
+
+        foreach ($this->step->actions as $action) {
+
+            if ($action->treatmenttype->id === $request->treatment_type->id) {
+
+                $execaction = $action->launch($this);
+                $execaction->process($request);
+
+                $nb_actions_process += $execaction->save_result > 0 ? 1 : 0;
+                $nb_actions_failed += $execaction->save_result > 0 ? 0 : 1;
+            }
+        }
+
+        if ($nb_actions_process) {
+            // si au moins 1 action est processée,
+            // tout s'est bien passé
+        } else {
+            // sinon
+            // on marque l exec d action d étape comme échouée
+            $this->setWorkflowStatus('pending', true)
+                ->setWorkflowProcessStatus('failed', true);
+        }
+
+        $this->user_id = $user->getAuthIdentifier();
+        $this->username = $user->name;
+
+        // marquer la date de fin d exécution
+        if ( is_null($this->end_at) ) {
+            $this->setEndAt(true);
+        }
+
+        $this->save();
+        return $this;
+    }
+
+    public function process_old(Request $request) {
+        // marquer la date de début d exécution
+        if ( is_null($this->start_at) ) {
+            $this->setStartAt(true);
+        }
+
         // on marque l exec d étape comme en cours de traitement
         $this->setWorkflowStatus('processing', true)
             ->setWorkflowProcessStatus('processing', true);
@@ -140,6 +200,7 @@ class WorkflowExecStep extends BaseModel implements Auditable
                     ->setWorkflowProcessStatus('failed', true);
             }
         }
+
         $this->user_id = $user->getAuthIdentifier();
         $this->username = $user->name;
 

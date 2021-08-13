@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-6 order-1 order-md-1">
 
-                    <div class="card">
+                    <div class="card border-0">
                         <div class="card-header">
                             <h3 class="card-title">
                                 Infos
@@ -35,6 +35,8 @@
                                 <a v-on:click="$emit('cheque_edit',cheque)" class="text text-success">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </a>
+                                <!-- Maximize Button -->
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -65,7 +67,7 @@
 
                 <div class="col-12 col-md-12 col-lg-6 order-2 order-md-1">
 
-                    <div class="card">
+                    <div class="card border-0">
                         <div class="card-header">
                             <h3 class="card-title">
                                 Encaissement ARIS
@@ -73,8 +75,11 @@
 
                             <div class="card-tools" v-if="cheque.encaissement">
                                 <a v-on:click="$emit('encaissement_display', cheque.encaissement)" class="text text-success">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
+
+                                <!-- Maximize Button -->
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -169,7 +174,7 @@
                 return  {
                     'Num. Chèque': this.cheque.CHEQUE_NB,
                     'Code Compte': this.cheque.ACC_CODE,
-                    'Montant Trans.': this.cheque.TRN_AMOUNT
+                    'Montant Frais': this.cheque.TRN_AMOUNT
                 }
             }
         }

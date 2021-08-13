@@ -67,7 +67,7 @@ class InitWorkflowSeeder extends Seeder
             ->setNextStepAfterRejected($this->step_end, true);
         ;
         // ajout d un motif de rejet
-        $step_finances->addMotifRejet();
+        $step_finances->addMotifRejet(true, "Veuillez spécifier le motif");
         //
         $step_finances->addValidationAction("Commentaire (Finances)", "Commentaire (Finances)",$this->string_type);
         //
@@ -80,7 +80,7 @@ class InitWorkflowSeeder extends Seeder
         //
         $step_reception_agences->addValidationAction("Commentaire (Agences)", "Commentaire (Agences)",$this->string_type);
         //
-        $step_reception_agences->addMotifRejet();
+        $step_reception_agences->addMotifRejet(true, "Veuillez spécifier le motif");
 
         // Relance Client
         $step_relance_client = $this->create_step_relance_client($traitement_cheque_impayes_wf)
@@ -100,7 +100,7 @@ class InitWorkflowSeeder extends Seeder
         $step_reouverture_facture->addValidationAction("Numéro facture", "Numéro facture", $this->string_type)
             ->setRequired(true,"Prière de renseigner le numéro de facture", true)
         ;
-        $step_reouverture_facture->addMotifRejet();
+        $step_reouverture_facture->addMotifRejet(true, "Veuillez spécifier le motif");
         $step_relance_client->setNextStepAfterValidated($step_reouverture_facture, true);
 
         // Encaissement Facture
@@ -110,7 +110,7 @@ class InitWorkflowSeeder extends Seeder
         $step_encaissement_facture->addValidationAction("Montant encaissé", "Montant encaissé", $this->string_type)
             ->setRequired(true,"Prière de renseigner le Montant", true)
         ;
-        $step_encaissement_facture->addMotifRejet();
+        $step_encaissement_facture->addMotifRejet(true, "Veuillez spécifier le motif");
         $step_reouverture_facture->setNextStepAfterValidated($step_encaissement_facture, true);
 
         $step_finance_compta = $this->create_step_finance_compta($traitement_cheque_impayes_wf)
@@ -119,14 +119,14 @@ class InitWorkflowSeeder extends Seeder
             ->setNextStepAfterValidated($this->step_end, true)
         ;
         $step_finance_compta->addValidationAction("Commentaire", "Commentaire (Compta)",$this->string_type);
-        $step_finance_compta->addMotifRejet();
+        $step_finance_compta->addMotifRejet(true, "Veuillez spécifier le motif");
         $step_encaissement_facture->setNextStepAfterValidated($step_finance_compta, true);
 
         $step_dfr = $this->create_step_dfr($traitement_cheque_impayes_wf)
             ->setNextStepAfterRejected($this->step_end, true)
         ;
         $step_dfr->addValidationAction("Commentaire", "Commentaire (DFR)",$this->string_type);
-        $step_dfr->addMotifRejet();
+        $step_dfr->addMotifRejet(true, "Veuillez spécifier le motif");
 
         $step_reception_agences->setNextStepAfterRejected($step_dfr, true);
         $step_relance_client->setNextStepAfterRejected($step_dfr, true);

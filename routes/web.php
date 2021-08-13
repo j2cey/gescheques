@@ -26,6 +26,7 @@ use App\Http\Controllers\WorkflowExecActionController;
 use App\Http\Controllers\WorkflowActionTypeController;
 use App\Http\Controllers\WorkflowObjectFieldController;
 use App\Http\Controllers\WorkflowExecModelStepController;
+use App\Http\Controllers\WorkflowTreatmentTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -222,4 +223,8 @@ Route::get('statuses.fetch',[StatusController::class,'fetch'])
     ->middleware('auth');
 Route::get('statuses.fetchone/{id}',[StatusController::class,'fetchone'])
     ->name('statuses.fetchone')
+    ->middleware('auth');
+
+Route::get('workflowtreatmenttypes.fetchsplitted',[WorkflowTreatmentTypeController::class,'fetchsplitted'])
+    ->name('workflowtreatmenttypes.fetchsplitted')
     ->middleware('auth');

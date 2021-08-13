@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\WorkflowStep;
 use Spatie\Permission\Models\Role;
 use App\Models\WorkflowActionType;
+use App\Models\WorkflowTreatmentType;
 
 trait RequestTraits
 {
@@ -99,5 +100,15 @@ trait RequestTraits
             $value = $this->decodeJsonField($value);
         }
         return $value ? WorkflowActionType::where('id', $value['id'])->first() : null;
+    }
+
+    public function setRelevantTreatmentType($value, $json_decode_before = false) {
+        if (is_null($value)) {
+            return null;
+        }
+        if ($json_decode_before) {
+            $value = $this->decodeJsonField($value);
+        }
+        return $value ? WorkflowTreatmentType::where('id', $value['id'])->first() : null;
     }
 }

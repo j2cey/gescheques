@@ -8,7 +8,9 @@ use App\Models\WorkflowStep;
 use Illuminate\Http\Request;
 use App\Models\WorkflowStatus;
 use Illuminate\Support\Carbon;
+use App\Models\WorkflowTreatmentType;
 use App\Http\Requests\CleanRequestTrait;
+use App\Http\Requests\WorkflowExec\UpdateWorkflowExecRequest;
 
 class WorkflowExecController extends Controller
 {
@@ -58,6 +60,11 @@ class WorkflowExecController extends Controller
         $currentstep = WorkflowStep::where('id', $workflowexec->current_step_id)
             ->first()
             ->load(['actions',
+
+                'validatednextstep',
+                'rejectednextstep',
+                'expirednextstep',
+
                 'rejectionactions',
                 'rejectionactions.actiontype',
                 'rejectionactions.enumtype',
@@ -72,12 +79,14 @@ class WorkflowExecController extends Controller
             'reject_comment' => "",
             'current_step_role' => null,
             'role_dynamic_selection' => "role_dynamic_selected",
+            'treatment_type' => WorkflowTreatmentType::getValidationType()
         ];
         $rejectactionvalues = [
             'rejected' => true,
             'reject_comment' => "",
             'current_step_role' => null,
             'role_dynamic_selection' => "role_dynamic_selected",
+            'treatment_type' => WorkflowTreatmentType::getRejectionType()
         ];
         $enumvalues = [];
 
@@ -123,27 +132,13 @@ class WorkflowExecController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param UpdateWorkflowExecRequest $request
      * @param WorkflowExec $workflowexec
-     * @return \Illuminate\Http\Response
+     * @return WorkflowExec
      */
-    public function update(Request $request, WorkflowExec $workflowexec)
+    public function update(UpdateWorkflowExecRequest $request, WorkflowExec $workflowexec)
     {
         $formInput = $request->all();
-        //dd($formInput);
-
-        // Validation
-        $exec = WorkflowExec::with(['workflow','currentstep','currentstep.actions','currentstep.actions.actiontype'])->where('id', $workflowexec->id)->first();
-        $validation_rules = [];
-        $validation_messages = [];
-
-        foreach ($exec->currentstep->actions as $action) {
-            $action->setValidationRules();
-            $validation_rules = array_merge($validation_rules, $action->validation_rules);
-            $validation_messages = array_merge($validation_messages, $action->validation_messages);
-        }
-
-        $request->validate($validation_rules, $validation_messages);
 
         $workflowexec->process($request);
 
@@ -163,7 +158,13 @@ class WorkflowExecController extends Controller
             'execsteps.execactions.file',
             'execsteps.execactions.file.mimetype',
             'execsteps.execactions.workflowprocessstatus',
-            'currentstep','currentstep.actions',
+
+            'currentstep',
+            'currentstep.actions',
+            'currentstep.validatednextstep',
+            'currentstep.rejectednextstep',
+            'currentstep.expirednextstep',
+
             'workflowstatus','workflowprocessstatus',
             'execsteps.workflowstatus','execsteps.workflowprocessstatus'
         ]);
