@@ -87,9 +87,14 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-sm-3 col-6 border-right" }, [
-      _c("span", { staticClass: "text text-sm" }, [
-        _vm._v(_vm._s(_vm.setting.full_path))
-      ])
+      _c(
+        "span",
+        {
+          staticClass: "text text-sm d-inline-block text-truncate text-sm-left",
+          staticStyle: { "max-width": "100%" }
+        },
+        [_vm._v(_vm._s(_vm.setting.full_path))]
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-sm-4 col-6 border-right" }, [

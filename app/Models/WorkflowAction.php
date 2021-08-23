@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-use http\Encoding\Stream;
 use Illuminate\Support\Str;
 use App\Traits\File\HasFiles;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use App\Traits\Image\HasImageFile;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -43,6 +40,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property WorkflowTreatmentType treatmenttype
  */
 class WorkflowAction extends BaseModel implements Auditable
 {
@@ -51,6 +49,46 @@ class WorkflowAction extends BaseModel implements Auditable
 
     public $validation_rules;
     public $validation_messages;
+
+
+    #region Validation Rules
+
+    public static function defaultRules() {
+        return [
+            'titre' => 'required',
+            'actiontype' => 'required',
+            'field_required_msg' => 'required_unless:field_required,0',
+            'field_required_without_msg' => 'required_unless:field_required_without,0',
+            'actionsrequiredwithout' => 'required_unless:field_required_without,0',
+            'field_required_with_msg' => 'required_unless:field_required_with,0',
+            'actionsrequiredwith' => 'required_unless:field_required_with,0',
+            'mimetypes' => 'required_if:actiontype.code,FILE_ref',
+        ];
+    }
+    public static function createRules() {
+        return array_merge(self::defaultRules(), [
+
+        ]);
+    }
+    public static function updateRules($model) {
+        return array_merge(self::defaultRules(), [
+
+        ]);
+    }
+    public static function messagesRules() {
+        return [
+            'titre.required' => 'Prière de Renseigner le Titre',
+            'actiontype.required' => 'Le type d action est requis',
+            'field_required_msg.required_unless' => 'Renseignez un message d erreur',
+            'field_required_without_msg.required_unless' => 'Renseignez un message d erreur',
+            'actionsrequiredwithout.required_unless' => 'Selectionnez les actions concernées',
+            'field_required_with_msg.required_unless' => 'Renseignez un message d erreur',
+            'actionsrequiredwith.required_unless' => 'Selectionnez les actions concernées',
+            'mimetypes.required_if' => 'Selectionnez le(s) type(s) de fichier',
+        ];
+    }
+
+    #endregion
 
     #region Eloquent Relationships
 
@@ -112,41 +150,26 @@ class WorkflowAction extends BaseModel implements Auditable
 
     #endregion
 
-    #region Validation Rules
+    #region Scopes
 
-    public static function defaultRules() {
-        return [
-            'titre' => 'required',
-            'actiontype' => 'required',
-            'field_required_msg' => 'required_unless:field_required,0',
-            'field_required_without_msg' => 'required_unless:field_required_without,0',
-            'actionsrequiredwithout' => 'required_unless:field_required_without,0',
-            'field_required_with_msg' => 'required_unless:field_required_with,0',
-            'actionsrequiredwith' => 'required_unless:field_required_with,0',
-            'mimetypes' => 'required_if:actiontype.code,FILE_ref',
-        ];
+    public function scopeTreatmentType($query, $treatment_type) {
+        return $query->where('workflow_treatment_type_id', $treatment_type->id);
     }
-    public static function createRules() {
-        return array_merge(self::defaultRules(), [
 
-        ]);
+    public function scopeTreatmentTypePass($query) {
+        return $this->scopeTreatmentType($query, WorkflowTreatmentType::getPassType());
     }
-    public static function updateRules($model) {
-        return array_merge(self::defaultRules(), [
 
-        ]);
+    public function scopeTreatmentTypeReject($query) {
+        return $this->scopeTreatmentType($query, WorkflowTreatmentType::getRejectType());
     }
-    public static function messagesRules() {
-        return [
-            'titre.required' => 'Prière de Renseigner le Titre',
-            'actiontype.required' => 'Le type d action est requis',
-            'field_required_msg.required_unless' => 'Renseignez un message d erreur',
-            'field_required_without_msg.required_unless' => 'Renseignez un message d erreur',
-            'actionsrequiredwithout.required_unless' => 'Selectionnez les actions concernées',
-            'field_required_with_msg.required_unless' => 'Renseignez un message d erreur',
-            'actionsrequiredwith.required_unless' => 'Selectionnez les actions concernées',
-            'mimetypes.required_if' => 'Selectionnez le(s) type(s) de fichier',
-        ];
+
+    public function scopeTreatmentTypeExpire($query) {
+        return $this->scopeTreatmentType($query, WorkflowTreatmentType::getExpireType());
+    }
+
+    public function scopeTreatmentTypeAllways($query) {
+        return $this->scopeTreatmentType($query, WorkflowTreatmentType::getAllwaysType());
     }
 
     #endregion
@@ -327,7 +350,7 @@ class WorkflowAction extends BaseModel implements Auditable
     }
 
     public function setValidationTreatmentType($save = true) {
-        $validation_treatment_type = WorkflowTreatmentType::where('code', "validation_treatment")->first();
+        $validation_treatment_type = WorkflowTreatmentType::getPassType();
         if ( $validation_treatment_type) {
             $this->setTreatmentType($validation_treatment_type, $save);
             if ($save) { $this->save(); }
@@ -337,7 +360,7 @@ class WorkflowAction extends BaseModel implements Auditable
     }
 
     public function setRejectionTreatmentType($save = true) {
-        $rejection_treatment_type = WorkflowTreatmentType::where('code', "rejection_treatment")->first();
+        $rejection_treatment_type = WorkflowTreatmentType::getRejectType();
         if ( $rejection_treatment_type) {
             $this->setTreatmentType($rejection_treatment_type, $save);
             if ($save) { $this->save(); }
@@ -347,7 +370,7 @@ class WorkflowAction extends BaseModel implements Auditable
     }
 
     public function setExpirationTreatmentType($save = true) {
-        $expiration_treatment_type = WorkflowTreatmentType::where('code', "expiration_treatment")->first();
+        $expiration_treatment_type = WorkflowTreatmentType::getExpireType();
         if ( $expiration_treatment_type) {
             $this->setTreatmentType($expiration_treatment_type, $save);
             if ($save) { $this->save(); }

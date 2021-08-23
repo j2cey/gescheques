@@ -76,12 +76,12 @@
                     'exec': process_data.exec,
                     'currentstep': process_data.currentstep,
                     'nextstep': {
-                        [validation_treatment_type_code]: process_data.currentstep.validatednextstep,
-                        [rejection_treatment_type_code]: process_data.currentstep.rejectednextstep
+                        [validation_treatment_type_code]: process_data.currentstep.transitionpassstep,
+                        [rejection_treatment_type_code]: process_data.currentstep.transitionrejectstep
                     },
                     'actions': {
-                        [validation_treatment_type_code]: process_data.currentstep.validationactions,
-                        [rejection_treatment_type_code]: process_data.currentstep.rejectionactions
+                        [validation_treatment_type_code]: process_data.currentstep.actionspass,
+                        [rejection_treatment_type_code]: process_data.currentstep.actionsreject
                     },
                     'actionvalues': {
                         [validation_treatment_type_code]: process_data.actionvalues,

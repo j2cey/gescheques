@@ -31,6 +31,9 @@ class CreateWorkflowObjectsTable extends Migration
                 ->constrained('workflow_objects')->onDelete('set null');
 
             $table->string('ref_field')->nullable()->comment('champs référence');
+
+            $table->string('route_raw')->comment('route url');
+            $table->string('route_show')->comment('route show url');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }

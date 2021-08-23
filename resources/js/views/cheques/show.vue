@@ -127,11 +127,10 @@
     import ChequeBus from "./chequeBus";
 
     export default {
-        name: "show",
+        name: "cheque-show",
         props: {
             cheque_prop: {},
             actionvalues_prop: {},
-            hasexecrole_prop: 0,
             userprofiles_prop: {}
         },
         components: {
@@ -149,8 +148,6 @@
             return {
                 cheque: this.cheque_prop,
                 actionvalues: this.actionvalues_prop,
-                hasexecrole: this.hasexecrole_prop,
-                workflowexecForm: new Form({ 'actionvalues': this.actionvalues_prop }),
                 filename: 'Télécharger un fichier',
                 filefieldname: null,
                 selectedFile : null,

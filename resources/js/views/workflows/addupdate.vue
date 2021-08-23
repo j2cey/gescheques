@@ -68,6 +68,8 @@
 <script>
     import Multiselect from 'vue-multiselect'
 
+    import WorkflowBus from "./workflowBus";
+
     class Workflow {
         constructor(workflow) {
             this.titre = workflow.titre || ''
@@ -90,7 +92,7 @@
                 $('#addUpdateWorkflow').modal()
             })
 
-            this.$parent.$on('edit_workflow', ({ workflow }) => {
+            WorkflowBus.$on('edit_workflow', ({ workflow }) => {
                 this.editing = true
                 this.workflow = new Workflow(workflow)
                 this.workflowForm = new Form(this.workflow)
@@ -134,7 +136,7 @@
                     .put(`/workflows/${this.workflowId}`,undefined)
                     .then(updworkflow => {
                         this.loading = false
-                        this.$parent.$emit('workflow_updated', updworkflow)
+                        WorkflowBus.$emit('workflow_updated', updworkflow)
                         $('#addUpdateWorkflow').modal('hide')
                     }).catch(error => {
                     this.loading = false

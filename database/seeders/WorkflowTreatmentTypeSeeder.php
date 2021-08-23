@@ -14,8 +14,9 @@ class WorkflowTreatmentTypeSeeder extends Seeder
      */
     public function run()
     {
-        WorkflowTreatmentType::createNew("validation", "validation_treatment", "Traitement de validation");
-        WorkflowTreatmentType::createNew("rejet", "rejection_treatment", "Traitement de rejet");
-        WorkflowTreatmentType::createNew("expiration", "expiration_treatment", "Traitement d expiration");
+        WorkflowTreatmentType::createNew("validation", "pass", "Traitement de validation", "approve");
+        WorkflowTreatmentType::createNew("rejet", "reject", "Traitement de rejet", "delete");
+        WorkflowTreatmentType::createNew("expiration", "expire", "Traitement d expiration", "delete");
+        WorkflowTreatmentType::createNew("toujours", "allways", "Tout Traitement", "delete");
     }
 }

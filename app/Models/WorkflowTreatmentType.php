@@ -33,11 +33,12 @@ class WorkflowTreatmentType extends BaseModel implements Auditable
 
     #region Custom Functions - Create/Update
 
-    public static function createNew($name, $code, $description): WorkflowTreatmentType {
+    public static function createNew($name, $code, $description, $stylingClass): WorkflowTreatmentType {
         $action = WorkflowTreatmentType::create([
             'name' => $name,
             'code' => is_null($code) ? Str::slug('treatment_type_' . (string)Str::orderedUuid(), "_" ) : $code,
             'description' => $description,
+            'stylingClass' => $stylingClass,
         ]);
 
         $action->save();
@@ -45,16 +46,24 @@ class WorkflowTreatmentType extends BaseModel implements Auditable
         return $action;
     }
 
-    public static function getRejectionType() {
-        return self::where('code', "rejection_treatment")->first();
+    public static function getType($code) {
+        return self::where('code', $code)->first();
     }
 
-    public static function getValidationType() {
-        return self::where('code', "validation_treatment")->first();
+    public static function getRejectType() {
+        return self::where('code', "reject")->first();
     }
 
-    public static function getExpirationType() {
-        return self::where('code', "expiration_treatment")->first();
+    public static function getPassType() {
+        return self::where('code', "pass")->first();
+    }
+
+    public static function getExpireType() {
+        return self::where('code', "expire")->first();
+    }
+
+    public static function getAllwaysType() {
+        return self::where('code', "allways")->first();
     }
 
     #endregion

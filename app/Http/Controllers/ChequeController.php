@@ -107,7 +107,7 @@ class ChequeController extends Controller
         $user = auth()->user();
         $userprofiles = $user->roles()->get();
 
-        $exec_step_profile = $cheque->workflowexec->currentstep->profile;
+        $exec_step_profiles = $cheque->workflowexec->currentstep->approvers->pluck('name');
 
         // récupérer le bon profile utilisateur
         /*if (! is_null($exec_step_profile)) {
@@ -122,32 +122,31 @@ class ChequeController extends Controller
         $cheque->load([
             'workflowexec',
             'workflowexec.prevstep',
-            'workflowexec.nextstep',
+            //'workflowexec.nextstep',
             'workflowexec.execsteps',
             'workflowexec.execsteps.step',
-            'workflowexec.currentprofile',
-            'workflowexec.execsteps.effectiverole',
+            'workflowexec.currentapprovers',
+            'workflowexec.execsteps.effectiveapprovers',
             'workflowexec.execsteps.execactions',
             'workflowexec.execsteps.execactions.file',
             'workflowexec.execsteps.execactions.file.mimetype',
             'workflowexec.execsteps.execactions.workflowprocessstatus',
 
             'workflowexec.currentstep',
+            'workflowexec.currentstep.type',
             'workflowexec.currentstep.actions',
-            'workflowexec.currentstep.validatednextstep',
-            'workflowexec.currentstep.rejectednextstep',
-            'workflowexec.currentstep.expirednextstep',
+            'workflowexec.currentstep.transitionpassstep',
+            'workflowexec.currentstep.transitionrejectstep',
+            'workflowexec.currentstep.transitionexpirestep',
 
             'workflowexec.workflowstatus','workflowexec.workflowprocessstatus',
             'workflowexec.execsteps.workflowstatus','workflowexec.execsteps.workflowprocessstatus'
         ]);
         $cheque->load(['encaissement','encaissement.agence']);
 
-        $hasexecrole = $exec_step_profile ? ( $user->hasRole([$exec_step_profile->name]) ? 1 : 0 ) : 0;
-
         $actionvalues = [];
 
-        return view('cheques.show', ['cheque' => $cheque, 'actionvalues' => json_encode($actionvalues), 'hasexecrole' => $hasexecrole, 'userprofiles' => $userprofiles]);
+        return view('cheques.show', ['cheque' => $cheque, 'actionvalues' => json_encode($actionvalues), 'userprofiles' => $userprofiles]);
     }
 
     /**
@@ -161,20 +160,20 @@ class ChequeController extends Controller
         $user = auth()->user();
         $userprofile = $user->roles()->first();
 
-        $exec_step_profile = $cheque->workflowexec->currentstep->profile;
+        $exec_step_profiles = $cheque->workflowexec->currentstep->approvers->pluck('name');
 
         // récupérer le bon profile utilisateur
-        if ($user->hasRole([$exec_step_profile->name])) {
-            $userprofile = $exec_step_profile;
+        if ($user->hasRole($exec_step_profiles)) {
+            $userprofile = $exec_step_profiles;
         }
 
         $cheque = Cheque::where('id',$cheque->id)
             ->first();
 
         //$cheque->load(['currmodelstep','currmodelstep.exec','currmodelstep.exec.currentstep','currmodelstep.exec.currentstep.profile','currmodelstep.step','currmodelstep.actions']);
-        $cheque->load(['workflowexec','workflowexec.currentstep','workflowexec.currentstep.profile']);
+        $cheque->load(['workflowexec','workflowexec.currentstep','workflowexec.currentstep.approvers']);
 
-        $hasexecrole = $exec_step_profile ? ( $user->hasRole([$exec_step_profile->name]) ? 1 : 0 ) : 0;
+        $hasexecrole = $exec_step_profiles ? ( $user->hasRole($exec_step_profiles) ? 1 : 0 ) : 0;
 
         $actionvalues = [];
 
@@ -200,21 +199,22 @@ class ChequeController extends Controller
         $cheque->load([
             'workflowexec',
             'workflowexec.prevstep',
-            'workflowexec.nextstep',
+            //'workflowexec.nextstep',
             'workflowexec.execsteps',
             'workflowexec.execsteps.step',
-            'workflowexec.currentprofile',
-            'workflowexec.execsteps.effectiverole',
+            'workflowexec.currentapprovers',
+            'workflowexec.execsteps.effectiveapprovers',
             'workflowexec.execsteps.execactions',
             'workflowexec.execsteps.execactions.file',
             'workflowexec.execsteps.execactions.file.mimetype',
             'workflowexec.execsteps.execactions.workflowprocessstatus',
 
             'workflowexec.currentstep',
+            'workflowexec.currentstep.type',
             'workflowexec.currentstep.actions',
-            'workflowexec.currentstep.validatednextstep',
-            'workflowexec.currentstep.rejectednextstep',
-            'workflowexec.currentstep.expirednextstep',
+            'workflowexec.currentstep.transitionpassstep',
+            'workflowexec.currentstep.transitionrejectstep',
+            'workflowexec.currentstep.transitionexpirestep',
 
             'workflowexec.workflowstatus','workflowexec.workflowprocessstatus',
             'workflowexec.execsteps.workflowstatus','workflowexec.execsteps.workflowprocessstatus'

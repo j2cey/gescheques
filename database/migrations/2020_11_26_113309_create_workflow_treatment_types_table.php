@@ -26,6 +26,7 @@ class CreateWorkflowTreatmentTypesTable extends Migration
             $table->string('name')->comment('treatment type name');
             $table->string('code', 100)->unique()->comment('treatment type code');
             $table->string('description')->nullable()->comment('treatment type description');
+            $table->string('stylingClass')->nullable()->comment('classe de style pour le diagramme');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }

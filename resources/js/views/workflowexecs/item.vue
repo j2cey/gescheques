@@ -21,7 +21,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body p-0">
-            <div class="card-body table-responsive p-0" style="height: 200px;">
+            <div class="card-body table-responsive p-0" style="min-height: 200px;">
                 <table class="table m-0">
                     <thead v-if="exec.execsteps.length > 0">
                         <tr class="text text-sm">
@@ -77,9 +77,9 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4">
-                    <div v-if="exec.nextstep" class="description-block">
+                    <div v-if="exec.currentstep.transitionpassstep" class="description-block">
                         <h5 class="description-header"><i class="fa fa-arrow-right"></i></h5>
-                        <span class="text text-sm">{{ exec.nextstep.titre }}</span>
+                        <span class="text text-sm">{{ exec.currentstep.transitionpassstep.titre }}</span>
                     </div>
                     <!-- /.description-block -->
                 </div>
@@ -143,14 +143,23 @@
         computed: {
             canexecworkflowstep() {
 
-                if (this.exec.currentprofile) {
-                    let currentprofile = this.exec.currentprofile
+                if (this.exec.workflowstatus.code === 'processing' || this.exec.currentstep.type.code === 'end') {
+                    return false;
+                } else if (this.exec.currentapprovers) {
+                    let currentapprovers = this.exec.currentapprovers
 
-                    let roleIndex = this.userprofiles.findIndex(r => {
-                        return currentprofile.id === r.id
-                    })
+                    var found = false;
+                    for (var i = 0; i < currentapprovers.length; i++) {
+                        var roleIndex = this.userprofiles.findIndex(r => {
+                            return currentapprovers[i].id === r.id
+                        })
+                        if (roleIndex > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
 
-                    return roleIndex !== -1;
+                    return found; //roleIndex !== -1;
                 } else {
                     return false
                 }

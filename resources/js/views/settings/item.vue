@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-sm-3 col-6 border-right">
-            <span class="text text-sm">{{ setting.full_path }}</span>
+            <span class="text text-sm d-inline-block text-truncate text-sm-left" style="max-width: 100%;">{{ setting.full_path }}</span>
         </div>
         <!-- /.col -->
         <div class="col-sm-4 col-6 border-right">

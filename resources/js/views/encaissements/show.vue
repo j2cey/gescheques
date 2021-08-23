@@ -83,7 +83,7 @@
 
 <script>
     export default {
-        name: "show",
+        name: "encaissement-show",
         mounted() {
 
             this.$parent.$on('encaissement_display', (record) => {

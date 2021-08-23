@@ -151,7 +151,7 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     $props: {
       handler: function handler() {
-        this.parseProsData(); // anytime any props would change, I needed to parse my data again
+        this.parsePropsData(); // anytime any props would change, I needed to parse my data again
       },
       deep: true,
       // so it not only watches $props but also it's nested values like e.g. props.myProp
@@ -196,7 +196,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    parseProsData: function parseProsData() {
+    parsePropsData: function parsePropsData() {
       this.treatment_type = this.treatment_type_prop;
     },
     parseData: function parseData(wfexec, currentstep, nextstep, actions, actionvalues, enumvalues) {
@@ -239,7 +239,7 @@ __webpack_require__.r(__webpack_exports__);
     processData: function processData(execId) {
       var _this3 = this;
 
-      if (this.treatment_type === "rejection") {
+      if (this.treatment_type.code === "reject") {
         this.$swal({
           html: '<small>Voulez-vous vraiment rejéter cette étape ?</small>',
           icon: 'warning',

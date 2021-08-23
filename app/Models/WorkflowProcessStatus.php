@@ -25,6 +25,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class WorkflowProcessStatus extends BaseModel implements Auditable
 {
+    const CODE_PENDING = 'pending';
+    const CODE_PROCESSING = 'processing';
+    const CODE_PROCESSED = 'processed';
+    const CODE_FAILED = 'failed';
+
     use HasFactory, \OwenIt\Auditing\Auditable;
     protected $guarded = [];
 

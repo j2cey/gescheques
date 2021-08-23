@@ -100,7 +100,7 @@ class Setting extends Model implements Auditable
             return $setting['value'];
         } elseif ($setting['type'] === "integer") {
             return (int)$setting['value'];
-        } elseif ($setting['type'] === "bool") {
+        } elseif ($setting['type'] === "bool" || $setting['type'] === "boolean") {
             return (bool)$setting['value'];
         } elseif ($setting['type'] === "float") {
             return (float)$setting['value'];

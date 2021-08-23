@@ -1,0 +1,7 @@
+@extends('app_no_footer')
+
+@section('app_content')
+ :nodes_prop="{{ $nodes->toJson() }}" :connections_prop="{{ json_encode($connections) }}"
+    <workflow-flowchart :states_prop="{{ $states->toJson() }}" :transitions_prop="{{ $transitions->toJson() }}" :statesemantics_prop="{{ $stateSemantics->toJson() }}"></workflow-flowchart>
+    <workflow-flowchart :states_prop="{{ $states->toJson() }}" :transitions_prop="{{ $transitions->toJson() }}" :statesemantics_prop="{{ $stateSemantics->toJson() }}"></workflow-flowchart>
+@endsection

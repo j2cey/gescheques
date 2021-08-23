@@ -24,7 +24,7 @@ class WorkflowStepController extends Controller
     public function index()
     {
         $workflowsteps = WorkflowStep::orderBy('posi','ASC')->get();
-        $workflowsteps->load(['profile','actions']);
+        $workflowsteps->load(['approvers','actions']);
 
         return $workflowsteps;
     }
@@ -57,17 +57,17 @@ class WorkflowStepController extends Controller
 
         $workflow = Workflow::where('id', $formInput['workflow_id'])->first();
         //$titre, $description, $workflow = null, $code = null, $validated_nextstep = null, $rejected_nextstep = null
-        $new_workflowstep = WorkflowStep::createNew($formInput['titre'], $formInput['description'], $workflow, null, $formInput['validatednextstep'], $formInput['rejectednextstep'])
-            ->setProfileStatic($formInput['role_static'],$formInput['profile'],true)
+        $new_workflowstep = WorkflowStep::createNew($formInput['titre'], $formInput['description'], $workflow, null, $formInput['transitionpassstep'], $formInput['transitionrejectstep'])
+            ->setApproversStatic($formInput['role_static'],$formInput['approvers'],true)
             ->setProfileDynamic($formInput['role_dynamic'], $formInput['role_dynamic_label'], $formInput['role_dynamic_previous_label'],true)
             ->setProfilePrevious($formInput['role_previous'],true)
-            ->setExpiration($formInput['can_expire'], $formInput['expirednextstep'], $formInput['expire_hours'], $formInput['expire_days'],true)
-            ->setNotifyToProfile($formInput['notify_to_profile'], true)
+            //->setExpiration($formInput['can_expire'], $formInput['transitionexpirestep'], "", "", $formInput['expire_hours'], $formInput['expire_days'],true)
+            ->setNotifyToProfile($formInput['notify_to_approvers'], true)
             ->setNotifyToOthers($formInput['notify_to_others'], $formInput['otherstonotify'], true)
-            ->setSetpParent($formInput['stepparent'], true)
+            ->setStepParent($formInput['stepparent'], true)
         ;
 
-        return $new_workflowstep->load(['actions','profile','stepparent','validatednextstep','rejectednextstep','expirednextstep','otherstonotify']);
+        return $this->returnStepLoaded($new_workflowstep);
     }
 
     /**
@@ -109,7 +109,7 @@ class WorkflowStepController extends Controller
             // Déplacement de l'étape
             $this->reorder($workflowstep, $formInput['oldIndex'], $formInput['newIndex']);
             $workflowsteps = WorkflowStep::where('workflow_id',$formInput['workflow_id'])->orderBy('posi','ASC')->get();
-            return $workflowsteps->load(['actions','profile']);
+            return $workflowsteps->load(['actions','approvers']);
         } else {
             // Modification simple
 
@@ -119,18 +119,16 @@ class WorkflowStepController extends Controller
                 'workflow_id' => $formInput['workflow_id'],
             ]);
 
-            $workflowstep->setProfileStatic($formInput['role_static'],$formInput['profile'],true)
+            $workflowstep->setApproversStatic($formInput['role_static'],$formInput['approvers'],true)
                 ->setProfileDynamic($formInput['role_dynamic'], $formInput['role_dynamic_label'], $formInput['role_dynamic_previous_label'],true)
                 ->setProfilePrevious($formInput['role_previous'],true)
-                ->setNextStepAfterValidated($formInput['validatednextstep'], true)
-                ->setNextStepAfterRejected($formInput['rejectednextstep'], true)
-                ->setExpiration($formInput['can_expire'], $formInput['expirednextstep'], $formInput['expire_hours'], $formInput['expire_days'],true)
-                ->setNotifyToProfile($formInput['notify_to_profile'], true)
+                //->setExpiration($formInput['can_expire'], $formInput['transitionexpirestep'], $formInput['expire_hours'], $formInput['expire_days'],true)
+                ->setNotifyToProfile($formInput['notify_to_approvers'], true)
                 ->setNotifyToOthers($formInput['notify_to_others'], $formInput['otherstonotify'], true)
-                ->setSetpParent($formInput['stepparent'], true)
+                ->setStepParent($formInput['stepparent'], true)
             ;
 
-            return $workflowstep->load(['actions','profile','stepparent','validatednextstep','rejectednextstep','expirednextstep','otherstonotify']);
+            return $this->returnStepLoaded($workflowstep);
         }
     }
 
@@ -173,5 +171,20 @@ class WorkflowStepController extends Controller
                 ->get();
             return $steps;
         }
+    }
+
+    private function returnStepLoaded(WorkflowStep $step) {
+        return $step->load([
+            'actions',
+            'approvers',
+            'stepparent',
+            'actionspass',
+            'actionsreject',
+            'actionsexpire',
+            'otherstonotify',
+            'transitionpassstep',
+            'transitionrejectstep',
+            'transitionexpirestep'
+        ]);
     }
 }

@@ -14,8 +14,8 @@ use App\Models\WorkflowTreatmentType;
  */
 class UpdateWorkflowExecRequest extends WorkflowExecRequest
 {
-    private WorkflowTreatmentType $treatment_type;
-    private ?Role $current_step_role;
+    public WorkflowTreatmentType $treatment_type;
+    public ?Role $current_step_role;
     public array $validation_rules = [];
     public array $validation_messages = [];
 

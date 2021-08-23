@@ -90,6 +90,15 @@ Route::resource('workflows',WorkflowController::class)->middleware('auth');
 Route::get('workflows.fetch',[WorkflowController::class,'fetch'])
     ->name('workflows.fetch')
     ->middleware('auth');
+Route::get('workflows.fetchflowchart/{id}',[WorkflowController::class,'fetchflowchart'])
+    ->name('workflows.fetchflowchart')
+    ->middleware('auth');
+Route::get('workflows.flowchart/{id}',[WorkflowController::class,'flowchart'])
+    ->name('workflows.flowchart')
+    ->middleware('auth');
+Route::post('workflows.storeflowchart/{workflow}',[WorkflowController::class,'storeflowchart'])
+    ->name('workflows.storeflowchart')
+    ->middleware('auth');
 
 #endregion
 

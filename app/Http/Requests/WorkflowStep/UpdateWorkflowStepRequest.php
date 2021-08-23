@@ -35,7 +35,7 @@ class UpdateWorkflowStepRequest extends WorkflowStepRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'profile' => $this->setRelevantRole($this->input('profile'), true),
+            'approvers' => $this->setRelevantIdsList($this->input('approvers'), true),
             'validatednextstep' => $this->setRelevantStep($this->input('validatednextstep'), true),
             'rejectednextstep' => $this->setRelevantStep($this->input('rejectednextstep'), true),
             'expirednextstep' => $this->setRelevantStep($this->input('expirednextstep'), true),
@@ -43,7 +43,7 @@ class UpdateWorkflowStepRequest extends WorkflowStepRequest
             'role_dynamic' => $this->setCheckOrOptionValue($this->input('role_dynamic')),
             'role_previous' => $this->setCheckOrOptionValue($this->input('role_previous')),
             'can_expire' => $this->setCheckOrOptionValue($this->input('can_expire')),
-            'notify_to_profile' => $this->setCheckOrOptionValue($this->input('notify_to_profile')),
+            'notify_to_approvers' => $this->setCheckOrOptionValue($this->input('notify_to_approvers')),
             'notify_to_others' => $this->setCheckOrOptionValue($this->input('notify_to_others')),
             'expire_hours' => intval($this->input('expire_hours')),
             'expire_days' => intval($this->input('expire_days')),

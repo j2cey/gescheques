@@ -20,27 +20,26 @@
                 <!-- Emphasis label -->
                 <a class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
                     <i class="fas fa-users"></i>
-                    <span v-if="element.profile">{{ element.profile.name }}</span>
+                    <span v-if="element.approvers.length > 0">{{ element.approvers[0].name }}</span>
                     <span v-else-if="element.role_dynamic">Dynamique</span>
                     <span v-else-if="element.role_previous">Précédent</span>
                     <span v-else>ND</span>
                 </a>
-                <a v-if="element.validationactions" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
-                    <span v-if="element.validationactions.length === 0" class="badge bg-danger">{{ element.validationactions.length }}</span>
-                    <span v-else class="badge bg-success">{{ element.validationactions.length }}</span>
+                <a v-if="element.actionspass" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
+                    <span v-if="element.actionspass.length === 0" class="badge bg-danger">{{ element.actionspass.length }}</span>
+                    <span v-else class="badge bg-success">{{ element.actionspass.length }}</span>
                     <i class="fas fa-check"></i> Validation
                 </a>
-                <a v-if="element.rejectionactions" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
-                    <span v-if="element.rejectionactions.length === 0" class="badge bg-danger">{{ element.rejectionactions.length }}</span>
-                    <span v-else class="badge bg-success">{{ element.rejectionactions.length }}</span>
+                <a v-if="element.actionsreject" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
+                    <span v-if="element.actionsreject.length === 0" class="badge bg-danger">{{ element.actionsreject.length }}</span>
+                    <span v-else class="badge bg-success">{{ element.actionsreject.length }}</span>
                     <i class="fas fa-times"></i> Réjet
                 </a>
-                <a v-if="element.expirationactions" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
-                    <span v-if="element.expirationactions.length === 0" class="badge bg-danger">{{ element.expirationactions.length }}</span>
-                    <span v-else class="badge bg-success">{{ element.expirationactions.length }}</span>
+                <a v-if="element.actionsexpire" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
+                    <span v-if="element.actionsexpire.length === 0" class="badge bg-danger">{{ element.actionsexpire.length }}</span>
+                    <span v-else class="badge bg-success">{{ element.actionsexpire.length }}</span>
                     <i class="fas fa-clock"></i> Expiration
                 </a>
-
 
                 <!-- General tools such as edit or delete-->
                 <div class="tools">
@@ -116,7 +115,7 @@
         data() {
             return {
                 workflowsteps: this.workflowsteps_prop,
-                enabled: true, // TODO: Nettoyer composant (rétirer les lignes de codes inutiles)
+                enabled: false,
                 dragging: false
             };
         },

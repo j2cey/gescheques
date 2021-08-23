@@ -18,9 +18,9 @@ class WorkflowTreatmentTypeController extends Controller
     }
 
     public function fetchsplitted() {
-        $validation_treatment_type = WorkflowTreatmentType::getValidationType();
-        $rejection_treatment_type = WorkflowTreatmentType::getRejectionType();
-        $expiration_treatment_type = WorkflowTreatmentType::getExpirationType();
+        $validation_treatment_type = WorkflowTreatmentType::getPassType();
+        $rejection_treatment_type = WorkflowTreatmentType::getRejectType();
+        $expiration_treatment_type = WorkflowTreatmentType::getExpireType();
 
         return [
             'validation_treatment_type' => $validation_treatment_type,

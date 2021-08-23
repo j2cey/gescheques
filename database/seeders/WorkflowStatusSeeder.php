@@ -29,6 +29,9 @@ class WorkflowStatusSeeder extends Seeder
             ],
             [
                 'name' => "Traitement Rejété", 'code' => "rejected", 'is_default' => 0
+            ],
+            [
+                'name' => "Traitement Rejété", 'code' => "expired", 'is_default' => 0
             ]
         ];
         foreach ($statuses as $status) {

@@ -32,25 +32,13 @@ class CreateWorkflowStepsTable extends Migration
                 ->comment('référence du workflow parent')
                 ->constrained()->onDelete('set null');
 
-            $table->foreignId('role_id')->nullable()
-                ->comment('référence du profile de l acteur potentiel')
+            $table->foreignId('workflow_step_type_id')->nullable()
+                ->comment('référence du type d étape')
                 ->constrained()->onDelete('set null');
 
             // Etape parente (fait de l étape une sous-étape)
             $table->foreignId('step_parent_id')->nullable()
                 ->comment('référence de l étape parente le cas échéant')
-                ->constrained('workflow_steps')->onDelete('set null');
-
-            $table->foreignId('validated_nextstep_id')->nullable()
-                ->comment('référence de la prochaine etape apres validation')
-                ->constrained('workflow_steps')->onDelete('set null');
-
-            $table->foreignId('rejected_nextstep_id')->nullable()
-                ->comment('référence de la prochaine etape apres rejet')
-                ->constrained('workflow_steps')->onDelete('set null');
-
-            $table->foreignId('expired_nextstep_id')->nullable()
-                ->comment('référence de la prochaine etape apres expiration de l étape')
                 ->constrained('workflow_steps')->onDelete('set null');
 
             $table->string('code')->unique()->comment('code de l étape');
@@ -67,7 +55,7 @@ class CreateWorkflowStepsTable extends Migration
             $table->integer('expire_days')->nullable()->comment('nombre de jours de validité de l étape');
 
             // Notification de l étape
-            $table->boolean('notify_to_profile')->default(false)->comment('notifier à tous les acteurs ayant le profile de l étape');
+            $table->boolean('notify_to_approvers')->default(false)->comment('notifier à tous les acteurs ayant le(s) profile(s) de l étape');
             $table->boolean('notify_to_others')->default(false)->comment('notifier à d autres personnes');
 
             // Prochaine étape après validation
@@ -77,6 +65,12 @@ class CreateWorkflowStepsTable extends Migration
             // Prochaine étape après réjet
             $table->boolean('rejected_nextstep_dynamic')->default(false)->comment('détermine si la prochaine etape apres réjet doit être dynamique');
             $table->boolean('rejected_nextstep_static')->default(false)->comment('détermine si la prochaine etape apres réjet doit être statique');
+
+            $table->string('stylingClass')->nullable()->comment('classe de style pour le diagramme');
+            $table->integer('flowchart_position_x')->nullable()->comment('position x sur le diagramme');
+            $table->integer('flowchart_position_y')->nullable()->comment('position y sur le diagramme');
+            $table->integer('flowchart_size_width')->nullable()->comment('largeur du noeud sur le diagramme');
+            $table->integer('flowchart_size_height')->nullable()->comment('hauteur du noeud sur le diagramme');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }
@@ -91,12 +85,8 @@ class CreateWorkflowStepsTable extends Migration
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
             $table->dropForeign(['workflow_id']);
-            $table->dropForeign(['role_id']);
+            $table->dropForeign(['workflow_step_type_id']);
             $table->dropForeign(['step_parent_id']);
-
-            $table->dropForeign(['validated_nextstep_id']);
-            $table->dropForeign(['rejected_nextstep_id']);
-            $table->dropForeign(['expired_nextstep_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

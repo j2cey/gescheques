@@ -33,9 +33,9 @@ class CreateWorkflowExecStepsTable extends Migration
                 ->comment('référence de l etape de workflow')
                 ->constrained()->onDelete('set null');
 
-            $table->foreignId('effective_role_id')->nullable()
+            /*$table->foreignId('effective_role_id')->nullable()
                 ->comment('référence de l etape de workflow')
-                ->constrained('roles')->onDelete('set null');
+                ->constrained('roles')->onDelete('set null');*/
 
             $table->foreignId('workflow_status_id')->nullable()
                 ->comment('référence du statut de workflow')
@@ -76,7 +76,7 @@ class CreateWorkflowExecStepsTable extends Migration
             $table->dropBaseForeigns();
             $table->dropForeign(['workflow_exec_id']);
             $table->dropForeign(['workflow_step_id']);
-            $table->dropForeign(['effective_role_id']);
+            //$table->dropForeign(['effective_role_id']);
             $table->dropForeign(['workflow_status_id']);
             $table->dropForeign(['workflow_process_status_id']);
             $table->dropForeign(['user_id']);

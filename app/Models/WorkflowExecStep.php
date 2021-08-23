@@ -5,11 +5,14 @@ namespace App\Models;
 use PHPUnit\Util\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Traits\Report\HasReport;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Contracts\Auditable;
 use App\Traits\Workflow\HasWorkflowStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Http\Requests\WorkflowExec\UpdateWorkflowExecRequest;
 
 /**
  * Class WorkflowExecStep
@@ -46,10 +49,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property WorkflowStep step
  */
 class WorkflowExecStep extends BaseModel implements Auditable
 {
-    use HasFactory, HasWorkflowStatus, \OwenIt\Auditing\Auditable;
+    use HasFactory, HasWorkflowStatus, HasReport, \OwenIt\Auditing\Auditable;
     protected $guarded = [];
 
     #region Eloquent Relationships
@@ -75,11 +79,11 @@ class WorkflowExecStep extends BaseModel implements Auditable
     }
 
     /**
-     * Role utilisé à l'exécution
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * Liste des profiles appliqués à l'exécution
+     * @return BelongsToMany
      */
-    public function effectiverole() {
-        return $this->belongsTo(Role::class, 'effective_role_id');
+    public function effectiveapprovers() {
+        return $this->belongsToMany(Role::class, 'workflow_exec_step_effectiverole', 'workflow_exec_step_id', 'role_id');
     }
 
     public function user() {
@@ -90,52 +94,55 @@ class WorkflowExecStep extends BaseModel implements Auditable
 
     #region Custom Functions
 
-    public function process(Request $request) {
+    public function process(UpdateWorkflowExecRequest $request) {
         // marquer la date de début d exécution
         if ( is_null($this->start_at) ) {
             $this->setStartAt(true);
         }
 
         // on récupère les différent types de traitement
-        $rejection_treatment = WorkflowTreatmentType::getRejectionType();
+        $rejection_treatment = WorkflowTreatmentType::getRejectType();
 
         // on marque l exec d étape comme en cours de traitement
-        $this->setWorkflowStatus('processing', true)
-            ->setWorkflowProcessStatus('processing', true);
+        $this->setWorkflowStatusPending(true)
+            ->setWorkflowProcessStatusProcessing(true);
 
         $user = auth()->user();
-        if ($request->treatment_type->id === $rejection_treatment->id) {
-            $this->setWorkflowStatus('rejected', true)
-                ->setWorkflowProcessStatus('rejected', true);
-        } else {
-            $this->setWorkflowStatus('validated', true)
-                ->setWorkflowProcessStatus('processed', true);
-        }
 
         // Parcourir et traiter les actions
         $nb_actions_process = 0;
         $nb_actions_failed = 0;
+        $nb_required_actions = 0;
 
         foreach ($this->step->actions as $action) {
-
             if ($action->treatmenttype->id === $request->treatment_type->id) {
 
                 $execaction = $action->launch($this);
                 $execaction->process($request);
 
-                $nb_actions_process += $execaction->save_result > 0 ? 1 : 0;
-                $nb_actions_failed += $execaction->save_result > 0 ? 0 : 1;
+                $nb_required_actions += $action->field_required ? 1 : 0;
+
+                $nb_actions_process += $this->parseActionResult($execaction);
+                $nb_actions_failed += $this->parseActionResult($execaction);
             }
         }
 
-        if ($nb_actions_process) {
+        if ($nb_actions_process >= $nb_required_actions) {
             // si au moins 1 action est processée,
             // tout s'est bien passé
+            if ($request->treatment_type->id === $rejection_treatment->id) {
+                $this->setWorkflowStatusRejected(true)
+                    ->setWorkflowProcessStatusProcessed(true);
+            } else {
+                $this->setWorkflowStatusValidated(true)
+                    ->setWorkflowProcessStatusProcessed(true);
+            }
         } else {
             // sinon
             // on marque l exec d action d étape comme échouée
-            $this->setWorkflowStatus('pending', true)
-                ->setWorkflowProcessStatus('failed', true);
+            $this->setWorkflowStatusPending(true)
+                ->setWorkflowProcessStatusFailed(true);
+            $this->addToReport(1, "des actions ont échouées", -1, true);
         }
 
         $this->user_id = $user->getAuthIdentifier();
@@ -221,11 +228,23 @@ class WorkflowExecStep extends BaseModel implements Auditable
         $execaction->processFromValue($value, $request_field);
     }
 
-    public function setEffectiveRole(?Role $role) {
-        if ( is_null($role) ) {
-            $this->effectiverole()->disassociate();
+    public function setEffectiveApprovers($role_ids) {
+        if ( is_null($role_ids) || empty($role_ids) ) {
+            $this->effectiveapprovers()->detach();
         } else {
-            $this->effectiverole()->associate($role)->save();
+            $this->effectiveapprovers()->sync($role_ids);
+        }
+    }
+
+    private function parseActionResult(WorkflowExecAction $execaction) {
+        if ($execaction->save_result > 0) {
+            return 1;
+        } else {
+            if ($execaction->action->field_required) {
+                return config('Settings.workflowexec.unrequired_failed_action_can_pass') ? 0 : 1;
+            } else {
+                return 1;
+            }
         }
     }
 

@@ -23,6 +23,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer|null $workflow_object_parent_id
  * @property string|null $ref_field
  *
+ * @property string $route_raw
+ * @property string $route_show
+ *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */

@@ -50,54 +50,56 @@ class WorkflowExecController extends Controller
      * Display the specified resource.
      *
      * @param WorkflowExec $workflowexec
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Http\Response
      */
     public function show(WorkflowExec $workflowexec)
     {
         $workflowexec = WorkflowExec::where('id', $workflowexec->id)
             ->first()
-            ->load(['workflow','nextstep','lastexecstep','lastexecstep.effectiverole']);
+            ->load(['workflow',
+                //'nextstep',
+                'lastexecstep','lastexecstep.effectiveapprovers']);
         $currentstep = WorkflowStep::where('id', $workflowexec->current_step_id)
             ->first()
             ->load(['actions',
 
-                'validatednextstep',
-                'rejectednextstep',
-                'expirednextstep',
+                'transitionpassstep',
+                'transitionrejectstep',
+                'transitionexpirestep',
 
-                'rejectionactions',
-                'rejectionactions.actiontype',
-                'rejectionactions.enumtype',
-                'rejectionactions.enumtype.enumvalues',
+                'actionsreject',
+                'actionsreject.actiontype',
+                'actionsreject.enumtype',
+                'actionsreject.enumtype.enumvalues',
                 'actions.actiontype',
-                'validationactions',
-                'validationactions.actiontype',
-                'validationactions.enumtype',
-                'validationactions.enumtype.enumvalues']);
+                'actionspass',
+                'actionspass.actiontype',
+                'actionspass.enumtype',
+                'actionspass.enumtype.enumvalues']);
         $actionvalues = [
             'rejected' => false,
             'reject_comment' => "",
             'current_step_role' => null,
             'role_dynamic_selection' => "role_dynamic_selected",
-            'treatment_type' => WorkflowTreatmentType::getValidationType()
+            'treatment_type' => WorkflowTreatmentType::getPassType()
         ];
         $rejectactionvalues = [
             'rejected' => true,
             'reject_comment' => "",
             'current_step_role' => null,
             'role_dynamic_selection' => "role_dynamic_selected",
-            'treatment_type' => WorkflowTreatmentType::getRejectionType()
+            'treatment_type' => WorkflowTreatmentType::getRejectType()
         ];
         $enumvalues = [];
 
         if ($workflowexec && $workflowexec->currentstep) {
-            foreach ($workflowexec->currentstep->validationactions as $action) {
+            foreach ($workflowexec->currentstep->actionspass as $action) {
                 $actionvalues = $action->addToArrayAssoc($actionvalues);
             }
         }
 
         if ($workflowexec && $workflowexec->currentstep) {
-            foreach ($workflowexec->currentstep->rejectionactions as $action) {
+            foreach ($workflowexec->currentstep->actionsreject as $action) {
                 $rejectactionvalues = $action->addToArrayAssoc($rejectactionvalues);
             }
         }
@@ -107,13 +109,6 @@ class WorkflowExecController extends Controller
                 $enumvalues = $action->addToEnumTypeList($enumvalues);
             }
         }
-
-        /*if ($workflowexec && $workflowexec->currentstep) {
-            $action = $workflowexec->currentstep->rejectaction;
-            if ($action) {
-                $enumvalues = $action->addToEnumTypeList($enumvalues);
-            }
-        }*/
 
         return ['exec' => $workflowexec, 'currentstep' => $currentstep, 'actionvalues' => $actionvalues, 'rejectactionvalues' => $rejectactionvalues, 'enumvalues' => $enumvalues];
     }
@@ -149,21 +144,22 @@ class WorkflowExecController extends Controller
 
         $workflowexec->load([
             'prevstep',
-            'nextstep',
+            //'nextstep',
             'execsteps',
             'execsteps.step',
-            'currentprofile',
-            'execsteps.effectiverole',
+            'currentapprovers',
+            'execsteps.effectiveapprovers',
             'execsteps.execactions',
             'execsteps.execactions.file',
             'execsteps.execactions.file.mimetype',
             'execsteps.execactions.workflowprocessstatus',
 
             'currentstep',
+            'currentstep.type',
             'currentstep.actions',
-            'currentstep.validatednextstep',
-            'currentstep.rejectednextstep',
-            'currentstep.expirednextstep',
+            'currentstep.transitionpassstep',
+            'currentstep.transitionrejectstep',
+            'currentstep.transitionexpirestep',
 
             'workflowstatus','workflowprocessstatus',
             'execsteps.workflowstatus','execsteps.workflowprocessstatus'

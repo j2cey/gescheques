@@ -101,6 +101,9 @@ Vue.component('dashboard-index', require('./views/dashboard/index').default);
 Vue.component('workflows-index', require('./views/workflows/list').default);
 Vue.component('workflow-execaction', require('./views/workflowexecactions/show').default);
 Vue.component('workflow-execstep', require('./views/workflowexecsteps/show').default);
+Vue.component('workflow-flowchart', require('./views/workflows/flowchart').default);
+Vue.component('flowchart-vue', require('./views/flowchart-vue/index').default);
+Vue.component('vue-mermaid-test', require('./views/vue-mermaid-test/mermaid-test').default);
 
 Vue.component('cheques-upload', require('./views/cheques/upload').default);
 Vue.component('cheques-show', require('./views/cheques/show').default);

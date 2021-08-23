@@ -6,6 +6,7 @@ use PHPUnit\Util\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Mail\WorkflowStepNext;
+use App\Traits\Report\HasReport;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Mail;
 use App\Events\WorkflowStepCompleted;
@@ -13,6 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use App\Traits\Workflow\HasWorkflowStatus;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Http\Requests\WorkflowExec\UpdateWorkflowExecRequest;
 
 /**
  * Class WorkflowExec
@@ -27,7 +29,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property integer|null $prev_step_id
  * @property integer|null $current_step_id
- * @property integer|null $next_step_id
  *
  * @property integer|null $current_step_role_id
  * @property integer|null $workflow_id
@@ -42,10 +43,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property WorkflowStep $currentstep
+ * @property WorkflowExecStep $lastexecstep
+ * @property Role[] $currentapprovers
+ * @property WorkflowStep $prevstep
  */
 class WorkflowExec extends BaseModel implements Auditable
 {
-    use HasFactory, HasWorkflowStatus, \OwenIt\Auditing\Auditable;
+    use HasFactory, HasWorkflowStatus, HasReport, \OwenIt\Auditing\Auditable;
     protected $guarded = [];
 
     #region Eloquent Relationships
@@ -63,17 +69,21 @@ class WorkflowExec extends BaseModel implements Auditable
         return $this->belongsTo(WorkflowStep::class,'current_step_id');
     }
 
-    public function currentprofile() {
+    /*public function currentprofile() {
         return $this->belongsTo(Role::class,'current_step_role_id');
+    }*/
+
+    public function currentapprovers() {
+        return $this->belongsToMany(Role::class, 'workflow_exec_currentrole', 'workflow_exec_id', 'role_id');
     }
 
     public function prevstep() {
         return $this->belongsTo(WorkflowStep::class,'prev_step_id');
     }
 
-    public function nextstep() {
+    /*public function nextstep() {
         return $this->belongsTo(WorkflowStep::class,'next_step_id');
-    }
+    }*/
 
     public function execsteps() {
         return $this->hasMany(WorkflowExecStep::class,'workflow_exec_id');
@@ -142,7 +152,7 @@ class WorkflowExec extends BaseModel implements Auditable
 
     #region Custom Functions
 
-    public function process(Request $request) {
+    public function process(UpdateWorkflowExecRequest $request) {
 
         $prev_step_exec = $this->lastexecstep;
 
@@ -152,97 +162,108 @@ class WorkflowExec extends BaseModel implements Auditable
         }
 
         // on marque l exec comme en cours de traitement
-        $this->setWorkflowStatus('processing', true)
-            ->setWorkflowProcessStatus('processing', true);
+        $this->setWorkflowProcessStatusProcessing(true)
+            ->setWorkflowStatusProcessing(true)
+        ;
 
-        // On lance l'exécution de l'étape courrante
+        // On lance l'exécution de l'étape courante
         // ce qui aura pour effet de créer une instance d'exécution d'étape (WorkflowExecStep)
-        $current_step_exec = $this->currentstep->launch($this);
-        // On procède au traitement de l'étape (traitement de son WorkflowExecStep)
-        $current_step_exec = $current_step_exec->process($request);
+        $current_exec_step = $this->currentstep->launch($this);
 
-        // On assigne le role effectif de l'étape exec courante
-        $current_step_exec->setEffectiveRole($this->currentprofile);
-
-        $this->setPrevStep($this->currentstep);
-        // Redirection
-        if ($current_step_exec->isWorkflowStatusRejected()) {
-            // Rejété
-            $this->setCurrentStep($this->currentstep->rejectednextstep);
-        } elseif ($current_step_exec->isWorkflowStatusExpired()) {
-            // Expiré
-            $this->setCurrentStep($this->currentstep->expirednextstep);
+        if ( is_null($current_exec_step) ) {
+            // l' exécution d'étape (WorkflowExecStep) est null, alors rien a exécuter
+            $this->setWorkflowProcessStatusFailed(true)
+                ->setWorkflowStatusPending(true)
+            ;
+            $this->addToReport(1, "l execution d étape est nulle", -1, true);
+            $this->endProcess();
         } else {
-            // Traitement validé
-            $this->setCurrentStep($this->currentstep->validatednextstep);
-        }
-        $this->setNextStep($this->currentstep->validatednextstep);
+            // On procède au traitement de l'étape (traitement de son WorkflowExecStep)
+            $current_exec_step = $current_exec_step->process($request);
 
-        if ($this->currentstep->isLastStep()) {
-            if ($current_step_exec->isWorkflowStatusRejected()) {
-                // si nous sommes à la dernière étape suite à un réjet,
-                // on marque le traitement comme rejétée
-                $this->setWorkflowStatus('rejected', true)
-                    ->setWorkflowProcessStatus('processed', true);
-
-                // Et l étape courante sera "Traitement Rejété"
-                $this->setCurrentStepRejected();
-            } elseif ($current_step_exec->isWorkflowStatusExpired()) {
-                // si nous sommes à la dernière étape suite à une expiration,
-                // on marque le traitement comme expiré
-                $this->setWorkflowStatus('expired', true)
-                    ->setWorkflowProcessStatus('processed', true);
-
-                // Et l étape courante sera "Traitement Expiré"
-                $this->setCurrentStepExpired();
+            if ( $current_exec_step->isWorkflowProcessStatusFailed() ) {
+                // Le traitement de l'étape a échoué
+                $this->setWorkflowProcessStatusFailed(true)
+                    ->setWorkflowStatusPending(true)
+                ;
+                $this->addToReport(1, "l execution de la dernière étape a échoué", -1, true);
+                $this->endProcess();
             } else {
-                // marquer l exec comme terminée
-                $this->setWorkflowStatus('validated', true)
-                    ->setWorkflowProcessStatus('processed', true);
+                // On assigne le(s) role(s) effectif(s) de l'étape exec courante
+                $current_exec_step->setEffectiveApprovers( $this->getRoleIds($this->currentapprovers) );
+                // l'étape en cours sera l'étape précedente
+                $this->setPrevStep($this->currentstep);
+
+                // Redirection
+                $transitions_arr = $this->currentstep->getTransitionsArray();
+                $this->setCurrentStep($transitions_arr[$request->treatment_type->code]);
+
+                // Statuts de l'exec
+                if ($this->currentstep->isLastStep()) {
+                    // si on est en fin de traitement, on assigne le statut de la dernière étape
+                    $this->setWorkflowStatus($current_exec_step->workflowstatus->code, true)
+                        ->setWorkflowProcessStatusProcessed(true);
+
+                    // on reset les acurrent approvers de l'exec
+                    $this->setCurrentApprovers(null);
+                } else {
+                    $this->setWorkflowStatusPending(true)
+                        ->setWorkflowProcessStatusPending(true);
+
+                    $this->save();
+
+                    // approvers de l'étape suivante
+                    if ($this->currentstep->role_dynamic) {
+                        $custom_roles = $request->current_step_role ? [$request->current_step_role] : null;
+                    } elseif ($this->currentstep->role_previous) {
+                        $custom_roles = $prev_step_exec ? $prev_step_exec->effectiveapprovers : $this->currentstep->approvers;
+                    } else {
+                        $custom_roles = $this->currentstep->approvers;
+                    }
+                    $this->setCurrentApprovers($custom_roles);
+
+                    // Notifier l'étape suivante
+                    event(new WorkflowStepCompleted($this, $this->prevstep, $this->currentstep)); // $exec, $oldStep, $nextStep
+                }
+
+                $this->save();
             }
-
-            // marquer la date de fin d exécution
-            if ( is_null($this->end_at) ) {
-                $this->setEndAt(true);
-            }
-            // Puis l'étape suivante sera null
-            $this->unsetNextStep();
-        } else {
-            // marquer l exec comme en pending
-            $this->setWorkflowStatus('pending', true)
-                ->setWorkflowProcessStatus('processed', true);
         }
-
-        $this->save();
-
-        if ($this->currentstep->role_dynamic) {
-            $custom_role = json_decode($request->current_step_role, true);
-            $custom_role_id = $custom_role ? $custom_role["id"] : null;
-        } else {
-            $custom_role_id = $prev_step_exec ? $prev_step_exec->effectiverole->id : null;
-        }
-        $this->setCurrentRole($custom_role_id);
-
-        $this->save();
 
         return $this;
     }
 
-    public function setCurrentRole($custom_role_id = null) {
-        $currentstep = WorkflowStep::where('id',$this->current_step_id)->first();
-        if ($currentstep) {
-            if ($currentstep->role_dynamic) {
-                $this->update(['current_step_role_id' => $custom_role_id]);
-            } elseif ($currentstep->role_previous) {
-                $this->update(['current_step_role_id' => $custom_role_id]);
-            } else {
-                $currentrole = Role::where('id',$currentstep->role_id)->first();
-                if ($currentrole) {
-                    $this->currentprofile()->associate($currentrole)->save();
-                } else {
-                    $this->currentprofile()->disassociate()->save();
-                }
+    private function getRoleIds($roles) {
+        $role_ids = [];
+        $ids_count = 0;
+
+        if ( ! is_null($roles) ) {
+            foreach ($roles as $role) {
+                $role_ids[] = $role->id;
+                $ids_count++;
             }
+        }
+
+        if ($ids_count > 0) {
+            return $role_ids;
+        } else {
+            return null;
+        }
+    }
+
+    private function endProcess() {
+        // marquer la date de fin d exécution
+        if ( is_null($this->end_at) ) {
+            $this->setEndAt(true);
+        }
+    }
+
+    public function setCurrentApprovers($custom_roles = null) {
+        $custom_role_ids = $this->getRoleIds($custom_roles);
+        if ( is_null($custom_role_ids) ) {
+            $this->currentapprovers()->detach();
+        } else {
+            $this->currentapprovers()->sync($custom_role_ids);
         }
     }
 
@@ -250,7 +271,7 @@ class WorkflowExec extends BaseModel implements Auditable
         $this->currentstep()->disassociate()->save();
     }
 
-    public function setCurrentStep(?WorkflowStep $step) {
+    public function setCurrentStep( ?WorkflowStep $step ) {
         if ( is_null($step) ) {
             $this->unsetCurrentStep();
         } else {
@@ -258,11 +279,11 @@ class WorkflowExec extends BaseModel implements Auditable
         }
     }
 
-    public function setCurrentStepEnd() {
+    /*public function setCurrentStepEnd() {
         // Traitement Terminé
         $step_end = WorkflowStep::where("code","step_end")->first();
         $this->setCurrentStep($step_end);
-    }
+    }*/
 
     public function setCurrentStepRejected() {
         // Traitement Rejeté
@@ -280,13 +301,13 @@ class WorkflowExec extends BaseModel implements Auditable
         $this->nextstep()->disassociate()->save();
     }
 
-    public function setNextStep(?WorkflowStep $step) {
+    /*public function setNextStep(?WorkflowStep $step) {
         if ( is_null($step) ) {
             $this->unsetNextStep();
         } else {
             $this->nextstep()->associate($step)->save();
         }
-    }
+    }*/
 
     public function unsetPrevStep() {
         $this->prevstep()->disassociate()->save();

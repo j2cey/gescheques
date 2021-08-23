@@ -33,6 +33,30 @@ class SettingSeeder extends Seeder
         $group = $this->createNew("ldap", null, null, "string", ",", "settings LDAP.");
         // value ldap.liste_sigles
         $this->createNew("liste_sigles", $group->id, "gt,rh,si,it,sav,in,bss,msan,rva,erp,dr", "array", ",", "liste des sigles (à prendre en compte dans l importation LDAP).");
+
+        // groupe workflowexec
+        $workflowexec_group = $this->createNew("workflowexec", null, null, "string", ",", "workflowexec settings.");
+        $this->createNew("unrequired_failed_action_can_pass", $workflowexec_group->id, "false", "boolean", ",", "Start node Default Width.");
+
+        // groupe flowchart
+        $flowchart_group = $this->createNew("flowchart", null, null, "string", ",", "flowchart settings.");
+        // sub group flowchart.startnode
+        $group = $this->createNew("startnode", $flowchart_group->id, null, null, ",", "Start node.");
+        $this->createNew("default_width", $group->id, "100", "integer", ",", "Start node Default Width.");
+        $this->createNew("default_height", $group->id, "40", "integer", ",", "Start node Default Height.");
+        $this->createNew("default_x", $group->id, "10", "integer", ",", "Start node Default positon x.");
+        $this->createNew("default_y", $group->id, "20", "integer", ",", "Start node Default position y.");
+        $this->createNew("default_name", $group->id, "Début Traitement", "string", ",", "Start node Default Name.");
+        $this->createNew("default_description", $group->id, "Etape marquant le début du Workflow", "string", ",", "Start node Default Description.");
+
+        // sub group flowchart.endnode
+        $group = $this->createNew("endnode", $flowchart_group->id, null, null, ",", "End node.");
+        $this->createNew("default_width", $group->id, "100", "integer", ",", "End node Default Width.");
+        $this->createNew("default_height", $group->id, "40", "integer", ",", "End node Default Height.");
+        $this->createNew("default_x", $group->id, "640", "integer", ",", "End node Default positon x.");
+        $this->createNew("default_y", $group->id, "420", "integer", ",", "End node Default position y.");
+        $this->createNew("default_name", $group->id, "Fin Traitement", "string", ",", "End node Default Name.");
+        $this->createNew("default_description", $group->id, "Etape marquant la fin du Workflow", "string", ",", "End node Default Description.");
     }
 
     private function createNew($name, $group_id = null, $value = null, $type = null, $array_sep = ",", $description = null)

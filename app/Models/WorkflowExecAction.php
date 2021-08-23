@@ -64,6 +64,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property WorkflowAction action
  */
 class WorkflowExecAction extends BaseModel implements Auditable
 {
@@ -273,9 +275,6 @@ class WorkflowExecAction extends BaseModel implements Auditable
                 $failed_msg = "aucune correspondance au type de donnees";
             }
 
-            $this->user_id = $user->getAuthIdentifier();
-            $this->username = $user->name;
-
             if ($nb_failed) {
                 // on marque l exec d action d étape comme échouée
                 $this->setWorkflowStatus('pending', true)
@@ -311,6 +310,9 @@ class WorkflowExecAction extends BaseModel implements Auditable
             $this->save_result = -1;
 
         } finally {
+            $this->user_id = $user->getAuthIdentifier();
+            $this->username = $user->name;
+
             // marquer la date de fin d exécution
             if ( is_null($this->end_at) ) {
                 $this->setEndAt(true);

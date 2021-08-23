@@ -8,6 +8,6 @@ trait UuidTrait
 {
     public function generateUuid()
     {
-        return Str::orderedUuid();
+        return Str::slug(Str::orderedUuid(), '_');
     }
 }

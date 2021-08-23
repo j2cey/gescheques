@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WorkflowStatusSeeder::class);
         $this->call(WorkflowProcessStatusSeeder::class);
         $this->call(WorkflowTreatmentTypeSeeder::class);
+        $this->call(WorkflowStepTypeSeeder::class);
         $this->call(WorkflowObjectSeeder::class);
         $this->call(WorkflowObjectFieldTypeSeeder::class);
         $this->call(WorkflowObjectFieldSeeder::class);

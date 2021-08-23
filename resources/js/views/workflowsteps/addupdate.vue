@@ -1,7 +1,7 @@
 <template>
     <div class="modal fade" id="addUpdateWorkflowstep" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content">s
                 <div class="modal-header">
                     <h5 class="modal-title text-sm" id="exampleModalLabel" v-if="editing">Modifier Etape</h5>
                     <h5 class="modal-title text-sm" id="exampleModalLabel" v-else>Créer Nouvelle Etape</h5>
@@ -30,25 +30,25 @@
                             <div class="form-group row">
                                 <div class="custom-control custom-radio col-sm-4">
                                     <input type="radio" class="custom-control-input" id="role_static" name="role_type" autocomplete="role_static" autofocus placeholder="Profile Fixe" v-model="workflowstepForm.role_type" @change="roleTypeChange($event)" value="role_static">
-                                    <label for="role_static" class="custom-control-label"><span class="text text-xs">Profile fixe :</span></label>
+                                    <label for="role_static" class="custom-control-label"><span class="text text-xs">Profile(s) fixe :</span></label>
                                     <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('role_static')" v-text="workflowstepForm.errors.get('role_static')"></span>
                                 </div>
                                 <div class="col-sm-8" v-if="can_role_static">
                                     <multiselect class="text text-xs"
                                          id="m_select_step_actor"
-                                         v-model="workflowstepForm.profile"
-                                         selected.sync="workflowstep.profile"
+                                         v-model="workflowstepForm.approvers"
+                                         selected.sync="workflowstep.approvers"
                                          value=""
                                          :options="roles"
                                          :searchable="true"
-                                         :multiple="false"
+                                         :multiple="true"
                                          label="name"
                                          track-by="id"
                                          key="id"
-                                         placeholder="Profile Acteur"
+                                         placeholder="Profile(s) Acteur"
                                     >
                                     </multiselect>
-                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('profile')" v-text="workflowstepForm.errors.get('profile')"></span>
+                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('approvers')" v-text="workflowstepForm.errors.get('approvers')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -81,10 +81,11 @@
                                 <label for="m_select_validatednextstep" class="col-sm-4 col-form-label text-xs">Prochaine Etape après Validation</label>
                                 <div class="col-sm-8 text-xs">
                                     <multiselect class="text text-xs"
+                                        :disabled="true"
                                         id="m_select_validatednextstep"
-                                        v-model="workflowstepForm.validatednextstep"
-                                        selected.sync="workflowstep.validatednextstep"
-                                        value=""
+                                        v-model="workflowstepForm.transitionpassstep"
+                                        selected.sync="workflowstep.transitionpassstep"
+                                        value="" deselectLabel="Touche Entrer pour retirer"
                                         :options="workflowsteps"
                                         :searchable="true"
                                         :multiple="false"
@@ -94,7 +95,7 @@
                                         placeholder="Etape après validation"
                                     >
                                     </multiselect>
-                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('validatednextstep')" v-text="workflowstepForm.errors.get('validatednextstep')"></span>
+                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('transitionpassstep')" v-text="workflowstepForm.errors.get('transitionpassstep')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -102,8 +103,9 @@
                                 <div class="col-sm-8">
                                     <multiselect class="text-xs"
                                         id="m_select_rejectednextstep"
-                                        v-model="workflowstepForm.rejectednextstep"
-                                        selected.sync="workflowstep.rejectednextstep"
+                                        :disabled="true"
+                                        v-model="workflowstepForm.transitionrejectstep"
+                                        selected.sync="workflowstep.transitionrejectstep"
                                         value=""
                                         :options="workflowsteps"
                                         :searchable="true"
@@ -114,7 +116,7 @@
                                         placeholder="Etape après réjet"
                                     >
                                     </multiselect>
-                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('rejectednextstep')" v-text="workflowstepForm.errors.get('rejectednextstep')"></span>
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('transitionrejectstep')" v-text="workflowstepForm.errors.get('transitionrejectstep')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -146,8 +148,8 @@
                                 <div class="col-sm-8">
                                     <multiselect class="text-xs"
                                          id="m_select_expirednextstep"
-                                         v-model="workflowstepForm.expirednextstep"
-                                         selected.sync="workflowstep.expirednextstep"
+                                         v-model="workflowstepForm.transitionexpirestep"
+                                         selected.sync="workflowstep.transitionexpirestep"
                                          value=""
                                          :options="workflowsteps"
                                          :searchable="true"
@@ -158,14 +160,14 @@
                                          placeholder="Prochaine Etape après expiration"
                                     >
                                     </multiselect>
-                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('expirednextstep')" v-text="workflowstepForm.errors.get('expirednextstep')"></span>
+                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('transitionexpirestep')" v-text="workflowstepForm.errors.get('transitionexpirestep')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-4">
-                                    <input type="checkbox" class="custom-control-input" id="notify_to_profile" name="notify_to_profile" autocomplete="notify_to_profile" autofocus placeholder="Notifier les Acteurs" v-model="workflowstepForm.notify_to_profile">
-                                    <label class="custom-control-label" for="notify_to_profile"><span class="text text-xs">Notifier les Acteurs <i class="far fa-bell"></i></span></label>
-                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('notify_to_profile')" v-text="workflowstepForm.errors.get('notify_to_profile')"></span>
+                                    <input type="checkbox" class="custom-control-input" id="notify_to_approvers" name="notify_to_approvers" autocomplete="notify_to_approvers" autofocus placeholder="Notifier les Acteurs" v-model="workflowstepForm.notify_to_approvers">
+                                    <label class="custom-control-label" for="notify_to_approvers"><span class="text text-xs">Notifier les Acteurs <i class="far fa-bell"></i></span></label>
+                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('notify_to_approvers')" v-text="workflowstepForm.errors.get('notify_to_approvers')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -238,21 +240,21 @@
             this.titre = workflowstep.titre || ''
             this.description = workflowstep.description || ''
             this.workflow_id = workflowstep.workflow_id || ''
-            this.profile = workflowstep.profile || ''
+            this.approvers = workflowstep.approvers || ''
             this.role_static = workflowstep.role_static || 0
             this.role_dynamic = workflowstep.role_dynamic || 0
             this.role_dynamic_label = workflowstep.role_dynamic_label || ''
             this.role_dynamic_previous_label = workflowstep.role_dynamic_previous_label || ''
             this.role_previous = workflowstep.role_previous || 0
             this.role_type = (workflowstep.role_static ? 'role_static' : (workflowstep.role_dynamic ? 'role_dynamic' : (workflowstep.role_previous ? 'role_previous' : 'role_static' ) ) ) || 'undefied'
-            this.validatednextstep = workflowstep.validatednextstep || ''
-            this.rejectednextstep = workflowstep.rejectednextstep || ''
-            this.expirednextstep = workflowstep.expirednextstep || ''
+            this.transitionpassstep = workflowstep.transitionpassstep || ''
+            this.transitionrejectstep = workflowstep.transitionrejectstep || ''
+            this.transitionexpirestep = workflowstep.transitionexpirestep || ''
             this.can_expire = workflowstep.can_expire || false
             this.expire_hours = workflowstep.expire_hours || 0
             this.expire_days = workflowstep.expire_days || 0
-            this.expirednextstep = workflowstep.expirednextstep || ''
-            this.notify_to_profile = workflowstep.notify_to_profile || false
+            this.transitionexpirestep = workflowstep.transitionexpirestep || ''
+            this.notify_to_approvers = workflowstep.notify_to_approvers || false
             this.notify_to_others = workflowstep.notify_to_others || false
             this.otherstonotify = workflowstep.otherstonotify || ''
             this.stepparent = workflowstep.stepparent || ''
@@ -382,7 +384,7 @@
                 this.workflowstepForm.can_expire = ( this.workflowstepForm.can_expire === 1 ) ? 0 : 1;
             },
             notifyToProfileCheck() {
-                this.workflowstepForm.notify_to_profile = ( this.workflowstepForm.notify_to_profile === 1 ) ? 0 : 1;
+                this.workflowstepForm.notify_to_approvers = ( this.workflowstepForm.notify_to_approvers === 1 ) ? 0 : 1;
             },
             notifyToOthersCheck() {
                 this.workflowstepForm.notify_to_others = ( this.workflowstepForm.notify_to_others === 1 ) ? 0 : 1;
