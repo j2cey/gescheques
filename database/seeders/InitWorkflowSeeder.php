@@ -166,7 +166,7 @@ class InitWorkflowSeeder extends Seeder
 
     private function create_step_reception_agences($workflow) : WorkflowStep {
         return  WorkflowStep::createNew("Réception Agences", "Traitements Réception Agences", "approve", $workflow)
-            ->setProfileDynamic(true,"Agence", "Agence Précédente", true)
+            ->setProfileDynamic(true,config('Settings.workflowstep.roledynamic.default_label'), config('Settings.workflowstep.roledynamic.default_previous_label'), true)
             ->setFlowchartSize(180, 60, true)
             ->setFlowchartPosition(260, 40, true)
             ->setAsOperationNode(true)

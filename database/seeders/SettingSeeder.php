@@ -34,6 +34,17 @@ class SettingSeeder extends Seeder
         // value ldap.liste_sigles
         $this->createNew("liste_sigles", $group->id, "gt,rh,si,it,sav,in,bss,msan,rva,erp,dr", "array", ",", "liste des sigles (à prendre en compte dans l importation LDAP).");
 
+        // groupe workflowstep
+        $workflowstep_group = $this->createNew("workflowstep", null, null, "string", ",", "workflowstep settings.");
+        // sub group workflowstep.roledynamic
+        $group = $this->createNew("roledynamic", $workflowstep_group->id, null, null, ",", "role_dynamic .");
+        $this->createNew("default_label", $group->id, "Agence", "string", ",", "Role Dynamic Default Label.");
+        $this->createNew("default_previous_label", $group->id, "Agence Précédente", "string", ",", "Role Dynamic Default Previous Label.");
+        // sub group workflowstep.canexpire
+        $group = $this->createNew("canexpire", $workflowstep_group->id, null, null, ",", "can expire .");
+        $this->createNew("default_hours", $group->id, 0, "integer", ",", "Can expire Default Hours.");
+        $this->createNew("default_days", $group->id, 2, "integer", ",", "Can expire Default Days.");
+
         // groupe workflowexec
         $workflowexec_group = $this->createNew("workflowexec", null, null, "string", ",", "workflowexec settings.");
         $this->createNew("unrequired_failed_action_can_pass", $workflowexec_group->id, "false", "boolean", ",", "Start node Default Width.");

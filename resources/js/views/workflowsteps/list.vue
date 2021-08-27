@@ -1,79 +1,34 @@
 <template>
 
-    <div class="col">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Liste des Etapes</h3>
 
-        <draggable tag="ul" :list="workflowsteps"
-                   :disabled="!enabled"
-                   @change="orderChanged"
-                   @start="dragging = true"
-                   @end="dragging = false"
-                   class="list-group todo-list" handle=".handle" data-widget="todo-list"
-        >
-            <li
-                class="list-group-item"
-                v-for="(element, idx) in workflowsteps"
-                :key="element.id"
-            >
-                <i class="fa fa-align-justify handle"></i>
+            <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-                <span class="text text-sm" data-toggle="collapse" data-parent="#workflowlist" :href="'#collapse-workflowstep-'+element.id">{{ element.titre }}</span>
-                <!-- Emphasis label -->
-                <a class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
-                    <i class="fas fa-users"></i>
-                    <span v-if="element.approvers.length > 0">{{ element.approvers[0].name }}</span>
-                    <span v-else-if="element.role_dynamic">Dynamique</span>
-                    <span v-else-if="element.role_previous">Précédent</span>
-                    <span v-else>ND</span>
-                </a>
-                <a v-if="element.actionspass" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
-                    <span v-if="element.actionspass.length === 0" class="badge bg-danger">{{ element.actionspass.length }}</span>
-                    <span v-else class="badge bg-success">{{ element.actionspass.length }}</span>
-                    <i class="fas fa-check"></i> Validation
-                </a>
-                <a v-if="element.actionsreject" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
-                    <span v-if="element.actionsreject.length === 0" class="badge bg-danger">{{ element.actionsreject.length }}</span>
-                    <span v-else class="badge bg-success">{{ element.actionsreject.length }}</span>
-                    <i class="fas fa-times"></i> Réjet
-                </a>
-                <a v-if="element.actionsexpire" class="btn btn-app btn-sm text text-xs" data-toggle="collapse" role="button">
-                    <span v-if="element.actionsexpire.length === 0" class="badge bg-danger">{{ element.actionsexpire.length }}</span>
-                    <span v-else class="badge bg-success">{{ element.actionsexpire.length }}</span>
-                    <i class="fas fa-clock"></i> Expiration
-                </a>
-
-                <!-- General tools such as edit or delete-->
-                <div class="tools">
-                    <i class="fa fa-pencil-square-o" @click="editWorkflowstep(element)"></i>
-                    <button type="button" class="btn btn-tool btn-sm" data-toggle="collapse" data-parent="#workflowlist" :href="'#collapse-workflowstep-'+element.id">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <i class="fa fa-trash-o"></i>
-                </div>
-
-                <!-- Action(s) de l'Etape -->
-                <div :id="'collapse-workflowstep-'+element.id" class="panel-collapse collapse in">
-                    <div class="card-header">
-                        <div class="form-inline float-left">
-                            <span class="help-inline pr-1 text-sm"> Action(s) de l'Etape </span>
-
-                            <a class="btn btn-outline-success waves-effect waves-light btn-sm" @click="createNewAction(element)">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                            </a>
-                        </div>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-
-                        <WorkflowActions :workflowstepid_prop="element.id" :workflowactions_prop="element.actions"></WorkflowActions>
-
-                    </div>
-
                 </div>
-                <!-- / Action(s) de l'Etape -->
-
-            </li>
-        </draggable>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <b-table
+                id="table-transition-example"
+                :items="items"
+                :fields="fields"
+                striped
+                small
+                primary-key="a"
+                :tbody-transition-props="transProps"
+            ></b-table>
+        </div>
+        <!-- /.card-body -->
     </div>
+    <!-- /.card -->
 
 </template>
 
@@ -116,7 +71,22 @@
             return {
                 workflowsteps: this.workflowsteps_prop,
                 enabled: false,
-                dragging: false
+                dragging: false,
+                transProps: {
+                    // Transition name
+                    name: 'flip-list'
+                },
+                items: [
+                    { a: 2, b: 'Two', c: 'Moose' },
+                    { a: 1, b: 'Three', c: 'Dog' },
+                    { a: 3, b: 'Four', c: 'Cat' },
+                    { a: 4, b: 'One', c: 'Mouse' }
+                ],
+                fields: [
+                    { key: 'a', sortable: true },
+                    { key: 'b', sortable: true },
+                    { key: 'c', sortable: true }
+                ]
             };
         },
         computed: {
@@ -198,73 +168,7 @@
     };
 </script>
 <style scoped>
-    .button {
-        margin-top: 35px;
-    }
-    .handle {
-        float: left;
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
-    .close {
-        float: right;
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
-    input {
-        display: inline-block;
-        width: 50%;
-    }
-    .text {
-        margin: 20px;
-    }
-
-    .btn-app {
-        border-radius: 3px;
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        color: #6c757d;
-        font-size: 12px;
-        height: 60px;
-        margin: 0 0 10px 10px;
-        min-width: 80px;
-        padding: 15px 5px;
-        position: relative;
-        text-align: center;
-    }
-
-    .btn-app > .fa,
-    .btn-app > .fas,
-    .btn-app > .far,
-    .btn-app > .fab,
-    .btn-app > .glyphicon,
-    .btn-app > .ion {
-        display: block;
-        font-size: 20px;
-    }
-
-    .btn-app:hover {
-        background: #f8f9fa;
-        border-color: #aaaaaa;
-        color: #444;
-    }
-
-    .btn-app:active, .btn-app:focus {
-        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    }
-
-    .btn-app > .badge {
-        font-size: 10px;
-        font-weight: 400;
-        position: absolute;
-        right: -10px;
-        top: -3px;
-    }
-
-    .btn-xs {
-        padding: 0.125rem 0.25rem;
-        font-size: 0.75rem;
-        line-height: 1.5;
-        border-radius: 0.15rem;
+    table#table-transition-example .flip-list-move {
+        transition: transform 1s;
     }
 </style>

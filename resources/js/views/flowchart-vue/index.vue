@@ -15,7 +15,7 @@
                     type: 'operation',
                     description: '',
                     code: '',
-                    approvers: [],
+                    staticapprovers: [],
                     })"
             >
                 Ajouter(double-click canevas)
@@ -31,7 +31,7 @@
             :connections="connections"
             @editnode="handleEditNode"
             :width="'100%'"
-            :height="500"
+            :height="600"
             :readonly="false"
             @dblclick="handleDblClick"
             @editconnection="handleEditConnection"
@@ -44,7 +44,7 @@
         <node-dialog
             :visible.sync="nodeDialogVisible"
             :node.sync="nodeForm.target"
-            :approvers_prop="approvers"
+            :approverslist_prop="approverslist"
         ></node-dialog>
         <connection-dialog
             :visible.sync="connectionDialogVisible"
@@ -72,7 +72,7 @@
             },
             nodes_prop: [],
             connections_prop: [],
-            approvers_prop: [],
+            approverslist_prop: [],
         },
         components: {
             ConnectionDialog,
@@ -84,7 +84,7 @@
                 workflow: this.workflow_prop,
                 nodes: this.nodes_prop,
                 connections: this.connections_prop,
-                approvers: this.approvers_prop,
+                approverslist: this.approverslist_prop,
                 nodeForm: { target: null },
                 connectionForm: { target: null, operation: null },
                 nodeDialogVisible: false,
@@ -100,7 +100,7 @@
                     y: position.y,
                     name: "New",
                     type: "operation",
-                    approvers: [],
+                    staticapprovers: [],
                 });
             },
             handleSelect(nodes) {
@@ -108,12 +108,15 @@
             },
             async handleChartSave(nodes, connections) {
                 axios.post('/workflows.storeflowchart/' + this.workflow.uuid, {nodes, connections}).then(resp => {
-                  //this.nodes = resp.nodes;
-                  //this.connections = resp.connections;
+                  this.nodes = resp.data.nodes;
+                  this.connections = resp.data.connections;
+                  console.log(resp)
                   // Flowchart will refresh after this.nodes and this.connections changed
                 });
             },
             handleEditNode(node) {
+                console.log(node)
+                node.role_type = (node.role_static ? 'role_static' : (node.role_dynamic ? 'role_dynamic' : (node.role_previous ? 'role_previous' : 'role_static' ) ) ) || 'undefied'
                 this.nodeForm.target = node;
                 this.nodeDialogVisible = true;
             },
@@ -193,11 +196,11 @@
                         ? "Début"
                         : node.type === "end"
                         ? "Fin"
-                        : !node.approvers || node.approvers.length === 0
+                        : !node.staticapprovers || node.staticapprovers.length === 0
                             ? ""
-                            : node.approvers.length > 1
-                                ? `${node.approvers[0].name + "..."}`
-                                : node.approvers[0].name;
+                            : node.staticapprovers.length > 1
+                                ? `${node.staticapprovers[0].name + "..."}`
+                                : node.staticapprovers[0].name;
                 let bodyTextY;
                 if (node.type !== "start" && node.type !== "end") {
                     if (node.id === -1) { // node ellipse
@@ -247,7 +250,7 @@
         margin-right: 4px;
     }
     .container {
-        width: 800px;
+        width: 1000px;
         margin: auto;
     }
 </style>

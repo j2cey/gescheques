@@ -1,0 +1,181 @@
+<template>
+    <div>
+        <div id="nodeDialogModal" class="flwch-modal" v-if="visible" style="width: 320px">
+            <div class="flwch-header">
+                <span>Modification Etape</span>
+            </div>
+            <div class="flwch-body">
+                <label for="name">Titre</label>
+                <input class="form-control" id="name" v-model="nodeForm.name"/>
+                <label for="description">Description</label>
+                <input class="form-control" id="description" v-model="nodeForm.description"/>
+                <label for="type">Type</label>
+                <select class="flwch-form-control" id="type" v-model="nodeForm.type">
+                    <option :key="'node-type-' + item.id" :value="item.id"
+                            v-for="item in [ { name: 'Start', id: 'start' }, { name: 'End', id: 'end' }, { name: 'Operation', id: 'operation' } ]"
+                    >
+                        {{item.name}}
+                    </option>
+                </select>
+
+                <fieldset>
+                    <legend>Profile</legend>
+
+                    <input type="radio" id="role_static" name="role_type" placeholder="Profile Fixe" v-model="nodeForm.role_type" @change="roleTypeChange($event)" value="role_static">
+                    <label for="role_static">Fixe(s)</label><br/>
+                    <multiselect v-if="can_role_static"
+                        class="flwch-form-control"
+                        id="approver"
+                        v-model="nodeForm.staticapprovers"
+                        selected.sync="nodeForm.staticapprovers"
+                        @change="handleChangeApprover($event)"
+                        value=""
+                        :options="approverslist"
+                        :searchable="true"
+                        :multiple="false"
+                        label="name"
+                        track-by="id"
+                        key="id"
+                        placeholder="Acteurs"
+                    >
+                    </multiselect>
+                    <input type="radio" id="role_dynamic" name="role_type" placeholder="Profile Dynamique" v-model="nodeForm.role_type" @change="roleTypeChange($event)" value="role_dynamic">
+                    <label for="role_dynamic">Dynamique</label><br/>
+                    <input type="radio" id="role_previous" name="role_type" placeholder="Profile Identique à l'Etape précédente" v-model="nodeForm.role_type" @change="roleTypeChange($event)" value="role_previous">
+                    <label for="role_previous">Précédent</label>
+
+                </fieldset>
+            </div>
+            <div class="flwch-footer">
+                <button @click="handleClickCancelSaveNode">Annuler</button>
+                <button @click="handleClickSaveNode">Ok</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import '../assets/modal.css';
+    import Multiselect from 'vue-multiselect'
+    import FlowchartBus from "../flowchartBus";
+
+    export default {
+        name: "NodeDialog",
+        props: {
+            visible: {
+                type: Boolean,
+                default: false,
+            },
+            node: {
+                type: Object,
+                default: null,
+            },
+            approverslist_prop: {
+                type: Array,
+                default: null,
+            },
+        },
+        components: { Multiselect },
+        mounted() {
+            FlowchartBus.$on('flowchart_node_edit', (node) => {
+                console.log('flowchart_node_edit: ', node)
+                this.my_visible = true
+                //$('#nodeDialogModal').modal()
+            })
+        },
+        data: function() {
+            return {
+                nodeForm: {
+                    name: null,
+                    description: null,
+                    code: null,
+                    id: null,
+                    type: null,
+                    approver: [],
+                    role_type: null,
+                    role_static: null,
+                    role_dynamic: null,
+                    role_previous: null
+                },
+                approverslist: this.approverslist_prop,
+                my_visible: false
+            };
+        },
+        methods: {
+            handleClickSaveNode() {
+                this.$emit('update:node', Object.assign(this.node, {
+                    name: this.nodeForm.name,
+                    description: this.nodeForm.description,
+                    code: this.nodeForm.code ? this.nodeForm.code : "xxx",
+                    type: this.nodeForm.type,
+                    role_type: this.nodeForm.role_type,
+                    role_static: this.nodeForm.role_static,
+                    role_dynamic: this.nodeForm.role_dynamic,
+                    role_previous: this.nodeForm.role_previous,
+                    staticapprovers: [Object.assign({}, this.nodeForm.staticapprovers)],
+                }));
+                this.$emit('update:visible', false);
+            },
+            handleClickCancelSaveNode() {
+                this.$emit('update:visible', false);
+            },
+            handleChangeApprover(e) {
+                console.log(e)
+                /*if (e.target.value) {
+                    this.nodeForm.staticapprovers = this.approverslist.filter(i => i.id === parseInt(e.target.value))[0];
+                } else {
+                    this.nodeForm.staticapprovers = []
+                }*/
+            },
+            roleTypeChange(event) {
+                this.nodeForm.role_type = event.target.value;
+                this.updateRoleType();
+            },
+            updateRoleType() {
+                if (this.nodeForm.role_type === 'role_static') {
+                    this.nodeForm.role_static = 1;
+                    this.nodeForm.role_dynamic = 0;
+                    this.nodeForm.role_previous = 0;
+                } else if (this.nodeForm.role_type === 'role_dynamic') {
+                    this.nodeForm.role_static = 0;
+                    this.nodeForm.role_dynamic = 1;
+                    this.nodeForm.role_previous = 0;
+                } else if (this.nodeForm.role_type === 'role_previous') {
+                    this.nodeForm.role_static = 0;
+                    this.nodeForm.role_dynamic = 0;
+                    this.nodeForm.role_previous = 1;
+                }
+            },
+        },
+        watch: {
+            node: {
+                immediate: true,
+                handler(val) {
+                    if (!val) { return; }
+                    this.nodeForm.id = val.id;
+                    this.nodeForm.name = val.name;
+                    this.nodeForm.description = val.description;
+                    this.nodeForm.code = val.code;
+                    this.nodeForm.type = val.type;
+                    this.nodeForm.role_type = val.role_type;
+                    this.nodeForm.role_static = val.role_static;
+                    this.nodeForm.role_dynamic = val.role_dynamic;
+                    this.nodeForm.role_previous = val.role_previous;
+                    this.nodeForm.staticapprovers = val.staticapprovers;
+                    /*if (val.staticapprovers && val.staticapprovers.length > 0) {
+                        this.nodeForm.staticapprovers = val.staticapprovers[0];
+                    }*/
+                },
+            },
+        },
+        computed: {
+            can_role_static() {
+                return (this.nodeForm.role_static ? true : (this.nodeForm.role_dynamic ? false : (!this.nodeForm.role_previous ) ) );
+            },
+        }
+    };
+</script>
+
+<style scoped>
+
+</style>

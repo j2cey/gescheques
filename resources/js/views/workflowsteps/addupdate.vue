@@ -1,7 +1,7 @@
 <template>
     <div class="modal fade" id="addUpdateWorkflowstep" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">s
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-sm" id="exampleModalLabel" v-if="editing">Modifier Etape</h5>
                     <h5 class="modal-title text-sm" id="exampleModalLabel" v-else>Créer Nouvelle Etape</h5>
@@ -36,8 +36,8 @@
                                 <div class="col-sm-8" v-if="can_role_static">
                                     <multiselect class="text text-xs"
                                          id="m_select_step_actor"
-                                         v-model="workflowstepForm.approvers"
-                                         selected.sync="workflowstep.approvers"
+                                         v-model="workflowstepForm.staticapprovers"
+                                         selected.sync="workflowstep.staticapprovers"
                                          value=""
                                          :options="roles"
                                          :searchable="true"
@@ -48,7 +48,7 @@
                                          placeholder="Profile(s) Acteur"
                                     >
                                     </multiselect>
-                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('approvers')" v-text="workflowstepForm.errors.get('approvers')"></span>
+                                    <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('staticapprovers')" v-text="workflowstepForm.errors.get('staticapprovers')"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -150,6 +150,7 @@
                                          id="m_select_expirednextstep"
                                          v-model="workflowstepForm.transitionexpirestep"
                                          selected.sync="workflowstep.transitionexpirestep"
+                                         :disabled="true"
                                          value=""
                                          :options="workflowsteps"
                                          :searchable="true"
@@ -240,7 +241,7 @@
             this.titre = workflowstep.titre || ''
             this.description = workflowstep.description || ''
             this.workflow_id = workflowstep.workflow_id || ''
-            this.approvers = workflowstep.approvers || ''
+            this.staticapprovers = workflowstep.staticapprovers || ''
             this.role_static = workflowstep.role_static || 0
             this.role_dynamic = workflowstep.role_dynamic || 0
             this.role_dynamic_label = workflowstep.role_dynamic_label || ''

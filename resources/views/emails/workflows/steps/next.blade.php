@@ -1,7 +1,7 @@
 @component('mail::message')
 # Bonjour
 <p>
-Vous avez une action (<strong>{{ $step->titre  }}</strong>) à effectuer pour un Bordereau de Remise.
+Vous avez une action (<strong>{{ $step->titre  }}</strong>) à effectuer.
 </p>
 <p>
 @component('mail::button', ['url' => $step_url])

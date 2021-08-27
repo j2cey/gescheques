@@ -216,9 +216,9 @@ class WorkflowExec extends BaseModel implements Auditable
                     if ($this->currentstep->role_dynamic) {
                         $custom_roles = $request->current_step_role ? [$request->current_step_role] : null;
                     } elseif ($this->currentstep->role_previous) {
-                        $custom_roles = $prev_step_exec ? $prev_step_exec->effectiveapprovers : $this->currentstep->approvers;
+                        $custom_roles = $prev_step_exec ? $prev_step_exec->effectiveapprovers : $this->currentstep->staticapprovers;
                     } else {
-                        $custom_roles = $this->currentstep->approvers;
+                        $custom_roles = $this->currentstep->staticapprovers;
                     }
                     $this->setCurrentApprovers($custom_roles);
 

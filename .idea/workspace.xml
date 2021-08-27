@@ -11,114 +11,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a9bae0d-26fa-4747-a5f9-2a2dcc0c8f3a" name="Default Changelist" comment="before workflow enum vals">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowStepTransitionController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowStepTypeController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/WorkflowFlowchart/UpdateWorkflowFlowchartRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/WorkflowFlowchart/WorkflowFlowchartRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/WorkflowStepTransition.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/WorkflowStepType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/factories/WorkflowStepTransitionFactory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/factories/WorkflowStepTypeFactory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_133051_create_workflow_step_types_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_133228_create_workflow_step_transitions_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_133433_create_role_workflow_step_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_141030_create_workflow_exec_currentrole_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_142354_create_workflow_exec_step_effectiverole_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/seeders/WorkflowStepTransitionSeeder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/seeders/WorkflowStepTypeSeeder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/19.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/20.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/cheques/files/25c51df5c5c8d712536f06fcd9ded6eb.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/encaissements/files/6c360b02ae624a2236f5d8e16abe1f78.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/files/cc46c1d54db00e111e43c2fbacb94e5b.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/services/TransitionSces.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/assets/modal.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/ConnectionDialog.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/NodeDialog.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/flowchart/Flowchart.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/flowchart/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/flowchart/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/flowchart/render.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/flowchartBus.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/utils/math.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/utils/svg.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/vue-mermaid-test/mermaid-test.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/workflows/flowchart.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/workflows/flowchartvue.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/workflows/item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/workflows/workflowBus.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/app_no_footer.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/workflows/flowchart.blade.bkp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/workflows/flowchart.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-5IvEzeOrdMOuAsyQ1BWpUNEFoflxF9h9.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-XoC8wLCreszmCfmbenoflNlnMaJZdWqX.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-gqwLFYSaXOYqTTGWT71WG2lurRfLQ3cy.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-izk3PW4HozbpSBBndXBnOao9WqpuIEcv.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-ldONN1b79IV8J5A4B2sfrFZQxck3kV9X.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-uHOhxfNIMiLEsSkxUQUTGR5P4dXSNOTW.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/NodeDialog.bkp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/workflowsteps/list.bkp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChequeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChequeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecModelController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowExecModelStepController.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowStepController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowStepController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowTreatmentTypeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowTreatmentTypeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Workflow/CreateWorkflowRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Workflow/CreateWorkflowRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Workflow/UpdateWorkflowRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Workflow/UpdateWorkflowRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/WorkflowExec/UpdateWorkflowExecRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/WorkflowExec/UpdateWorkflowExecRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/WorkflowStep/CreateWorkflowStepRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/WorkflowStep/CreateWorkflowStepRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/WorkflowStep/UpdateWorkflowStepRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/WorkflowStep/UpdateWorkflowStepRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Listeners/SendNextWorkflowStepEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/SendNextWorkflowStepEmail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Mail/WorkflowStepNext.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Mail/WorkflowStepNext.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Setting.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Setting.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Workflow.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Workflow.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowAction.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExec.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExec.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExecAction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecModel.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecModelStep.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/WorkflowExecStep.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowExecStep.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowObject.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowObject.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowProcessStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowProcessStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowStatus.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/WorkflowStep.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowStep.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowTreatmentType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowTreatmentType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Traits/Base/UuidTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/Base/UuidTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Traits/LDAP/LdapImportTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/LDAP/LdapImportTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Traits/Workflow/HasWorkflowStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/Workflow/HasWorkflowStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_113309_create_workflow_treatment_types_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_113309_create_workflow_treatment_types_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_131857_create_workflow_objects_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_131857_create_workflow_objects_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_133109_create_workflow_steps_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_133109_create_workflow_steps_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_142304_create_workflow_exec_steps_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_142304_create_workflow_exec_steps_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowStepTransition.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowStepTransition.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/mail.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/mail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/WorkflowExecModelFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/WorkflowExecModelStepFactory.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_133433_create_role_workflow_step_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_133433_create_role_workflow_step_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_142703_create_workflow_exec_actions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_26_142703_create_workflow_exec_actions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_143242_create_workflow_exec_model_steps_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_26_143317_create_model_step_actions_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_07_07_130730_create_workflow_exec_models_table.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/database/seeders/InitWorkflowSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/InitWorkflowSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/seeders/SettingSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/SettingSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowObjectSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowObjectSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowStatusSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowStatusSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowTreatmentTypeSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/WorkflowTreatmentTypeSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowExecModelSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/WorkflowExecModelStepSeeder.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/17.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/17.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/18.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/18.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/2.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/2.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/cheques/files/ef35e3b22eed57f354a13bdb13f142eb.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/encaissements/files/a5dd0976d424d366e4bd910503ab8224.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/files/2896531f4fe1ff3a4f1903cf6437c386.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/files/7d2805b1452bae13e719fcb3ed83c0c1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/files/9149b6f95bdb11758318adab84ed70a4.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/cheques/show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/cheques/show.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/encaissements/show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/encaissements/show.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/settings/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/settings/item.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/item.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/process-form.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/process-form.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/process_new.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/process_new.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/addupdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflows/addupdate.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/eventBus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflows/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/ConnectionDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/ConnectionDialog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/NodeDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/NodeDialog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/flowchart/Flowchart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/flowchart/Flowchart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/flowchart-vue/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflows/item.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/workflowsteps/addupdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowsteps/addupdate.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/workflowsteps/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowsteps/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/cheques/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/cheques/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/emails/workflows/steps/next.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/emails/workflows/steps/next.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/workflows/flowchart.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/workflows/flowchart.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -365,7 +302,11 @@
       <workItem from="1629294958852" duration="5153000" />
       <workItem from="1629360790792" duration="13229000" />
       <workItem from="1629454620864" duration="51574000" />
-      <workItem from="1629707773328" duration="10185000" />
+      <workItem from="1629707773328" duration="16091000" />
+      <workItem from="1629803347691" duration="887000" />
+      <workItem from="1629905379461" duration="7557000" />
+      <workItem from="1629965139066" duration="17460000" />
+      <workItem from="1630061152877" duration="3196000" />
     </task>
     <task id="LOCAL-00001" summary="before workflow enum vals">
       <created>1627590178208</created>

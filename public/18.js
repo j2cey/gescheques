@@ -67,22 +67,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -271,27 +255,19 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-9 col-sm-6 col-12" }, [
-              _c("div", { staticClass: "card card-default" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-body" }, [
-                  _c(
-                    "div",
-                    { staticClass: "row" },
-                    [
-                      _c("WorkflowSteps", {
-                        attrs: {
-                          workflow: _vm.workflow,
-                          workflowsteps_prop: _vm.workflow.steps
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ])
-              ])
-            ])
+            _c(
+              "div",
+              { staticClass: "col-md-9 col-sm-6 col-12" },
+              [
+                _c("WorkflowSteps", {
+                  attrs: {
+                    workflow: _vm.workflow,
+                    workflowsteps_prop: _vm.workflow.steps
+                  }
+                })
+              ],
+              1
+            )
           ])
         ]
       ),
@@ -301,20 +277,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("div", { staticClass: "form-inline float-left" }, [
-        _c("span", { staticClass: "help-inline pr-1 text-sm" }, [
-          _vm._v(" Etape(s) du Workflow ")
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -50,6 +50,7 @@ use App\Http\Requests\WorkflowExec\UpdateWorkflowExecRequest;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property WorkflowStep step
+ * @property Role[] $effectiveapprovers
  */
 class WorkflowExecStep extends BaseModel implements Auditable
 {

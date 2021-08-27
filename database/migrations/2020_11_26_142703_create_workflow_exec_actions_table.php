@@ -51,7 +51,7 @@ class CreateWorkflowExecActionsTable extends Migration
             $table->integer('model_id')->nullable()->comment('id du modèle modifié');
             $table->string('field_name')->nullable()->comment('nom du champs');
             $table->string('old_value')->nullable()->comment('ancienne valeur');
-            $table->string('new_value')->nullable()->comment('nouvelle valeur');
+            $table->string('new_value', 500)->nullable()->comment('nouvelle valeur');
 
             $table->string('save_result')->nullable()->comment('resultat de l enregistrement de la modif apportee a l objet');
 

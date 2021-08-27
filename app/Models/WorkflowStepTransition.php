@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property string $code
  * @property WorkflowTreatmentType $treatmenttype
+ * @property WorkflowStep $source
  * @property WorkflowStep $destination
  */
 class WorkflowStepTransition extends BaseModel
@@ -135,6 +136,16 @@ class WorkflowStepTransition extends BaseModel
         }
 
         return $transition;
+    }
+
+    public function removeFromSteps() {
+        $this->source()->dissociate();
+        $this->destination()->dissociate();
+        $this->treatmenttype()->dissociate();
+        try {
+            $this->delete();
+        } catch (\Exception $e) {
+        }
     }
 
     #endregion

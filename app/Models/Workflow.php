@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property WorkflowObject $object
+ * @property WorkflowStep[] $steps
  */
 class Workflow extends BaseModel implements Auditable
 {
@@ -173,10 +174,10 @@ class Workflow extends BaseModel implements Auditable
                 'model_id' => $model_id,
                 'report' => json_encode([]),
             ]);
-            $exec->setCurrentApprovers($first_step->approvers);
+            $exec->setCurrentApprovers($first_step->staticapprovers);
 
             // Notifier l'étape suivante
-            event(new WorkflowStepCompleted($exec, $this->getStartNode(), $first_step));
+            //event(new WorkflowStepCompleted($exec, $this->getStartNode(), $first_step));
 
             return $exec;
         } else {

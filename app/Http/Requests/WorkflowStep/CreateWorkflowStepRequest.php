@@ -34,7 +34,7 @@ class CreateWorkflowStepRequest extends WorkflowStepRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'approvers' => $this->setRelevantIdsList($this->input('approvers')),
+            'staticapprovers' => $this->setRelevantIdsList($this->input('staticapprovers')),
             'transitionpassstep' => $this->setRelevantStep($this->input('transitionpassstep')),
             'transitionrejectstep' => $this->setRelevantStep($this->input('transitionrejectstep')),
             'transitionexpirestep' => $this->setRelevantStep($this->input('transitionexpirestep')),

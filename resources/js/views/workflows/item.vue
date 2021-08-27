@@ -41,23 +41,7 @@
                 <!-- /.col -->
                 <div class="col-md-9 col-sm-6 col-12">
 
-                    <div class="card card-default">
-                        <div class="card-header">
-                            <div class="form-inline float-left">
-                                <span class="help-inline pr-1 text-sm"> Etape(s) du Workflow </span>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-
-                            <div class="row">
-                                <WorkflowSteps :workflow="workflow" :workflowsteps_prop="workflow.steps"></WorkflowSteps>
-                            </div>
-
-                        </div>
-                        <!-- /.card-body -->
-
-                    </div>
+                    <WorkflowSteps :workflow="workflow" :workflowsteps_prop="workflow.steps"></WorkflowSteps>
 
                 </div>
                 <!-- /.col -->

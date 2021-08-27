@@ -7,7 +7,7 @@
             <div class="flwch-body">
                 <label for="name">Titre</label>
                 <input class="form-control" id="name" v-model="nodeForm.name"/>
-                <label for="name">Description</label>
+                <label for="description">Description</label>
                 <input class="form-control" id="description" v-model="nodeForm.description"/>
                 <label for="type">Type</label>
                 <select class="flwch-form-control" id="type" v-model="nodeForm.type">
@@ -17,23 +17,6 @@
                         {{item.name}}
                     </option>
                 </select>
-                <label for="approver">Profile Acteur</label>
-                <multiselect
-                    class="flwch-form-control"
-                    id="approver"
-                    v-model="nodeForm.approver"
-                    selected.sync="nodeForm.approver"
-                    value=""
-                    :options="approvers"
-                    :searchable="true"
-                    :multiple="false"
-                    @change="handleChangeApprover($event)"
-                    label="name"
-                    track-by="id"
-                    key="id"
-                    placeholder="Acteurs"
-                >
-                </multiselect>
             </div>
             <div class="flwch-footer">
                 <button @click="handleClickCancelSaveNode">Annuler</button>
@@ -59,7 +42,7 @@
                 type: Object,
                 default: null,
             },
-            approvers_prop: {
+            approverslist_prop: {
                 type: Array,
                 default: null,
             },
@@ -74,8 +57,19 @@
         },
         data: function() {
             return {
-                nodeForm: {name: null, description: null, code: null, id: null, type: null, approver: []},
-                approvers: this.approvers_prop,
+                nodeForm: {
+                    name: null,
+                    description: null,
+                    code: null,
+                    id: null,
+                    type: null,
+                    approver: [],
+                    role_type: null,
+                    role_static: null,
+                    role_dynamic: null,
+                    role_previous: null
+                },
+                approverslist: this.approverslist_prop,
                 my_visible: false
             };
         },
@@ -86,7 +80,11 @@
                     description: this.nodeForm.description,
                     code: this.nodeForm.code ? this.nodeForm.code : "xxx",
                     type: this.nodeForm.type,
-                    approvers: [Object.assign({}, this.nodeForm.approver)],
+                    role_type: this.nodeForm.role_type,
+                    role_static: this.nodeForm.role_static,
+                    role_dynamic: this.nodeForm.role_dynamic,
+                    role_previous: this.nodeForm.role_previous,
+                    staticapprovers: [Object.assign({}, this.nodeForm.staticapprovers)],
                 }));
                 this.$emit('update:visible', false);
             },
@@ -94,10 +92,30 @@
                 this.$emit('update:visible', false);
             },
             handleChangeApprover(e) {
-                if (e.target.value) {
-                    this.nodeForm.approver = this.approvers.filter(i => i.id === parseInt(e.target.value))[0];
+                console.log(e)
+                /*if (e.target.value) {
+                    this.nodeForm.staticapprovers = this.approverslist.filter(i => i.id === parseInt(e.target.value))[0];
                 } else {
-                    this.nodeForm.approver = []
+                    this.nodeForm.staticapprovers = []
+                }*/
+            },
+            roleTypeChange(event) {
+                this.nodeForm.role_type = event.target.value;
+                this.updateRoleType();
+            },
+            updateRoleType() {
+                if (this.nodeForm.role_type === 'role_static') {
+                    this.nodeForm.role_static = 1;
+                    this.nodeForm.role_dynamic = 0;
+                    this.nodeForm.role_previous = 0;
+                } else if (this.nodeForm.role_type === 'role_dynamic') {
+                    this.nodeForm.role_static = 0;
+                    this.nodeForm.role_dynamic = 1;
+                    this.nodeForm.role_previous = 0;
+                } else if (this.nodeForm.role_type === 'role_previous') {
+                    this.nodeForm.role_static = 0;
+                    this.nodeForm.role_dynamic = 0;
+                    this.nodeForm.role_previous = 1;
                 }
             },
         },
@@ -111,12 +129,22 @@
                     this.nodeForm.description = val.description;
                     this.nodeForm.code = val.code;
                     this.nodeForm.type = val.type;
-                    if (val.approvers && val.approvers.length > 0) {
-                        this.nodeForm.approver = val.approvers[0];
-                    }
+                    this.nodeForm.role_type = val.role_type;
+                    this.nodeForm.role_static = val.role_static;
+                    this.nodeForm.role_dynamic = val.role_dynamic;
+                    this.nodeForm.role_previous = val.role_previous;
+                    this.nodeForm.staticapprovers = val.staticapprovers;
+                    /*if (val.staticapprovers && val.staticapprovers.length > 0) {
+                        this.nodeForm.staticapprovers = val.staticapprovers[0];
+                    }*/
                 },
             },
         },
+        computed: {
+            can_role_static() {
+                return (this.nodeForm.role_static ? true : (this.nodeForm.role_dynamic ? false : (!this.nodeForm.role_previous ) ) );
+            },
+        }
     };
 </script>
 

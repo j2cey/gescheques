@@ -24,7 +24,7 @@ class WorkflowStepController extends Controller
     public function index()
     {
         $workflowsteps = WorkflowStep::orderBy('posi','ASC')->get();
-        $workflowsteps->load(['approvers','actions']);
+        $workflowsteps->load(['staticapprovers','actions']);
 
         return $workflowsteps;
     }
@@ -58,7 +58,7 @@ class WorkflowStepController extends Controller
         $workflow = Workflow::where('id', $formInput['workflow_id'])->first();
         //$titre, $description, $workflow = null, $code = null, $validated_nextstep = null, $rejected_nextstep = null
         $new_workflowstep = WorkflowStep::createNew($formInput['titre'], $formInput['description'], $workflow, null, $formInput['transitionpassstep'], $formInput['transitionrejectstep'])
-            ->setApproversStatic($formInput['role_static'],$formInput['approvers'],true)
+            ->setApproversStatic($formInput['role_static'],$formInput['staticapprovers'],true)
             ->setProfileDynamic($formInput['role_dynamic'], $formInput['role_dynamic_label'], $formInput['role_dynamic_previous_label'],true)
             ->setProfilePrevious($formInput['role_previous'],true)
             //->setExpiration($formInput['can_expire'], $formInput['transitionexpirestep'], "", "", $formInput['expire_hours'], $formInput['expire_days'],true)
@@ -109,7 +109,7 @@ class WorkflowStepController extends Controller
             // Déplacement de l'étape
             $this->reorder($workflowstep, $formInput['oldIndex'], $formInput['newIndex']);
             $workflowsteps = WorkflowStep::where('workflow_id',$formInput['workflow_id'])->orderBy('posi','ASC')->get();
-            return $workflowsteps->load(['actions','approvers']);
+            return $workflowsteps->load(['actions','staticapprovers']);
         } else {
             // Modification simple
 
@@ -119,7 +119,7 @@ class WorkflowStepController extends Controller
                 'workflow_id' => $formInput['workflow_id'],
             ]);
 
-            $workflowstep->setApproversStatic($formInput['role_static'],$formInput['approvers'],true)
+            $workflowstep->setApproversStatic($formInput['role_static'],$formInput['staticapprovers'],true)
                 ->setProfileDynamic($formInput['role_dynamic'], $formInput['role_dynamic_label'], $formInput['role_dynamic_previous_label'],true)
                 ->setProfilePrevious($formInput['role_previous'],true)
                 //->setExpiration($formInput['can_expire'], $formInput['transitionexpirestep'], $formInput['expire_hours'], $formInput['expire_days'],true)
@@ -176,7 +176,7 @@ class WorkflowStepController extends Controller
     private function returnStepLoaded(WorkflowStep $step) {
         return $step->load([
             'actions',
-            'approvers',
+            'staticapprovers',
             'stepparent',
             'actionspass',
             'actionsreject',

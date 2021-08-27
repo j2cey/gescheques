@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'gestockdsi@gabontelecom.ga'),
-        'name' => env('MAIL_FROM_NAME','Gest-Bordereaux-Remise'),
+        'address' => env('MAIL_FROM_ADDRESS', 'xxx'),
+        'name' => env('MAIL_FROM_NAME','xxx'),
     ],
 
     /*

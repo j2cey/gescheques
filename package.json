@@ -36,6 +36,7 @@
         "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
         "admin-lte": "^3.0",
         "autoprefixer": "^9.8.6",
+        "buefy": "^0.9.10",
         "d3": "^5.16.0",
         "flowchart-vue": "^0.18.1",
         "jquery-ui-dist": "^1.12.1",

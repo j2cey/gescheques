@@ -10,7 +10,7 @@
                 <label for="type">Type</label>
                 <select id="type" class="flwch-form-control" v-model="connectionForm.type">
                     <option :key="'connection-type-' + item.id"
-                            v-for="item in [ { name: 'Pass', id: 'pass' }, { name: 'Reject', id: 'reject' }, { name: 'Allways', id: 'allways' } ]"
+                            v-for="item in [ { name: 'Pass', id: 'pass' }, { name: 'Reject', id: 'reject' }, { name: 'Allways', id: 'allways' }, { name: 'Expire', id: 'expire' } ]"
                             :value="item.id">
                         {{item.name}}
                     </option>

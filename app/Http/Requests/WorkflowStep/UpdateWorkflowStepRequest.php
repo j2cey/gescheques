@@ -35,7 +35,7 @@ class UpdateWorkflowStepRequest extends WorkflowStepRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'approvers' => $this->setRelevantIdsList($this->input('approvers'), true),
+            'staticapprovers' => $this->setRelevantIdsList($this->input('staticapprovers'), true),
             'validatednextstep' => $this->setRelevantStep($this->input('validatednextstep'), true),
             'rejectednextstep' => $this->setRelevantStep($this->input('rejectednextstep'), true),
             'expirednextstep' => $this->setRelevantStep($this->input('expirednextstep'), true),

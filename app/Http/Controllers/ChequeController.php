@@ -107,7 +107,7 @@ class ChequeController extends Controller
         $user = auth()->user();
         $userprofiles = $user->roles()->get();
 
-        $exec_step_profiles = $cheque->workflowexec->currentstep->approvers->pluck('name');
+        $exec_step_profiles = $cheque->workflowexec->currentstep->staticapprovers->pluck('name');
 
         // récupérer le bon profile utilisateur
         /*if (! is_null($exec_step_profile)) {
@@ -160,7 +160,7 @@ class ChequeController extends Controller
         $user = auth()->user();
         $userprofile = $user->roles()->first();
 
-        $exec_step_profiles = $cheque->workflowexec->currentstep->approvers->pluck('name');
+        $exec_step_profiles = $cheque->workflowexec->currentstep->staticapprovers->pluck('name');
 
         // récupérer le bon profile utilisateur
         if ($user->hasRole($exec_step_profiles)) {
@@ -171,7 +171,7 @@ class ChequeController extends Controller
             ->first();
 
         //$cheque->load(['currmodelstep','currmodelstep.exec','currmodelstep.exec.currentstep','currmodelstep.exec.currentstep.profile','currmodelstep.step','currmodelstep.actions']);
-        $cheque->load(['workflowexec','workflowexec.currentstep','workflowexec.currentstep.approvers']);
+        $cheque->load(['workflowexec','workflowexec.currentstep','workflowexec.currentstep.staticapprovers']);
 
         $hasexecrole = $exec_step_profiles ? ( $user->hasRole($exec_step_profiles) ? 1 : 0 ) : 0;
 

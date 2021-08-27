@@ -10,7 +10,7 @@ class CreateRoleWorkflowStepTable extends Migration
     use BaseMigrationTrait;
 
     public $table_name = 'role_workflow_step';
-    public $table_comment = 'liste des profiles d acteurs d une étape de workflow';
+    public $table_comment = 'liste des profiles (statiques) d acteurs d une étape de workflow';
 
     /**
      * Run the migrations.

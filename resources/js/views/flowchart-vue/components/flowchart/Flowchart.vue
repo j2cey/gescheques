@@ -282,6 +282,7 @@
                                 pass: "#52c41a",
                                 reject: "red",
                                 allways: "orange",
+                                expire: "#a65ba6",
                             };
                             if (
                                 that.currentConnections.filter((item) => item === conn).length > 0
@@ -290,6 +291,7 @@
                                     pass: "#12640a",
                                     reject: "darkred",
                                     allways: "darkorange",
+                                    expire: "#913cc1",
                                 };
                             }
                             let result = that.arrowTo(

@@ -25,7 +25,6 @@ use App\Http\Controllers\WorkflowObjectController;
 use App\Http\Controllers\WorkflowExecActionController;
 use App\Http\Controllers\WorkflowActionTypeController;
 use App\Http\Controllers\WorkflowObjectFieldController;
-use App\Http\Controllers\WorkflowExecModelStepController;
 use App\Http\Controllers\WorkflowTreatmentTypeController;
 
 /*
@@ -151,14 +150,6 @@ Route::resource('workflowobjectfields',WorkflowObjectFieldController::class)->mi
 
 Route::resource('workflowexecs',WorkflowExecController::class)->middleware('auth');
 Route::resource('workflowexecactions',WorkflowExecActionController::class)->middleware('auth');
-
-#endregion
-
-#region workflowexecmodelsteps & canexecstep & actionstoexec
-
-Route::resource('workflowexecmodelsteps', WorkflowExecModelStepController::class)->middleware('auth');
-Route::get('canexecstep/{stepid}', [WorkflowExecModelStepController::class,'canexecstep'])->middleware('auth');
-Route::post('actionstoexec', [WorkflowExecModelStepController::class,'actionstoexec'])->middleware('auth');
 
 #endregion
 

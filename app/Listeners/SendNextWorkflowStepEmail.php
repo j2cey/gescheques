@@ -32,8 +32,6 @@ class SendNextWorkflowStepEmail
      */
     public function handle(WorkflowStepCompleted $event)
     {
-        //$this->notifierActeurs($event->exec, $event->nextStep);
-        //$this->notifyOthers($event->exec, $event->nextStep);
         $users_to_notify = $this->getApproversToNotify($event->exec, $event->nextStep);
         $users_to_notify = $this->getUsersMerged($users_to_notify, $this->getOthersToNotify($event->exec, $event->nextStep));
 
@@ -58,7 +56,7 @@ class SendNextWorkflowStepEmail
      */
     private function getApproversToNotify(WorkflowExec $exec, WorkflowStep $step) {
         if ($step->notify_to_approvers) {
-            return User::role($step->approvers->pluck('name'))->get();
+            return User::role($exec->currentapprovers->pluck('name'))->get();
         } else {
             return [];
         }

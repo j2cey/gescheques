@@ -7,7 +7,6 @@ use App\Rules\StepCanExpire;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Role;
 use OwenIt\Auditing\Contracts\Auditable;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,7 +65,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
  * @property WorkflowStepTransition[]|null $transitions
  * @property WorkflowAction[] $rejectionactions
  * @property WorkflowAction[] $actions
- * @property WorkflowStep[]|null $approvers
+ * @property WorkflowStep[]|null $staticapprovers
  * @property WorkflowStepType $type
  * @property Workflow $workflow
  * @property User[] $otherstonotify
@@ -107,7 +106,7 @@ class WorkflowStep extends BaseModel implements Auditable
         return $this->belongsTo(WorkflowStep::class, 'step_parent_id');
     }
 
-    public function approvers() {
+    public function staticapprovers() {
         return $this->belongsToMany(Role::class, 'role_workflow_step', 'workflow_step_id', 'role_id');
     }
 
@@ -257,7 +256,7 @@ class WorkflowStep extends BaseModel implements Auditable
     public static function defaultRules($can_expire,$expire_hours,$expire_days) {
         return [
             'titre' => 'required',
-            'approvers' => 'required_unless:role_static,0',
+            'staticapprovers' => 'required_unless:role_static,0',
             'transitionpassstep' => 'required',
             'transitionrejectstep' => 'required',
             'role_dynamic_label' => 'required_unless:role_dynamic,0',
@@ -283,7 +282,7 @@ class WorkflowStep extends BaseModel implements Auditable
             'titre.required' => 'Prière de Renseigner le Titre',
             'transitionpassstep.required' => 'Une étape après validation est requise',
             'transitionrejectstep.required' => 'Une étape après réjet est requise',
-            'approvers.required_unless' => 'Sélectionnez au moins un profile',
+            'staticapprovers.required_unless' => 'Sélectionnez au moins un profile',
             'role_dynamic_label.required_unless' => 'Renseignez un libellé pour le(s) profile(s) dynamique',
             'role_dynamic_previous_label.required_unless' => 'Renseignez un libellé pour le(s) profile(s) précédent(s)',
             'transitionexpirestep.required_unless' => 'Selectionnez l étape à suivre après expiration',
@@ -483,10 +482,10 @@ class WorkflowStep extends BaseModel implements Auditable
 
         if ( is_null($role_ids) || ( ! $role_ids ) || is_null($role_ids) || ( empty($role_ids) ) ) {
             $this->role_static = false;
-            $this->approvers()->detach();
+            $this->staticapprovers()->detach();
         } else {
             $this->role_static = true;
-            $this->approvers()->sync($role_ids);
+            $this->staticapprovers()->sync($role_ids);
         }
 
         if ($role_dynamic) {
@@ -671,7 +670,14 @@ class WorkflowStep extends BaseModel implements Auditable
 
     public function removeFromWorkflow() {
         $this->workflow()->dissociate();
-        $this->delete();
+        try {
+            $this->delete();
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function removeTransition(WorkflowStepTransition $transition) {
+        $transition->removeFromSteps();
     }
 
     #region Flowchart
@@ -775,5 +781,24 @@ class WorkflowStep extends BaseModel implements Auditable
     public static function boot(){
         parent::boot();
 
+        static::saving(function ($model) {
+            if ( $model->role_dynamic ) {
+                if ( is_null($model->role_dynamic_label) || $model->role_dynamic_label === "" ) {
+                    $model->role_dynamic_label = config('Settings.workflowstep.roledynamic.default_label');
+                }
+                if ( is_null($model->role_dynamic_previous_label) || $model->role_dynamic_previous_label === "" ) {
+                    $model->role_dynamic_previous_label = config('Settings.workflowstep.roledynamic.default_previous_label');
+                }
+            }
+
+            if ( $model->can_expire ) {
+                if ( is_null($model->expire_hours) || $model->expire_hours === 0 ) {
+                    $model->expire_hours = config('Settings.workflowstep.canexpire.default_hours');
+                }
+                if ( is_null($model->expire_days) || $model->expire_days === 0 ) {
+                    $model->expire_days = config('Settings.workflowstep.canexpire.default_days');
+                }
+            }
+        });
     }
 }
