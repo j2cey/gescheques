@@ -41,7 +41,7 @@
                 <!-- /.col -->
                 <div class="col-md-9 col-sm-6 col-12">
 
-                    <WorkflowSteps :workflow="workflow" :workflowsteps_prop="workflow.steps"></WorkflowSteps>
+                    <liststepbtable></liststepbtable>
 
                 </div>
                 <!-- /.col -->
@@ -56,6 +56,7 @@
 <script>
     import WorkflowSteps from "../workflowsteps/list";
     import AddUpdateStep from "../workflowsteps/addupdate";
+    import liststepbtable from "../workflowsteps/stepsbtable";
 
     import WorkflowBus from "./workflowBus";
 
@@ -66,7 +67,7 @@
             index_prop: {}
         },
         components: {
-            WorkflowSteps, AddUpdateStep
+            WorkflowSteps, AddUpdateStep, liststepbtable
         },
         mounted() {
             WorkflowBus.$on('workflow_updated', (updworkflow) => {

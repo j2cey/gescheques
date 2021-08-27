@@ -9,6 +9,7 @@ require('./bootstrap');
 //window.Vue = require('vue');
 
 import Vue from 'vue';
+console.log(`Vue version : ${Vue.version}`);
 import VueRouter from "vue-router";
 
 window.Vue = Vue;
