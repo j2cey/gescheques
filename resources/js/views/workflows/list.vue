@@ -27,7 +27,7 @@
                     <div class="card-header">
                         <div class="form-inline float-left">
                             <span class="help-inline pr-1 text-sm"> Liste des Workflows </span>
-                            <a class="btn btn-outline-primary waves-effect waves-light btn-sm" @click="createNewWorkflow()"><i class="fa fa-plus"></i></a>
+                            <b-button size="is-small" type="is-info is-light" @click="createNewWorkflow()"><i class="fas fa-plus"></i></b-button>
                         </div>
 
                         <div class="card-tools">
@@ -60,21 +60,15 @@
         <!-- /.content -->
 
         <AddUpdateWorflow></AddUpdateWorflow>
-        <AddUpdateAction></AddUpdateAction>
     </div>
 </template>
 
 <script>
     //import StepBus from './steps/stepBus'
     import AddUpdateWorflow from './addupdate'
-    import AddUpdateStep from '../workflowsteps/addupdate'
-    import WorkflowSteps from '../workflowsteps/list'
-    import AddUpdateAction from '../workflowactions/addupdate'
-    import StepBus from "../workflowsteps/stepBus";
-    import WorkflowBus from "./workflowBus";
 
     export default {
-        name: "workflows",
+        name: "workflows-list",
         mounted() {
             this.$on('new_workflow_created', (workflow) => {
                 window.noty({
@@ -87,7 +81,7 @@
         },
         components: {
             WorkflowItem: () => import('../workflows/item'),
-            AddUpdateWorflow, AddUpdateAction
+            AddUpdateWorflow
         },
         data() {
             return {

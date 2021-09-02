@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use App\Models\WorkflowTreatmentType;
 use Illuminate\Contracts\View\Factory;
 use App\Models\WorkflowStepTransition;
+use App\Http\Resources\WorkflowResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Foundation\Application;
 use App\Http\Requests\Workflow\CreateWorkflowRequest;
@@ -214,15 +215,16 @@ class WorkflowController extends Controller
     }
 
     public function fetch() {
-        $workflows = Workflow::all();
-
-        $workflows->load([
+        //$workflows = Workflow::all();
+        return WorkflowResource::collection(Workflow::all());
+        /*$workflows->load([
             'object',
             'steps',
             'steps.staticapprovers','steps.stepparent','steps.transitionpassstep','steps.transitionrejectstep',
             'steps.transitionexpirestep','steps.otherstonotify',
             'steps.actions',
             'steps.actions.actiontype',
+            'steps.actions.treatmenttype',
             'steps.actions.mimetypes',
             'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
             'steps.actionspass',
@@ -236,6 +238,7 @@ class WorkflowController extends Controller
             'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith'
         ]);
         return $workflows;
+        */
     }
 
     /**
@@ -252,7 +255,7 @@ class WorkflowController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateWorkflowRequest $request
-     * @return Response
+     * @return WorkflowResource|Response
      */
     public function store(CreateWorkflowRequest $request)
     {
@@ -268,12 +271,15 @@ class WorkflowController extends Controller
             'model_type' => $formInput['object']['model_type'],
         ]);
 
-        return $new_workflow->load([
+        return $this->workflowLoaded($new_workflow);
+
+        /*return $new_workflow->load([
             'object',
             'steps',
             'steps.staticapprovers','steps.stepparent',
             'steps.actions',
             'steps.actions.actiontype',
+            'steps.actions.treatmenttype',
             'steps.actions.mimetypes',
             'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
             'steps.actionspass',
@@ -285,7 +291,7 @@ class WorkflowController extends Controller
             'steps.actionsreject',
             'steps.actionsreject.actiontype','steps.actionsreject.mimetypes',
             'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith'
-        ]);
+        ]);*/
     }
 
     /**
@@ -315,7 +321,7 @@ class WorkflowController extends Controller
      *
      * @param Request $request
      * @param Workflow $workflow
-     * @return Workflow|Response
+     * @return WorkflowResource|Workflow|Response
      */
     public function update(Request $request, Workflow $workflow)
     {
@@ -337,9 +343,12 @@ class WorkflowController extends Controller
             'model_type' => $formInput['object']['model_type'],
         ]);
 
-        return $workflow->load(['object','steps','steps.staticapprovers','steps.stepparent',
+        return $this->workflowLoaded($workflow);
+
+        /*return $workflow->load(['object','steps','steps.staticapprovers','steps.stepparent',
             'steps.actions',
             'steps.actions.actiontype',
+            'steps.actions.treatmenttype',
             'steps.actions.mimetypes',
             'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
             'steps.actionspass',
@@ -351,7 +360,7 @@ class WorkflowController extends Controller
             'steps.actionsreject',
             'steps.actionsreject.actiontype','steps.actionsreject.mimetypes',
             'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith'
-        ]);
+        ]);*/
     }
 
     /**
@@ -363,5 +372,14 @@ class WorkflowController extends Controller
     public function destroy(Workflow $workflow)
     {
         //TODO: Supprimer le Workflow
+    }
+
+    /**
+     *
+     * @param $workflow
+     * @return WorkflowResource
+     */
+    private function workflowLoaded($workflow) {
+        return new WorkflowResource($workflow);
     }
 }

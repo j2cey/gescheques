@@ -40,6 +40,26 @@
                                     <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowactionForm.errors.has('actiontype')" v-text="workflowactionForm.errors.get('actiontype')"></span>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="m_select_treatment_type" class="col-sm-2 col-form-label text-xs">Type Traitement</label>
+                                <div class="col-sm-10 text-xs">
+                                    <multiselect
+                                        id="m_select_treatment_type"
+                                        v-model="workflowactionForm.treatmenttype"
+                                        selected.sync="workflowaction.treatmenttype"
+                                        value=""
+                                        :options="workflowtreatmenttypes"
+                                        :searchable="true"
+                                        :multiple="false"
+                                        label="name"
+                                        track-by="id"
+                                        key="id"
+                                        placeholder="Type Traitement"
+                                    >
+                                    </multiselect>
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowactionForm.errors.has('treatmenttype')" v-text="workflowactionForm.errors.get('treatmenttype')"></span>
+                                </div>
+                            </div>
                             <div class="form-group row" v-if="workflowactionForm.actiontype &&workflowactionForm.actiontype.code === 'FILE_ref'">
                                 <div class="col-sm-2 text-xs">
                                 </div>
@@ -160,9 +180,9 @@
 
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary btn-sm" @click="updateWorkflowaction(workflowstepId)" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</button>
-                    <button type="button" class="btn btn-primary btn-sm" @click="createWorkflowaction(workflowstepId)" :disabled="!isValidCreateForm" v-else>Créer Action</button>
+                    <b-button type="is-dark" size="is-small" data-dismiss="modal">Fermer</b-button>
+                    <b-button type="is-primary" size="is-small" :loading="loading" @click="updateWorkflowaction(workflowstepId)" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</b-button>
+                    <b-button type="is-primary" size="is-small" :loading="loading" @click="createWorkflowaction(workflowstepId)" :disabled="!isValidCreateForm" v-else>Créer Action</b-button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -174,13 +194,16 @@
 <script>
     import Multiselect from 'vue-multiselect'
     import ActionBus from "./actionBus";
+    import StepBus from "../workflowsteps/stepBus";
 
     class Workflowaction {
         constructor(workflowaction) {
             this.titre = workflowaction.titre || ''
             this.description = workflowaction.description || ''
             this.workflow_step_id = workflowaction.workflow_step_id || ''
+
             this.actiontype = workflowaction.actiontype || ''
+            this.treatmenttype = workflowaction.treatmenttype || ''
             this.mimetypes = workflowaction.mimetypes || ''
 
             this.field_required = workflowaction.field_required || false
@@ -196,7 +219,7 @@
         }
     }
     export default {
-        name: "addupdateAction",
+        name: "action-addupdate",
         props: {
         },
         components: { Multiselect },
@@ -252,6 +275,8 @@
         created() {
             axios.get('/workflowactiontypes.fetch')
                 .then(({data}) => this.workflowactiontypes = data);
+            axios.get('/workflowtreatmenttypes.fetch')
+                .then(({data}) => this.workflowtreatmenttypes = data);
             axios.get('/mimetypes.fetch')
                 .then(({data}) => this.mimetypes = data);
             axios.get('/workflowactions.fetchbystep/0')
@@ -266,6 +291,7 @@
                 editing: false,
                 loading: false,
                 workflowactiontypes: [],
+                workflowtreatmenttypes: [],
                 mimetypes: [],
                 actionsofstep: [],
             }
@@ -279,11 +305,22 @@
 
                 this.workflowactionForm
                     .post('/workflowactions')
-                    .then(workflowaction => {
+                    .then(resp => {
                         this.loading = false
                         // on émet l'action créé dans le bus Action
-                        ActionBus.$emit('workflowaction_created', {workflowaction, workflowstepId})
+                        console.log('workflowactions post resp: ', resp)
+                        let action = resp.action
+                        let step = resp.step
+
                         $('#addUpdateWorkflowaction').modal('hide')
+
+                        this.$swal({
+                            html: '<small>Action créée avec succès !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            ActionBus.$emit('workflowaction_created', {action, step})
+                        })
                     }).catch(error => {
                     this.loading = false
                 });
@@ -293,10 +330,20 @@
 
                 this.workflowactionForm
                     .put(`/workflowactions/${this.workflowactionId}`)
-                    .then(workflowaction => {
+                    .then(resp => {
                         this.loading = false
-                        ActionBus.$emit('workflowaction_updated', {workflowaction, workflowstepId})
+                        let action = resp.action
+                        let step = resp.step
+
                         $('#addUpdateWorkflowaction').modal('hide')
+
+                        this.$swal({
+                            html: '<small>Action modifiée avec succès !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            ActionBus.$emit('workflowaction_updated', {action, step})
+                        })
                     }).catch(error => {
                     this.loading = false
                 });

@@ -107,6 +107,9 @@ Route::resource('workflowsteps',WorkflowStepController::class)->middleware('auth
 Route::get('workflowsteps.fetchbyworkflow/{id}',[WorkflowStepController::class, 'fetchbyworkflow'])
     ->name('workflowsteps.fetchbyworkflow')
     ->middleware('auth');
+Route::match(['put','patch'],'workflowsteps.updateflowchartnode/{workflowstep}',[WorkflowStepController::class, 'updateflowchartnode'])
+    ->name('workflowsteps.updateflowchartnode')
+    ->middleware('auth');
 
 #endregion
 
@@ -227,4 +230,7 @@ Route::get('statuses.fetchone/{id}',[StatusController::class,'fetchone'])
 
 Route::get('workflowtreatmenttypes.fetchsplitted',[WorkflowTreatmentTypeController::class,'fetchsplitted'])
     ->name('workflowtreatmenttypes.fetchsplitted')
+    ->middleware('auth');
+Route::get('workflowtreatmenttypes.fetch',[WorkflowTreatmentTypeController::class,'fetch'])
+    ->name('workflowtreatmenttypes.fetch')
     ->middleware('auth');

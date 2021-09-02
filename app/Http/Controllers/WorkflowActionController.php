@@ -6,6 +6,8 @@ use App\Models\WorkflowStep;
 use Illuminate\Http\Response;
 use App\Models\WorkflowAction;
 use Illuminate\Database\Eloquent\Collection;
+use App\Http\Resources\WorkflowStepResource;
+use App\Http\Resources\WorkflowActionResource;
 use App\Http\Requests\WorkflowAction\CreateWorkflowActionRequest;
 use App\Http\Requests\WorkflowAction\UpdateWorkflowActionRequest;
 
@@ -38,25 +40,31 @@ class WorkflowActionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateWorkflowActionRequest $request
-     * @return Response
+     * @return WorkflowStepResource|array|Response
      */
     public function store(CreateWorkflowActionRequest $request)
     {
         $user = auth()->user();
         $formInput = $request->all();
 
-        $workflow_step = WorkflowStep::where('id', $formInput['workflow_step_id'])->first();
+        $workflowstep = WorkflowStep::where('id', $formInput['workflow_step_id'])->first();
 
         $new_workflowaction = WorkflowAction::createNew($formInput['titre'],$formInput['description'])
-            ->setStep($workflow_step, true)
+            ->setStep($workflowstep, true)
             ->setActionType($formInput['actiontype'], true)
+            ->setTreatmentType($formInput['treatmenttype'], true)
             ->setMimeTypes($formInput['mimetypes'], true)
             ->setRequired($formInput['field_required'],$formInput['field_required_msg'], true)
             ->setRequiredWithout($formInput['field_required_without'],$formInput['actionsrequiredwithout'], $formInput['field_required_without_msg'], true)
             ->setRequiredWith($formInput['field_required_with'],$formInput['actionsrequiredwith'], $formInput['field_required_with_msg'], true)
         ;
 
-        return $new_workflowaction->load(['workflowstep','actiontype','actionsrequiredwithout','actionsrequiredwith','mimetypes']);
+        return [
+            'step' => new WorkflowStepResource($workflowstep->refresh()),
+            'action' => new WorkflowActionResource($new_workflowaction)
+        ];
+
+        //return $new_workflowaction->load(['workflowstep','actiontype','actionsrequiredwithout','actionsrequiredwith','mimetypes']);
     }
 
     /**
@@ -86,7 +94,7 @@ class WorkflowActionController extends Controller
      *
      * @param UpdateWorkflowActionRequest $request
      * @param WorkflowAction $workflowaction
-     * @return WorkflowAction
+     * @return WorkflowAction|array
      */
     public function update(UpdateWorkflowActionRequest $request, WorkflowAction $workflowaction)
     {
@@ -98,28 +106,38 @@ class WorkflowActionController extends Controller
             'description' => $formInput['description'],
         ]);
 
-        $workflow_step = WorkflowStep::where('id', $formInput['workflow_step_id'])->first();
+        $workflowstep = WorkflowStep::where('id', $formInput['workflow_step_id'])->first();
 
-        $workflowaction->setStep($workflow_step, true)
+        $workflowaction->setStep($workflowstep, true)
             ->setActionType($formInput['actiontype'], true)
+            ->setTreatmentType($formInput['treatmenttype'], true)
             ->setMimeTypes($formInput['mimetypes'], true)
             ->setRequired($formInput['field_required'],$formInput['field_required_msg'], true)
             ->setRequiredWithout($formInput['field_required_without'],$formInput['actionsrequiredwithout'], $formInput['field_required_without_msg'], true)
             ->setRequiredWith($formInput['field_required_with'],$formInput['actionsrequiredwith'], $formInput['field_required_with_msg'], true)
         ;
 
-        return $workflowaction->load(['workflowstep','actiontype','actionsrequiredwithout','actionsrequiredwith','mimetypes']);
+        return [
+            'step' => new WorkflowStepResource($workflowstep->refresh()),
+            'action' => new WorkflowActionResource($workflowaction)
+        ];
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param WorkflowAction $workflowaction
-     * @return Response
+     * @return array|Response
      */
     public function destroy(WorkflowAction $workflowaction)
     {
-        // TODO: Supprimer Action
+        $workflowstep = WorkflowStep::where('id', $workflowaction->workflow_step_id)->first();
+        $workflowaction->delete();
+
+        return [
+            'step' => new WorkflowStepResource($workflowstep->refresh()),
+            'action' => $workflowaction
+        ];
     }
 
     public function fetchbystep($id) {

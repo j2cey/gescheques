@@ -85,9 +85,39 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2);
 
+
+/**
+ *  Added 2021-08-27 for b-table
+ */
+import PortalVue from 'portal-vue'
+Vue.use(PortalVue)
+
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+
 import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
+//import 'buefy/dist/buefy.css'
 Vue.use(Buefy)
+/**
+ * end Added
+ */
+
+/**
+ * Added laravel-permission-to-vuejs
+ */
+import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
+//Vue.use(LaravelPermissionToVueJS)
+/**
+* end Added
+*/
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
@@ -118,6 +148,8 @@ Vue.component('encaissements-show', require('./views/encaissements/show').defaul
 
 Vue.component('systems-index', require('./views/systems/index').default);
 
+Vue.component('btable-test', require('./views/workflowsteps/stepsbtable').default);
+
 Vue.component("rawDisplayer", rawDisplayer);
 
 Vue.component('user-show', require('./views/users/show').default);
@@ -140,4 +172,5 @@ const app = new Vue({
     store,
     el: '#app',
     router,
+    LaravelPermissionToVueJS,
 });

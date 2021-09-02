@@ -1,28 +1,33 @@
 <template>
-    <div class="card card-widget">
-        <div class="card-header">
-            <div class="user-block">
-                <span class="text-purple text-sm" data-toggle="collapse" data-parent="#workflowlist" :href="'#collapse-workflows-'+index">
-                    {{ workflow.titre }}
-                </span>
+    <div class="card">
+        <header>
+            <div class="card-header-title row">
+                <div class="col-md-3 col-sm-8 col-12">
+                    <span class="text-purple text-sm" @click="collapseClicked()" data-toggle="collapse" data-parent="#workflowlist" :href="'#collapse-workflows-'+index">
+                        {{ workflow.titre }}
+                    </span>
+                </div>
+                <div class="col-md-3 col-sm-4 col-12 text-right">
+                    <span class="text text-sm">
+                        <a type="button" class="btn btn-tool text-success" data-toggle="tooltip" @click="showFlowchart(workflow)">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a type="button" class="btn btn-tool text-warning" data-toggle="tooltip" @click="editWorkflow(workflow)">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </a>
+                        <a type="button" class="btn btn-tool" @click="collapseClicked()" data-toggle="collapse" data-parent="#workflowlist" :href="'#collapse-workflows-'+index">
+                            <i :class="currentCollapseIcon"></i>
+                        </a>
+                        <a type="button" class="btn btn-tool text-danger" @click="deleteWorkflow(workflow.uuid, index)">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span>
+                </div>
             </div>
             <!-- /.user-block -->
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool text-success" data-toggle="tooltip" @click="showFlowchart(workflow)">
-                    <i class="fa fa-eye"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-toggle="tooltip" @click="editWorkflow(workflow)">
-                    <i class="fa fa-pencil-square-o"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-toggle="collapse" data-parent="#workflowlist" :href="'#collapse-workflows-'+index"><i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool text-danger" @click="deleteWorkflow(workflow.uuid, index)"><i class="fa fa-trash-o"></i>
-                </button>
-            </div>
-            <!-- /.card-tools -->
-        </div>
+        </header>
         <!-- /.card-header -->
-        <div :id="'collapse-workflows-'+index" class="card-body panel-collapse collapse in">
+        <div :id="'collapse-workflows-'+index" class="card-content panel-collapse collapse in">
 
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-12">
@@ -41,7 +46,7 @@
                 <!-- /.col -->
                 <div class="col-md-9 col-sm-6 col-12">
 
-                    <liststepbtable></liststepbtable>
+                    <WorkflowSteps :workflow="workflow" :workflowsteps_prop="workflow.steps"></WorkflowSteps>
 
                 </div>
                 <!-- /.col -->
@@ -56,18 +61,17 @@
 <script>
     import WorkflowSteps from "../workflowsteps/list";
     import AddUpdateStep from "../workflowsteps/addupdate";
-    import liststepbtable from "../workflowsteps/stepsbtable";
 
     import WorkflowBus from "./workflowBus";
 
     export default {
-        name: "item",
+        name: "workflow-item",
         props: {
             workflow_prop: {},
             index_prop: {}
         },
         components: {
-            WorkflowSteps, AddUpdateStep, liststepbtable
+            WorkflowSteps, AddUpdateStep
         },
         mounted() {
             WorkflowBus.$on('workflow_updated', (updworkflow) => {
@@ -87,6 +91,7 @@
             return {
                 workflow: this.workflow_prop,
                 index: this.index_prop,
+                collapse_icon: 'fas fa-chevron-down'
             }
         },
         methods: {
@@ -96,6 +101,49 @@
             showFlowchart(workflow) {
                 /*WorkflowBus.$emit('show_flowchart', workflow)*/
                 window.location = '/workflows.flowchart/' + workflow.id
+            },
+            deleteWorkflow(id, key) {
+                this.$swal({
+                    html: '<small>Voulez-vous vraiment supprimer ce Workflow ?</small>',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Oui',
+                    cancelButtonText: 'Non'
+                }).then((result) => {
+                    if(result.value) {
+
+                        axios.delete(`/workflows/${id}`)
+                            .then(resp => {
+
+                                console.log('workflow delete resp: ', resp)
+
+                                this.$swal({
+                                    html: '<small>Workflow supprimé avec succès !</small>',
+                                    icon: 'success',
+                                    timer: 3000
+                                }).then(() => {
+                                    WorkflowBus.$emit('workflowaction_deleted', {key, resp})
+                                })
+                            }).catch(error => {
+                            window.handleErrors(error)
+                        })
+
+                    } else {
+                        // stay here
+                    }
+                })
+            },
+            collapseClicked() {
+                if (this.collapse_icon === 'fas fa-chevron-down') {
+                    this.collapse_icon = 'fas fa-chevron-up';
+                } else {
+                    this.collapse_icon = 'fas fa-chevron-down';
+                }
+            }
+        },
+        computed: {
+            currentCollapseIcon() {
+                return this.collapse_icon;
             }
         }
     }

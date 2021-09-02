@@ -8,6 +8,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -39,7 +40,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable implements Auditable
 {
-    use HasFactory, Notifiable, HasRoles, \OwenIt\Auditing\Auditable, BaseTrait;
+    use HasFactory, Notifiable, HasRoles, \OwenIt\Auditing\Auditable, BaseTrait, LaravelPermissionToVueJS;
 
     /**
      * The attributes that are mass assignable.

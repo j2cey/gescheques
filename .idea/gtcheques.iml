@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/adldap2/adldap2" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/adldap2/adldap2-laravel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ahmedsaoud31/laravel-permission-to-vuejs" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />

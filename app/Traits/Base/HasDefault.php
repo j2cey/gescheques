@@ -29,13 +29,15 @@ trait HasDefault
         return $this;
     }
 
-    public function unsetDefault() {
+    public function unsetDefault($id) {
         $model_type = get_called_class();
         $curr_default = $this->getDefault();
 
-        if ($this->id === $curr_default->id) {
-            $min_obj = $model_type::orderBy('id', 'ASC')->whereNotIn('id', $this->id)->first();
-            $min_obj->setDefault();
+        if ($id === $curr_default->id) {
+            $min_obj = $model_type::orderBy('id', 'ASC')->whereNotIn('id', [$id])->first();
+            if ($min_obj) {
+                $min_obj->setDefault();
+            }
         }
     }
 
@@ -47,7 +49,8 @@ trait HasDefault
     public static function bootHasDefault()
     {
         static::deleting(function ($model) {
-            $model->unsetDefault();
+            // TODO: manage unsetDefault on deleting
+            //$model->unsetDefault($model->id);
         });
     }
 }

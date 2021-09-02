@@ -7,9 +7,12 @@ use App\Models\WorkflowStep;
 use Illuminate\Http\Request;
 use App\Rules\StepCanExpire;
 use Illuminate\Http\Response;
+use App\Models\WorkflowAction;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CleanRequestTrait;
 use Illuminate\Database\Eloquent\Collection;
+use App\Http\Resources\WorkflowStepResource;
+use App\Http\Requests\Flowchart\UpdateFlowchartNodeRequest;
 use App\Http\Requests\WorkflowStep\CreateWorkflowStepRequest;
 use App\Http\Requests\WorkflowStep\UpdateWorkflowStepRequest;
 
@@ -43,7 +46,7 @@ class WorkflowStepController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateWorkflowStepRequest $request
-     * @return WorkflowStep
+     * @return WorkflowStepResource|WorkflowStep
      */
     public function store(CreateWorkflowStepRequest $request)
     {
@@ -97,7 +100,7 @@ class WorkflowStepController extends Controller
      *
      * @param UpdateWorkflowStepRequest $request
      * @param WorkflowStep $workflowstep
-     * @return WorkflowStep|WorkflowStep[]|Collection
+     * @return WorkflowStepResource|WorkflowStep|WorkflowStep[]|Collection
      */
     public function update(UpdateWorkflowStepRequest $request, WorkflowStep $workflowstep)
     {
@@ -122,7 +125,7 @@ class WorkflowStepController extends Controller
             $workflowstep->setApproversStatic($formInput['role_static'],$formInput['staticapprovers'],true)
                 ->setProfileDynamic($formInput['role_dynamic'], $formInput['role_dynamic_label'], $formInput['role_dynamic_previous_label'],true)
                 ->setProfilePrevious($formInput['role_previous'],true)
-                //->setExpiration($formInput['can_expire'], $formInput['transitionexpirestep'], $formInput['expire_hours'], $formInput['expire_days'],true)
+                ->updateExpiration($formInput['can_expire'], $formInput['expire_hours'], $formInput['expire_days'],true)
                 ->setNotifyToProfile($formInput['notify_to_approvers'], true)
                 ->setNotifyToOthers($formInput['notify_to_others'], $formInput['otherstonotify'], true)
                 ->setStepParent($formInput['stepparent'], true)
@@ -130,6 +133,20 @@ class WorkflowStepController extends Controller
 
             return $this->returnStepLoaded($workflowstep);
         }
+    }
+
+    public function updateflowchartnode(UpdateFlowchartNodeRequest $request, WorkflowStep $workflowstep)
+    {
+        $user = auth()->user();
+
+        $formInput = $request->all();
+
+        $workflowstep
+            ->setFlowchartPosition($formInput['flowchart_position_x'], $formInput['flowchart_position_y'],true)
+            ->setFlowchartSize($formInput['flowchart_size_width'], $formInput['flowchart_size_height'],true)
+        ;
+
+        return $this->returnStepLoaded($workflowstep);
     }
 
     /**
@@ -173,8 +190,12 @@ class WorkflowStepController extends Controller
         }
     }
 
+    /**
+     * @param WorkflowStep $step
+     * @return WorkflowStepResource
+     */
     private function returnStepLoaded(WorkflowStep $step) {
-        return $step->load([
+        /*return $step->load([
             'actions',
             'staticapprovers',
             'stepparent',
@@ -185,6 +206,7 @@ class WorkflowStepController extends Controller
             'transitionpassstep',
             'transitionrejectstep',
             'transitionexpirestep'
-        ]);
+        ]);*/
+        return new WorkflowStepResource($step);
     }
 }

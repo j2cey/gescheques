@@ -35,6 +35,7 @@ class CreateWorkflowActionRequest extends WorkflowActionRequest
     {
         $this->merge([
             'actiontype' => $this->setRelevantActionType($this->input('actiontype')),
+            'treatmenttype' => $this->setRelevantTreatmentType($this->input('treatmenttype')),
             'mimetypes' => $this->setRelevantIdsList($this->input('mimetypes')),
             'field_required' => $this->setCheckOrOptionValue($this->input('field_required')),
             'field_required_without' => $this->setCheckOrOptionValue($this->input('field_required_without')),

@@ -277,6 +277,16 @@ class WorkflowStep extends BaseModel implements Auditable
 
         ]);
     }
+    // TODO: manage min & max values for x, y, width & height
+    public static function updateFlowchartNodeRules($model) {
+        return [
+            'flowchart_position_x' => 'nullable|numeric',
+            'flowchart_position_y' => 'nullable|numeric',
+            'flowchart_size_width' => 'nullable|numeric|min:100',
+            'flowchart_size_height' => 'nullable|numeric|min:50',
+        ];
+    }
+
     public static function messagesRules() {
         return [
             'titre.required' => 'Prière de Renseigner le Titre',
@@ -287,6 +297,12 @@ class WorkflowStep extends BaseModel implements Auditable
             'role_dynamic_previous_label.required_unless' => 'Renseignez un libellé pour le(s) profile(s) précédent(s)',
             'transitionexpirestep.required_unless' => 'Selectionnez l étape à suivre après expiration',
             'otherstonotify.required_unless' => 'Selectionnez le(les) utilisateur(s) à notifier',
+            'flowchart_position_x.numeric' => 'La position X doit etre un nombre vallable',
+            'flowchart_position_y.numeric' => 'La position Y doit etre un nombre vallable',
+            'flowchart_size_width.numeric' => 'La Largeur du Box doit etre un nombre vallable',
+            'flowchart_size_width.min' => 'La Largeur minimum du Box est 100',
+            'flowchart_size_height.numeric' => 'La Hauteur du Box doit etre un nombre vallable',
+            'flowchart_size_height.min' => 'La Hauteur minimum du Box est 50',
         ];
     }
 
@@ -522,6 +538,18 @@ class WorkflowStep extends BaseModel implements Auditable
         }
 
         if ($save) { $this->save(); }
+
+        return $this;
+    }
+
+    public function updateExpiration($can_expire, $expire_hours, $expire_days, $save = true) {
+        if ($can_expire) {
+            $this->can_expire = true;
+            $this->expire_hours = (int)$expire_hours;
+            $this->expire_days = (int)$expire_days;
+
+            if ($save) { $this->save(); }
+        }
 
         return $this;
     }

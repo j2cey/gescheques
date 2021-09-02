@@ -19,31 +19,24 @@
                 </div>
                 <div class="modal-body">
 
+                    <header>
+                        <div class="card-header-title">
+                            <span class="text text-sm text-purple" v-if="currentstep">{{ currentstep.titre }}</span>
+                        </div>
+                        <!-- /.user-block -->
+                    </header>
+                    <!-- /.card-header -->
 
-                    <div class="card border-0">
-                        <div class="card-header d-flex p-0">
-                            <h3 class="card-title p-2"><span class="username text-xs text-purple" v-if="currentstep">{{ currentstep.titre }}</span></h3>
-                            <ul class="nav nav-pills ml-auto p-1">
-                                <li class="nav-item"><a class="nav-link active btn-outline-success" href="#tab_validate" data-toggle="tab"><span class="username text-xs">Traiter</span></a></li>
-                                <li class="nav-item"><a class="nav-link btn-outline-danger" href="#tab_reject" data-toggle="tab"><span class="username text-xs">Rejéter</span></a></li>
-                            </ul>
-                        </div><!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="tab_validate">
-                                    <ProcessForm :treatment_type_prop="validation_treatment_type"></ProcessForm>
-                                </div>
-                                <!-- /.tab-pane -->
-                                <div class="tab-pane" id="tab_reject">
-                                    <ProcessForm :treatment_type_prop="rejection_treatment_type"></ProcessForm>
-                                </div>
-                                <!-- /.tab-pane -->
-                            </div>
-                            <!-- /.tab-content -->
-                        </div><!-- /.card-body -->
+                    <div class="card-body">
+                        <b-tabs position="is-right" class="block">
+                            <b-tab-item label="Traiter">
+                                <ProcessForm :treatment_type_prop="validation_treatment_type"></ProcessForm>
+                            </b-tab-item>
+                            <b-tab-item label="Rejeter">
+                                <ProcessForm :treatment_type_prop="rejection_treatment_type"></ProcessForm>
+                            </b-tab-item>
+                        </b-tabs>
                     </div>
-                    <!-- ./card -->
-
 
                 </div>
                 <div class="modal-footer justify-content-between">

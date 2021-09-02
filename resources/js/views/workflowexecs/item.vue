@@ -1,25 +1,37 @@
 <template>
     <div class="card collapsed-card border-0">
-        <div class="card-header border-transparent">
-            <h3 class="card-title">Traitement(s)</h3>
 
-            <div class="card-tools text-xs">
-                <span v-if="exec.workflowstatus.code === 'new'" class="badge badge-default">{{ exec.workflowstatus.name }}</span>
-                <span v-else-if="exec.workflowstatus.code === 'pending'"><span class="badge badge-info">{{ exec.workflowstatus.name }}</span> <span class="text text-italic"> ({{ exec.currentstep.titre }})</span></span>
-                <span v-else-if="exec.workflowstatus.code === 'processing'" class="badge badge-warning">{{ exec.workflowstatus.name }}</span>
-                <span v-else-if="exec.workflowstatus.code === 'validated'" class="badge badge-success">{{ exec.workflowstatus.name }}</span>
-                <span v-else-if="exec.workflowstatus.code === 'rejected'" class="badge badge-danger">{{ exec.workflowstatus.name }}</span>
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <!-- Maximize Button -->
-                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
-                <!--<button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                </button>-->
+        <header>
+            <div class="card-header-title row">
+                <div class="col-md-6 col-sm-8 col-12">
+                    <span class="text-black text-sm">
+                        Traitement(s)
+                    </span>
+                </div>
+                <div class="col-md-6 col-sm-4 col-12 text-right">
+                    <span class="text text-xs">
+                        <b-tag v-if="exec.workflowstatus.code === 'new'" type="is-default is-light" size="is-small">{{ exec.workflowstatus.name }}</b-tag>
+                        <span v-else-if="exec.workflowstatus.code === 'pending'">
+                            <b-tag type="is-info is-light" size="is-small">{{ exec.workflowstatus.name }}</b-tag>
+                            <span class="text text-italic"> ({{ exec.currentstep.titre }})</span>
+                        </span>
+                        <b-tag v-else-if="exec.workflowstatus.code === 'processing'" type="is-warning is-light" size="is-small">{{ exec.workflowstatus.name }}</b-tag>
+                        <b-tag v-else-if="exec.workflowstatus.code === 'validated'" type="is-success is-light" size="is-small">{{ exec.workflowstatus.name }}</b-tag>
+                        <b-tag v-else-if="exec.workflowstatus.code === 'rejected'" type="is-danger is-light" size="is-small">{{ exec.workflowstatus.name }}</b-tag>
+
+                        <a type="button" class="btn btn-tool" @click="collapseClicked()" data-card-widget="collapse">
+                            <i :class="currentCollapseIcon"></i>
+                        </a>
+                        <a type="button" class="btn btn-tool" data-card-widget="maximize">
+                            <i class="fas fa-expand"></i>
+                        </a>
+                    </span>
+                </div>
             </div>
-        </div>
+            <!-- /.user-block -->
+        </header>
         <!-- /.card-header -->
+
         <div class="card-body p-0">
             <div class="card-body table-responsive p-0" style="min-height: 200px;">
                 <table class="table m-0">
@@ -112,6 +124,7 @@
                 exec: this.exec_prop,
                 userprofiles: this.userprofiles_prop,
                 moredata: this.moredata_prop,
+                collapse_icon: 'fas fa-chevron-down'
             };
         },
         mounted() {
@@ -139,6 +152,13 @@
             updateData(data) {
                 this.exec = data;
             },
+            collapseClicked() {
+                if (this.collapse_icon === 'fas fa-chevron-down') {
+                    this.collapse_icon = 'fas fa-chevron-up';
+                } else {
+                    this.collapse_icon = 'fas fa-chevron-down';
+                }
+            }
         },
         computed: {
             canexecworkflowstep() {
@@ -164,6 +184,9 @@
                     return false
                 }
 
+            },
+            currentCollapseIcon() {
+                return this.collapse_icon;
             }
         }
     }

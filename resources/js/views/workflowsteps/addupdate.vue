@@ -215,14 +215,80 @@
                                     <span class=" invalid-feedback d-block text-xs" role="alert" v-if="workflowstepForm.errors.has('stepparent')" v-text="workflowstepForm.errors.get('stepparent')"></span>
                                 </div>
                             </div>
+
+                            <div class="form-group row" id="flowchartattributes">
+                                <div class="col">
+                                    <div class="card">
+                                        <header>
+                                            <div class="card-header-title row">
+                                                <div class="col-md-6 col-sm-8 col-12">
+                                                <span class="text-danger text-xs" @click="collapseFlowchartClicked()" data-toggle="collapse" data-parent="#flowchartattributes" :href="'#collapse-flowchart-'+workflowstep.id">
+                                                    Design Diagramme
+                                                </span>
+                                                </div>
+                                                <div class="col-md-6 col-sm-4 col-12 text-right">
+                                                <span class="text text-sm">
+                                                    <a type="button" class="btn btn-tool" @click="collapseFlowchartClicked()" data-toggle="collapse" data-parent="#flowchartattributes" :href="'#collapse-flowchart-'+workflowstep.id">
+                                                        <i :class="currentFlowchartCollapseIcon"></i>
+                                                    </a>
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </header>
+                                        <!-- /.card-header -->
+                                        <div :id="'collapse-flowchart-'+workflowstep.id" class="card-content panel-collapse collapse in">
+                                            <b-field grouped group-multiline>
+                                                <b-field label="Class de Style" label-position="on-border" custom-class="is-small">
+                                                    <b-input size="is-small" v-model="workflowstepForm.stylingClass"></b-input>
+                                                </b-field>
+                                            </b-field>
+                                            <br>
+                                            <b-field grouped group-multiline>
+                                                <b-field label="Position X" label-position="on-border" custom-class="is-small"
+                                                         :type="workflowstepForm.errors.has('flowchart_position_x') ? 'is-danger' : ''"
+                                                         :message="workflowstepForm.errors.get('flowchart_position_x')">
+                                                    <b-input name="flowchart_position_x"
+                                                        type="number" size="is-small" v-model="workflowstepForm.flowchart_position_x"></b-input>
+                                                </b-field>
+                                                <b-field label="Position Y" label-position="on-border" custom-class="is-small"
+                                                         :type="workflowstepForm.errors.has('flowchart_position_y') ? 'is-danger' : ''"
+                                                         :message="workflowstepForm.errors.get('flowchart_position_y')">
+                                                    <b-input name="flowchart_position_y"
+                                                        type="number" size="is-small" v-model="workflowstepForm.flowchart_position_y"></b-input>
+                                                </b-field>
+                                                <b-field label="Largeur du box" label-position="on-border" custom-class="is-small"
+                                                         :type="workflowstepForm.errors.has('flowchart_size_width') ? 'is-danger' : ''"
+                                                         :message="workflowstepForm.errors.get('flowchart_size_width')"
+                                                >
+                                                    <b-input name="flowchart_size_width"
+                                                        type="number" size="is-small" v-model="workflowstepForm.flowchart_size_width"
+                                                    ></b-input>
+                                                </b-field>
+                                                <b-field label="Hauteur du box" label-position="on-border" custom-class="is-small"
+                                                         :type="workflowstepForm.errors.has('flowchart_size_height') ? 'is-danger' : ''"
+                                                         :message="workflowstepForm.errors.get('flowchart_size_height')">
+                                                    <b-input name="flowchart_size_height"
+                                                        type="number" size="is-small" v-model="workflowstepForm.flowchart_size_height"
+                                                    ></b-input>
+                                                </b-field>
+                                            </b-field>
+                                            <hr>
+                                            <b-field grouped group-multiline>
+                                                <b-button label="Valider" type="is-danger is-light" size="is-small" :loading="loading" @click="updateFlowchartNode(workflow.id)" />
+                                            </b-field>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
 
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary btn-sm" @click="updateWorkflowstep(workflow.id)" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</button>
-                    <button type="button" class="btn btn-primary btn-sm" @click="createWorkflowstep(workflow.id)" :disabled="!isValidCreateForm" v-else>Créer Etape</button>
+                    <b-button type="is-dark" size="is-small" data-dismiss="modal">Fermer</b-button>
+                    <b-button type="is-primary" size="is-small" :loading="loading" @click="updateWorkflowstep(workflow.id)" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</b-button>
+                    <b-button type="is-primary" size="is-small" :loading="loading" @click="createWorkflowstep(workflow.id)" :disabled="!isValidCreateForm" v-else>Créer Etape</b-button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -234,6 +300,7 @@
 <script>
     import Multiselect from 'vue-multiselect'
     import StepBus from './stepBus'
+    import ChequeBus from "../cheques/chequeBus";
     //import ActionBus from "../workflowactions/actionBus";
 
     class Workflowstep {
@@ -259,10 +326,16 @@
             this.notify_to_others = workflowstep.notify_to_others || false
             this.otherstonotify = workflowstep.otherstonotify || ''
             this.stepparent = workflowstep.stepparent || ''
+
+            this.stylingClass = workflowstep.stylingClass || ''
+            this.flowchart_position_x = workflowstep.flowchart_position_x || ''
+            this.flowchart_position_y = workflowstep.flowchart_position_y || ''
+            this.flowchart_size_width = workflowstep.flowchart_size_width || ''
+            this.flowchart_size_height = workflowstep.flowchart_size_height || ''
         }
     }
     export default {
-        name: "addupdateStep",
+        name: "step-addupdate",
         props: {
             workflow_prop: {},
         },
@@ -274,8 +347,9 @@
                 this.workflow = workflow
                 this.workflowsteps = workflowsteps
                 this.workflowstep = new Workflowstep({})
-                this.workflowstep.workflow_id = workflow.id
                 this.workflowstepForm = new Form(this.workflowstep)
+
+                this.workflowstep.workflow_id = workflow.id
 
                 $('#addUpdateWorkflowstep').modal()
             })
@@ -283,11 +357,12 @@
             StepBus.$on('workflowstep_edit', (workflowstep, workflow, workflowsteps) => {
                 console.log('workflowstep_edit received', workflowsteps)
                 this.editing = true
-                this.workflowstep = new Workflowstep(workflowstep)
-                this.workflowstepForm = new Form(this.workflowstep)
-                this.workflowstepId = workflowstep.uuid
                 this.workflow = workflow
                 this.workflowsteps = workflowsteps
+                this.workflowstep = new Workflowstep(workflowstep)
+                this.workflowstepForm = new Form(this.workflowstep)
+
+                this.workflowstepId = workflowstep.uuid
 
                 $('#addUpdateWorkflowstep').modal()
             })
@@ -310,10 +385,21 @@
                 editing: false,
                 loading: false,
                 roles: [],
-                users: []
+                users: [],
+                flowchart_collapse_icon: 'fas fa-chevron-down'
             }
         },
         methods: {
+            initForm(editing, workflowstep) {
+                this.editing = editing
+                if (editing) {
+                    this.workflowstep = new Workflowstep(workflowstep)
+                    this.workflowstepForm = new Form(this.workflowstep)
+                } else {
+                    this.workflowstep = new Workflowstep({})
+                    this.workflowstepForm = new Form(this.workflowstep)
+                }
+            },
             createWorkflowstep(workflowId) {
                 this.loading = true
 
@@ -323,9 +409,16 @@
                     .post('/workflowsteps')
                     .then(workflowstep => {
                         this.loading = false
-                        //this.$parent.$emit('new_workflowstep_created', newworkflowstep, this.workflowId)
-                        StepBus.$emit('workflowaction_created', {workflowstep, workflowId})
+
                         $('#addUpdateWorkflowstep').modal('hide')
+
+                        this.$swal({
+                            html: '<small>Etape créée avec succès !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            StepBus.$emit('workflowaction_created', {workflowstep, workflowId})
+                        })
                     }).catch(error => {
                     this.loading = false
                 });
@@ -341,9 +434,40 @@
                     .put(`/workflowsteps/${this.workflowstepId}`, fd)
                     .then(workflowstep => {
                         this.loading = false
-                        //let workflowId = this.workflowId
-                        StepBus.$emit('workflowstep_updated', {workflowstep, workflowId})
+
                         $('#addUpdateWorkflowstep').modal('hide')
+                        this.$swal({
+                            html: '<small>Etape modifiée avec succès !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            StepBus.$emit('workflowstep_updated', {workflowstep, workflowId})
+                        })
+                    }).catch(error => {
+                    this.loading = false
+                });
+            },
+            updateFlowchartNode(workflowId) {
+                this.loading = true
+
+                this.updateRoleType();
+
+                const fd = this.addFileToForm()
+
+                this.workflowstepForm
+                    .put(`/workflowsteps.updateflowchartnode/${this.workflowstepId}`, fd)
+                    .then(workflowstep => {
+                        this.loading = false
+
+                        //$('#addUpdateWorkflowstep').modal('hide')
+                        this.$swal({
+                            html: '<small>Infos Diagramme modifiées avec succès !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            this.initForm(true, workflowstep)
+                            StepBus.$emit('workflowstep_updated', {workflowstep, workflowId})
+                        })
                     }).catch(error => {
                     this.loading = false
                 });
@@ -389,7 +513,14 @@
             },
             notifyToOthersCheck() {
                 this.workflowstepForm.notify_to_others = ( this.workflowstepForm.notify_to_others === 1 ) ? 0 : 1;
-            }
+            },
+            collapseFlowchartClicked() {
+                if (this.flowchart_collapse_icon === 'fas fa-chevron-down') {
+                    this.flowchart_collapse_icon = 'fas fa-chevron-up';
+                } else {
+                    this.flowchart_collapse_icon = 'fas fa-chevron-down';
+                }
+            },
         },
         computed: {
             can_role_static() {
@@ -397,6 +528,9 @@
             },
             isValidCreateForm() {
                 return !this.loading
+            },
+            currentFlowchartCollapseIcon() {
+                return this.flowchart_collapse_icon;
             }
         }
     }
@@ -404,5 +538,4 @@
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
-
 </style>

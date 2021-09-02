@@ -1,56 +1,114 @@
 <template>
 
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Liste des Etapes</h3>
+    <section>
+        <p>Les Etapes.</p>
+        <b-field grouped group-multiline>
+            <b-select v-model="perPage" :disabled="!isPaginated">
+                <option value="5">5 par page</option>
+                <option value="10">10 par page</option>
+                <option value="15">15 par page</option>
+                <option value="20">20 par page</option>
+            </b-select>
+        </b-field>
+        <b-table
+            :data="workflowsteps"
+            ref="table"
+            :paginated="isPaginated"
+            :per-page="perPage"
+            :opened-detailed="defaultOpenedDetails"
+            detailed
+            detail-key="id"
+            :detail-transition="transitionName"
+            :show-detail-icon="showDetailIcon"
+            :current-page.sync="currentPage"
+            :pagination-simple="isPaginationSimple"
+            :pagination-position="paginationPosition"
+            :default-sort-direction="defaultSortDirection"
+            :pagination-rounded="isPaginationRounded"
+            :sort-icon="sortIcon"
+            :sort-icon-size="sortIconSize"
+            :sticky-header="stickyHeaders"
+            default-sort="row.titre"
+            aria-next-label="Next page"
+            aria-previous-label="Previous page"
+            aria-page-label="Page"
+            aria-current-label="Current page" :before-destroy="false">
 
-            <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+            <template v-for="column in columns">
+                <b-table-column :key="column.id" v-bind="column" :sortable="column.sortable" :custom-search="searchLastName">
+                    <template
+                        v-if="column.searchable && !column.numeric"
+                        #searchable="props">
+                        <b-input
+                            v-model="props.filters[props.column.field]"
+                            placeholder="Rech..."
+                            icon="magnify"
+                            size="is-small"
+                            icon-right="close-circle"
+                            icon-right-clickable
+                            @icon-right-click="props.filters[props.column.field] = ''"
+                        />
+                    </template>
+                    <template v-slot="props">
+                        <span v-if="column.field === 'id'" class="text-xs">
+                            {{ props.row[column.field] }}
+                        </span>
+                        <span v-else-if="column.field === 'titre'" class="has-text-primary is-italic text-xs">
+                            <a @click="editWorkflowstep(props.row)">
+                                {{ props.row[column.field] }}
+                            </a>
+                        </span>
+                        <span v-else-if="column.date" class="tag is-success">
+                            {{ new Date( props.row[column.field] ).toLocaleDateString() }}
+                        </span>
+                        <span v-else-if="column.field === 'actions'">
+                            <b-taglist>
+                                <b-tag type="is-primary is-light">{{ props.row.actionspass.length }}</b-tag>
+                                <b-tag type="is-danger is-light">{{ props.row.actionsreject.length }}</b-tag>
+                            </b-taglist>
+                        </span>
+                        <span v-else class="text-xs">
+                            {{ props.row[column.field] }}
+                        </span>
+                    </template>
+                </b-table-column>
+            </template>
 
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+            <template #detail="props">
+                <b-field grouped group-multiline>
+                    <div class="form-inline float-left">
+                        <span class="help-inline pr-1 text-sm"> Action(s) de l'Etape </span>
+                        <b-button size="is-small" type="is-info is-light" @click="createNewAction(props.row)"><i class="fas fa-plus"></i></b-button>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <b-table
-                id="table-transition-example"
-                :items="items"
-                :fields="fields"
-                striped
-                small
-                primary-key="a"
-                :tbody-transition-props="transProps"
-            ></b-table>
-        </div>
-        <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
+                </b-field>
+                <hr />
+                <WorkflowActions :workflowstepid_prop="props.row.id" :workflowactions_prop="props.row.actions"></WorkflowActions>
+            </template>
+
+            <template #empty>
+                <div class="has-text-centered">Aucune Données</div>
+            </template>
+
+        </b-table>
+
+        <AddUpdateAction></AddUpdateAction>
+    </section>
 
 </template>
 
 <script>
     import StepBus from './stepBus'
-    import WorkflowActions from '../workflowactions/list'
     import ActionBus from "../workflowactions/actionBus";
-    import draggable from 'vuedraggable'
-
-    let id = 3;
 
     export default {
         props: {
             workflow: {},
             workflowsteps_prop: {}
         },
-        name: "steps",
-        display: "Handle",
-        instruction: "Drag using the handle icon",
-        order: 5,
+        name: "steps-list",
         components: {
-            draggable, WorkflowActions
+            WorkflowActions: () => import('../workflowactions/list'),
+            AddUpdateAction: () => import('../workflowactions/addupdate')
         },
         mounted() {
             StepBus.$on('workflowaction_created', (add_data) => {
@@ -66,35 +124,78 @@
                     this.updateStep(upd_data.workflowstep)
                 }
             })
+
+            ActionBus.$on('workflowaction_created', (add_data) => {
+                console.log('workflowaction_created received from steplist', add_data)
+                this.updateStep(add_data.step)
+            })
+
+            ActionBus.$on('workflowaction_updated', (upd_data) => {
+                console.log('workflowaction_updated received from steplist', upd_data)
+                this.updateStep(upd_data.step)
+            })
+
+            ActionBus.$on('workflowaction_deleted', (del_data) => {
+                console.log('workflowaction_deleted received from steplist', del_data)
+                this.updateStep(del_data.step)
+            })
         },
         data() {
             return {
                 workflowsteps: this.workflowsteps_prop,
-                enabled: false,
-                dragging: false,
-                transProps: {
-                    // Transition name
-                    name: 'flip-list'
-                },
-                items: [
-                    { a: 2, b: 'Two', c: 'Moose' },
-                    { a: 1, b: 'Three', c: 'Dog' },
-                    { a: 3, b: 'Four', c: 'Cat' },
-                    { a: 4, b: 'One', c: 'Mouse' }
-                ],
-                fields: [
-                    { key: 'a', sortable: true },
-                    { key: 'b', sortable: true },
-                    { key: 'c', sortable: true }
+                //data: this.workflowsteps_prop,
+                isPaginated: true,
+                isPaginationSimple: false,
+                isPaginationRounded: true,
+                paginationPosition: 'bottom',
+                defaultSortDirection: 'asc',
+                sortIcon: 'arrow-up',
+                sortIconSize: 'is-small',
+                currentPage: 1,
+                perPage: 5,
+                defaultOpenedDetails: [-1],
+                showDetailIcon: true,
+                useTransition: false,
+                stickyHeaders: false,
+                columns: [
+                    {
+                        field: 'id',
+                        label: 'ID',
+                        numeric: true,
+                        searchable: false,
+                        sortable: true,
+                    },
+                    {
+                        field: 'titre',
+                        label: 'Titre',
+                        searchable: true,
+                        sortable: true,
+                    },
+                    {
+                        field: 'description',
+                        label: 'Description',
+                        searchable: true,
+                        sortable: true,
+                    },
+                    {
+                        field: 'actions',
+                        label: 'Action(s)',
+                        width: '100',
+                        centered: true,
+                        sortable: false,
+                    }
                 ]
             };
         },
-        computed: {
-            draggingInfo() {
-                console.log(this.dragging ? "under drag" : "");
-            }
-        },
         methods: {
+            searchTitre(propsRowMyObject) //accept props.row.myObject
+            {
+                return [propsRowMyObject.titre,propsRowMyObject.titre].filter(i => i).join(' ')
+            },
+            searchLastName(row, input) {
+                console.log('Searching...', row, input)
+                return input && row.titre && row.titre.includes(input);
+            },
             createNewAction(workflowstep) {
                 axios.get(`/workflowactions.fetchbystep/${workflowstep.id}`)
                     .then((resp => {
@@ -143,11 +244,6 @@
 
                 // si cette étape n'existe pas déjà, on l'insère dans la liste
                 if (workflowstepIndex === -1) {
-                    window.noty({
-                        message: 'Etape créée avec succès',
-                        type: 'success'
-                    })
-
                     this.workflowsteps.push(workflowstep)
                 }
             },
@@ -157,18 +253,20 @@
                     return workflowstep.id === s.id
                 })
 
-                this.workflowsteps.splice(stepIndex, 1, workflowstep)
-
-                window.noty({
-                    message: 'Etape modifiée avec succès',
-                    type: 'success'
-                })
+                if (stepIndex > -1) {
+                    this.workflowsteps.splice(stepIndex, 1, workflowstep)
+                }
+            }
+        },
+        computed: {
+            transitionName() {
+                if (this.useTransition) {
+                    return 'fade'
+                }
             }
         }
     };
 </script>
 <style scoped>
-    table#table-transition-example .flip-list-move {
-        transition: transform 1s;
-    }
+
 </style>

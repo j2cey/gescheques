@@ -17,6 +17,10 @@ class WorkflowTreatmentTypeController extends Controller
         //
     }
 
+    public function fetch() {
+        return WorkflowTreatmentType::all();
+    }
+
     public function fetchsplitted() {
         $validation_treatment_type = WorkflowTreatmentType::getPassType();
         $rejection_treatment_type = WorkflowTreatmentType::getRejectType();

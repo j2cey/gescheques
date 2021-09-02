@@ -54,9 +54,9 @@
 
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary btn-sm" @click="updateWorkflow()" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</button>
-                    <button type="button" class="btn btn-primary btn-sm" @click="createWorkflow()" :disabled="!isValidCreateForm" v-else>Créer Workflow</button>
+                    <b-button type="is-dark" size="is-small" data-dismiss="modal">Fermer</b-button>
+                    <b-button type="is-primary" size="is-small" :loading="loading" @click="updateWorkflow()" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</b-button>
+                    <b-button type="is-primary" size="is-small" :loading="loading" @click="createWorkflow()" :disabled="!isValidCreateForm" v-else>Créer Workflow</b-button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -78,7 +78,7 @@
         }
     }
     export default {
-        name: "addupdateWorkflow",
+        name: "workflow-addupdate",
         props: {
         },
         components: { Multiselect },

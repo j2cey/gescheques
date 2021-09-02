@@ -3,11 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class WorkflowStepTransition
  * @package App\Models
+ *
+ * @property integer $id
+ *
+ * @property string $uuid
+ * @property bool $is_default
+ * @property string|null $tags
+ * @property integer|null $status_id
+ *
+ * @property string $code
  *
  * @property integer|null $workflow_step_source_id
  * @property integer|null $workflow_step_destination_id
@@ -16,7 +26,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $flowchart_source_position
  * @property string|null $flowchart_destination_position
  *
- * @property string $code
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ *
  * @property WorkflowTreatmentType $treatmenttype
  * @property WorkflowStep $source
  * @property WorkflowStep $destination

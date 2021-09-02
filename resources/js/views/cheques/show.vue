@@ -26,20 +26,28 @@
                 <div class="col-12 col-md-12 col-lg-6 order-1 order-md-1">
 
                     <div class="card border-0">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                Infos
-                            </h3>
-
-                            <div class="card-tools">
-                                <a v-on:click="$emit('cheque_edit',cheque)" class="text text-success">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </a>
-                                <!-- Maximize Button -->
-                                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        <header>
+                            <div class="card-header-title row">
+                                <div class="col-md-6 col-sm-8 col-12">
+                                    <span class="text text-sm">
+                                        Infos
+                                    </span>
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-12 text-right">
+                                    <span class="text text-sm">
+                                        <a type="button" class="btn btn-tool text-success" v-on:click="$emit('cheque_edit',cheque)">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-tool" data-card-widget="maximize">
+                                            <i class="fas fa-expand"></i>
+                                        </a>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                            <!-- /.user-block -->
+                        </header>
                         <!-- /.card-header -->
+
                         <div class="card-body">
                             <div class="card-body table-responsive p-0" style="height: 150px;">
                                 <dl class="row">
@@ -68,21 +76,30 @@
                 <div class="col-12 col-md-12 col-lg-6 order-2 order-md-1">
 
                     <div class="card border-0">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                Encaissement ARIS
-                            </h3>
-
-                            <div class="card-tools" v-if="cheque.encaissement">
-                                <a v-on:click="$emit('encaissement_display', cheque.encaissement)" class="text text-success">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </a>
-
-                                <!-- Maximize Button -->
-                                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        <header>
+                            <div class="card-header-title row">
+                                <div class="col-md-6 col-sm-8 col-12">
+                                    <span class="text text-sm">
+                                        Encaissement ARIS
+                                    </span>
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-12 text-right">
+                                    <span class="text text-sm" v-if="cheque.encaissement">
+                                        <a type="button" class="btn btn-tool text-success" v-on:click="$emit('encaissement_display', cheque.encaissement)">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-tool" data-card-widget="maximize">
+                                            <i class="fas fa-expand"></i>
+                                        </a>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                            <!-- /.user-block -->
+                        </header>
                         <!-- /.card-header -->
+
+
+
                         <div class="card-body">
                             <div class="card-body table-responsive p-0" style="height: 150px;">
                                 <dl class="row" v-if="cheque.encaissement">

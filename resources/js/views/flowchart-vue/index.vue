@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <h1 class="title">{{ workflow.titre }}</h1>
-        <h5 class="subtitle">
+        <h1 class="text text-sm"><strong>{{ workflow.titre }}</strong></h1>
+        <h5 class="text text-xs">
             Design & Organisation des Principales Articulations.
         </h5>
         <div id="toolbar">
-            <button
+            <b-button size="is-small" type="is-primary is-light"
                 @click="
                 $refs.chart.add({
                     id: +new Date(),
@@ -19,12 +19,12 @@
                     })"
             >
                 Ajouter(double-click canevas)
-            </button>
-            <button @click="$refs.chart.remove()">Supprimer(suppr.)</button>
-            <button @click="$refs.chart.editCurrent()">
+            </b-button>
+            <b-button size="is-small" type="is-danger is-light" @click="$refs.chart.remove()">Supprimer(suppr.)</b-button>
+            <b-button size="is-small" type="is-warning is-light" @click="$refs.chart.editCurrent()">
                 Modifier(double-click noeud)
-            </button>
-            <button @click="$refs.chart.save()">Enregistrer</button>
+            </b-button>
+            <b-button size="is-small" type="is-success is-light" @click="$refs.chart.save()">Enregistrer</b-button>
         </div>
         <flowchart
             :nodes="nodes"

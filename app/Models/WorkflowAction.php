@@ -57,6 +57,7 @@ class WorkflowAction extends BaseModel implements Auditable
         return [
             'titre' => 'required',
             'actiontype' => 'required',
+            'treatmenttype' => 'required',
             'field_required_msg' => 'required_unless:field_required,0',
             'field_required_without_msg' => 'required_unless:field_required_without,0',
             'actionsrequiredwithout' => 'required_unless:field_required_without,0',
@@ -79,6 +80,7 @@ class WorkflowAction extends BaseModel implements Auditable
         return [
             'titre.required' => 'Prière de Renseigner le Titre',
             'actiontype.required' => 'Le type d action est requis',
+            'treatmenttype.required' => 'Le type de traitement est requis',
             'field_required_msg.required_unless' => 'Renseignez un message d erreur',
             'field_required_without_msg.required_unless' => 'Renseignez un message d erreur',
             'actionsrequiredwithout.required_unless' => 'Selectionnez les actions concernées',
@@ -681,6 +683,10 @@ class WorkflowAction extends BaseModel implements Auditable
             //$objectfield = WorkflowObjectField::where('id', $model->workflow_object_field_id)->first();
             //$object = WorkflowObject::where('id', $objectfield->workflow_object_id)->first();
             //$model->model_type = $object->model_type;
+        });
+
+        self::deleting(function($model){
+
         });
     }
 }

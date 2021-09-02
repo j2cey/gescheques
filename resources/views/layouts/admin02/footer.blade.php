@@ -6,6 +6,6 @@
     </div>
     <!-- Default to the left -->
     <span class="text text-xs">
-        <strong>Copyright &copy; {{ now()->year }} GT/DSI - Gest. Chèques</strong>. All rights reserved.
+        <span class="text text-bold">Copyright &copy; {{ now()->year }} GT/DSI - Gest. Chèques</span>. All rights reserved.
     </span>
 </footer>
