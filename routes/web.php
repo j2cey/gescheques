@@ -43,14 +43,14 @@ Route::get('/', function () {
         return view('admin02');
     }
     return redirect('/login');
-});
-
+})->name('home');
+/*
 Route::get('/home', function () {
     if (Auth::check()) {
         return view('admin02');
     }
     return redirect('/login');
-});
+});*/
 
 Auth::routes();
 
@@ -92,7 +92,7 @@ Route::get('workflows.fetch',[WorkflowController::class,'fetch'])
 Route::get('workflows.fetchflowchart/{id}',[WorkflowController::class,'fetchflowchart'])
     ->name('workflows.fetchflowchart')
     ->middleware('auth');
-Route::get('workflows.flowchart/{id}',[WorkflowController::class,'flowchart'])
+Route::get('workflows.flowchart/{workflow}',[WorkflowController::class,'flowchart'])
     ->name('workflows.flowchart')
     ->middleware('auth');
 Route::post('workflows.storeflowchart/{workflow}',[WorkflowController::class,'storeflowchart'])

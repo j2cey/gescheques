@@ -94,9 +94,9 @@ class WorkflowController extends Controller
         return ['nodes' => $nodes, 'connections' => $connections, 'approverslist' => $approverslist];
     }
 
-    public function flowchart($id) {
-        $workflow = Workflow::where('id', $id)->first();
-        $flowchart_data = $this->fetchflowchart($id);
+    public function flowchart(Workflow $workflow) {
+        //$workflow = Workflow::where('id', $id)->first();
+        $flowchart_data = $this->fetchflowchart($workflow->id);
 
         //dd('states: ', $states, 'states json: ', json_encode($states, JSON_UNESCAPED_SLASHES), 'transitions raw : ', $transitions, 'transitions json: ', json_encode($transitions, JSON_UNESCAPED_SLASHES));
         return view('workflows.flowchart')

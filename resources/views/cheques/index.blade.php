@@ -1,4 +1,4 @@
-@extends('app')
+@extends('app', ['page_title' => "Cheques"])
 
 @section('app_content')
 

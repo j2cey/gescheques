@@ -19,10 +19,17 @@ class PermissionSeeder extends Seeder
             ['role-create', 1],
             ['role-edit', 1],
             ['role-delete', 1],
+
             ['workflow-list', 4],
             ['workflow-create', 3],
             ['workflow-edit', 2],
-            ['workflow-delete', 1]
+            ['workflow-delete', 1],
+
+            ['flowchart-list', 4],
+            ['flowchart-create', 3],
+            ['flowchart-edit', 2],
+            ['flowchart-delete', 1],
+            ['flowchart-save', 1],
         ];
 
         foreach ($permissions as $permission) {

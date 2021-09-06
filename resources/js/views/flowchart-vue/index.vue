@@ -5,8 +5,8 @@
             Design & Organisation des Principales Articulations.
         </h5>
         <div id="toolbar">
-            <b-button size="is-small" type="is-primary is-light"
-                @click="
+            <b-button v-if="$can('flowchart-create')" size="is-small" type="is-primary is-light"
+                      @click="
                 $refs.chart.add({
                     id: +new Date(),
                     x: 10,
@@ -20,11 +20,11 @@
             >
                 Ajouter(double-click canevas)
             </b-button>
-            <b-button size="is-small" type="is-danger is-light" @click="$refs.chart.remove()">Supprimer(suppr.)</b-button>
-            <b-button size="is-small" type="is-warning is-light" @click="$refs.chart.editCurrent()">
+            <b-button v-if="$can('flowchart-delete')" size="is-small" type="is-danger is-light" @click="$refs.chart.remove()">Supprimer(suppr.)</b-button>
+            <b-button v-if="$can('flowchart-edit')" size="is-small" type="is-warning is-light" @click="$refs.chart.editCurrent()">
                 Modifier(double-click noeud)
             </b-button>
-            <b-button size="is-small" type="is-success is-light" @click="$refs.chart.save()">Enregistrer</b-button>
+            <b-button v-if="$can('flowchart-save')" size="is-small" type="is-success is-light" @click="$refs.chart.save()">Enregistrer</b-button>
         </div>
         <flowchart
             :nodes="nodes"
@@ -62,6 +62,7 @@
     import Flowchart from "./components/flowchart/Flowchart";
     import * as d3 from "d3";
     import { roundTo20 } from "./utils/math";
+    import Permissions from "../../mixins/Permissions";
 
     export default {
         name: "index",
@@ -94,14 +95,16 @@
         async mounted() {},
         methods: {
             handleDblClick(position) {
-                this.$refs.chart.add({
-                    id: +new Date(),
-                    x: position.x,
-                    y: position.y,
-                    name: "New",
-                    type: "operation",
-                    staticapprovers: [],
-                });
+                if (this.$can('flowchart-create')) {
+                    this.$refs.chart.add({
+                        id: +new Date(),
+                        x: position.x,
+                        y: position.y,
+                        name: "New",
+                        type: "operation",
+                        staticapprovers: [],
+                    });
+                }
             },
             handleSelect(nodes) {
                 // console.log(nodes);
@@ -115,14 +118,17 @@
                 });
             },
             handleEditNode(node) {
-                console.log(node)
-                node.role_type = (node.role_static ? 'role_static' : (node.role_dynamic ? 'role_dynamic' : (node.role_previous ? 'role_previous' : 'role_static' ) ) ) || 'undefied'
-                this.nodeForm.target = node;
-                this.nodeDialogVisible = true;
+                if (this.$can('flowchart-edit')) {
+                    node.role_type = (node.role_static ? 'role_static' : (node.role_dynamic ? 'role_dynamic' : (node.role_previous ? 'role_previous' : 'role_static'))) || 'undefied'
+                    this.nodeForm.target = node;
+                    this.nodeDialogVisible = true;
+                }
             },
             handleEditConnection(connection) {
-                this.connectionForm.target = connection;
-                this.connectionDialogVisible = true;
+                if (this.$can('flowchart-edit')) {
+                    this.connectionForm.target = connection;
+                    this.connectionDialogVisible = true;
+                }
             },
             render: function (g, node, isSelected) {
                 if (node.type === "start" && node.type === "end") {
@@ -250,7 +256,7 @@
         margin-right: 4px;
     }
     .container {
-        width: 1000px;
+        width: 800px;
         margin: auto;
     }
 </style>

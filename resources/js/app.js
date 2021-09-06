@@ -119,6 +119,9 @@ import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
 * end Added
 */
 
+import Permissions from './mixins/Permissions';
+Vue.mixin(Permissions);
+
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
@@ -172,5 +175,4 @@ const app = new Vue({
     store,
     el: '#app',
     router,
-    LaravelPermissionToVueJS,
 });

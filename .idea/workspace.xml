@@ -11,67 +11,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a9bae0d-26fa-4747-a5f9-2a2dcc0c8f3a" name="Default Changelist" comment="before workflow enum vals">
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Flowchart/FlowchartRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Flowchart/UpdateFlowchartNodeRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/EnumTypeResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/EnumValueResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/MimeTypeResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowActionResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowActionTypeResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowObjectResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowStepTransitionResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowTreatmentTypeResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/21.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/cheques/files/d2262285029f944bfc7436a8907d6fff.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/encaissements/files/3277da74b4a3bdf376a346df8132717d.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/files/a0f1bce2ce32941758aab79e683234e2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/views/workflowactions/item.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Providers/BreadcrumbsServiceProvider.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/22.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/23.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/cheques/files/cd948c95e1e53ba4f645fa99ff391620.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/encaissements/files/cf179eba4dfa0252719a7ddf19d9e026.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/mixins/Permissions.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/views/workflowsteps/list_test01.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/breadcrumbs.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gtcheques.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gtcheques.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowActionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowActionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowStepController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowStepController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkflowTreatmentTypeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkflowTreatmentTypeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/WorkflowAction/CreateWorkflowActionRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/WorkflowAction/CreateWorkflowActionRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/WorkflowAction/UpdateWorkflowActionRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/WorkflowAction/UpdateWorkflowActionRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/WorkflowStepResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/WorkflowStepResource.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Workflow.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Workflow.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowAction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowStep.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowStep.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/WorkflowStepTransition.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/WorkflowStepTransition.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Traits/Base/HasDefault.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/Base/HasDefault.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/PermissionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/PermissionSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/0.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/0.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/17.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/17.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/18.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/18.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/19.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/19.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/20.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/20.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/AdminLTE/build/scss/_bootstrap-variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/public/AdminLTE/build/scss/_bootstrap-variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/cheques/files/e2f6c38e53cc3693f33acff71a15b9f3.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/cheques/show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/cheques/show.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/cheques/upload.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/cheques/upload.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/encaissements/upload.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/encaissements/upload.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/flowchart/Flowchart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/components/flowchart/Flowchart.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/flowchart-vue/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/flowchart-vue/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowactions/addupdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowactions/addupdate.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowactions/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowactions/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/item.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowexecs/process_new.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowexecs/process_new.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/addupdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflows/addupdate.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/systems/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/systems/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflows/item.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/workflows/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflows/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowsteps/addupdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowsteps/addupdate.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/workflowsteps/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowsteps/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/workflowsteps/stepsbtable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/workflowsteps/stepsbtable.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin02/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin02/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/cheques/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/cheques/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/cheques/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/cheques/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/cheques/upload.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/cheques/upload.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/encaissements/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/encaissements/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/encaissements/upload.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/encaissements/upload.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin02/nav/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin02/nav/nav.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/core/app02.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/core/app02.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/systems/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/systems/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/workflows/flowchart.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/workflows/flowchart.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/workflows/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/workflows/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,6 +69,7 @@
       <list>
         <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="package.json" />
         <option value="Vue Single File Component" />
       </list>
     </option>
@@ -218,6 +200,7 @@
       <path value="$PROJECT_DIR$/vendor/maennchen/zipstream-php" />
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/ahmedsaoud31/laravel-permission-to-vuejs" />
+      <path value="$PROJECT_DIR$/vendor/tabuna/breadcrumbs" />
     </include_path>
   </component>
   <component name="ProjectId" id="1uwTXH8LM3ldh8kP2MmCt8MW51s" />
@@ -330,7 +313,8 @@
       <workItem from="1630319623716" duration="7938000" />
       <workItem from="1630406222157" duration="11777000" />
       <workItem from="1630503800591" duration="2160000" />
-      <workItem from="1630523208209" duration="5422000" />
+      <workItem from="1630523208209" duration="11347000" />
+      <workItem from="1630783673994" duration="38425000" />
     </task>
     <task id="LOCAL-00001" summary="before workflow enum vals">
       <created>1627590178208</created>
@@ -416,20 +400,22 @@
     </state>
     <state width="1393" height="158" key="GridCell.Tab.0.right/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1629364397712" />
     <state width="1393" height="158" key="GridCell.Tab.0.right/0.25.1440.875@0.25.1440.875" timestamp="1629451984466" />
-    <state x="502" y="305" key="NewPhpClassDialog" timestamp="1628379257629">
+    <state x="502" y="305" key="NewPhpClassDialog" timestamp="1630853199535">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="633" y="113" key="NewPhpClassDialog/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626876427452" />
     <state x="502" y="305" key="NewPhpClassDialog/0.25.1440.875/1440.-22.1302.999/-1920.-38.1920.1055@0.25.1440.875" timestamp="1628171525281" />
     <state x="502" y="305" key="NewPhpClassDialog/0.25.1440.875/1440.111.1360.743/-1302.-22.1302.999@0.25.1440.875" timestamp="1628379257629" />
+    <state x="502" y="305" key="NewPhpClassDialog/0.25.1440.875/1440.111.1360.743@0.25.1440.875" timestamp="1630853199535" />
     <state x="377" y="80" key="NewPhpClassDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1626828830765" />
     <state x="377" y="80" key="NewPhpClassDialog/0.25.1440.875@0.25.1440.875" timestamp="1626867756312" />
-    <state x="540" y="278" key="NewPhpFileDialog" timestamp="1628956616727">
+    <state x="540" y="278" key="NewPhpFileDialog" timestamp="1630853111707">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/-1920.-35.1920.1055@0.25.1440.875" timestamp="1626178477082" />
     <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/1440.-22.1302.999/-1920.-38.1920.1055@0.25.1440.875" timestamp="1628174755243" />
     <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/1440.111.1360.743/-1302.-22.1302.999@0.25.1440.875" timestamp="1628956616727" />
+    <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/1440.111.1360.743@0.25.1440.875" timestamp="1630853111707" />
     <state x="540" y="278" key="NewPhpFileDialog/0.25.1440.875/1440.96.1360.743@0.25.1440.875" timestamp="1625685204699" />
     <state x="229" y="25" key="SettingsEditor" timestamp="1628157158348">
       <screen x="0" y="25" width="1440" height="875" />

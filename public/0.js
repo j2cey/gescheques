@@ -114,7 +114,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     showFlowchart: function showFlowchart(workflow) {
       /*WorkflowBus.$emit('show_flowchart', workflow)*/
-      window.location = '/workflows.flowchart/' + workflow.id;
+      window.location = '/workflows.flowchart/' + workflow.uuid;
     },
     deleteWorkflow: function deleteWorkflow(id, key) {
       var _this2 = this;
@@ -832,6 +832,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -842,10 +850,10 @@ __webpack_require__.r(__webpack_exports__);
   name: "steps-list",
   components: {
     WorkflowActions: function WorkflowActions() {
-      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ../workflowactions/list */ "./resources/js/views/workflowactions/list.vue"));
+      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ../workflowactions/list */ "./resources/js/views/workflowactions/list.vue"));
     },
     AddUpdateAction: function AddUpdateAction() {
-      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ../workflowactions/addupdate */ "./resources/js/views/workflowactions/addupdate.vue"));
+      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ../workflowactions/addupdate */ "./resources/js/views/workflowactions/addupdate.vue"));
     }
   },
   mounted: function mounted() {
@@ -899,22 +907,26 @@ __webpack_require__.r(__webpack_exports__);
       stickyHeaders: false,
       columns: [{
         field: 'id',
+        key: 'id',
         label: 'ID',
         numeric: true,
         searchable: false,
         sortable: true
       }, {
         field: 'titre',
+        key: 'titre',
         label: 'Titre',
         searchable: true,
         sortable: true
       }, {
         field: 'description',
+        key: 'description',
         label: 'Description',
         searchable: true,
         sortable: true
       }, {
         field: 'actions',
+        key: 'actions',
         label: 'Action(s)',
         width: '100',
         centered: true,
@@ -923,15 +935,17 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    searchTitre: function searchTitre(propsRowMyObject) //accept props.row.myObject
-    {
-      return [propsRowMyObject.titre, propsRowMyObject.titre].filter(function (i) {
-        return i;
-      }).join(' ');
-    },
-    searchLastName: function searchLastName(row, input) {
-      console.log('Searching...', row, input);
+    searchTitre: function searchTitre(row, input) {
+      console.log('Searching Titre ...', row, input);
       return input && row.titre && row.titre.includes(input);
+    },
+    searchDescription: function searchDescription(row, input) {
+      console.log('Searching Description ...', row, input);
+      return input && row.description && row.description.includes(input);
+    },
+    searchDefault: function searchDefault(row, input) {
+      console.log('Searching Default ...', row, input);
+      return true;
     },
     createNewAction: function createNewAction(workflowstep) {
       axios.get("/workflowactions.fetchbystep/".concat(workflowstep.id)).then(function (resp) {
@@ -996,6 +1010,31 @@ __webpack_require__.r(__webpack_exports__);
       if (stepIndex > -1) {
         this.workflowsteps.splice(stepIndex, 1, workflowstep);
       }
+    },
+    columnTdAttrs: function columnTdAttrs(row, column) {
+      if (row.id === 'Total') {
+        if (column.label === 'ID') {
+          return {
+            colspan: 4,
+            "class": 'has-text-weight-bold',
+            style: {
+              'text-align': 'left !important'
+            }
+          };
+        } else if (column.label === 'Gender') {
+          return {
+            "class": 'has-text-weight-semibold'
+          };
+        } else {
+          return {
+            style: {
+              display: 'none'
+            }
+          };
+        }
+      }
+
+      return null;
     }
   },
   computed: {
@@ -3032,6 +3071,7 @@ var render = function() {
           ref: "table",
           attrs: {
             data: _vm.workflowsteps,
+            "debounce-search": 1000,
             paginated: _vm.isPaginated,
             "per-page": _vm.perPage,
             "opened-detailed": _vm.defaultOpenedDetails,
@@ -3048,8 +3088,8 @@ var render = function() {
             "sort-icon-size": _vm.sortIconSize,
             "sticky-header": _vm.stickyHeaders,
             "default-sort": "row.titre",
-            "aria-next-label": "Next page",
-            "aria-previous-label": "Previous page",
+            "aria-next-label": "Suivant",
+            "aria-previous-label": "Precedent",
             "aria-page-label": "Page",
             "aria-current-label": "Current page",
             "before-destroy": false
@@ -3134,10 +3174,7 @@ var render = function() {
                 _vm._b(
                   {
                     key: column.id,
-                    attrs: {
-                      sortable: column.sortable,
-                      "custom-search": _vm.searchLastName
-                    },
+                    attrs: { sortable: column.sortable },
                     scopedSlots: _vm._u(
                       [
                         column.searchable && !column.numeric
@@ -3214,6 +3251,27 @@ var render = function() {
                                           )
                                         ]
                                       )
+                                    ]
+                                  )
+                                : column.field === "stepparent"
+                                ? _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "has-text-info is-italic text-xs"
+                                    },
+                                    [
+                                      props.row[column.field]
+                                        ? _c("span", [
+                                            _vm._v(
+                                              "\n                            " +
+                                                _vm._s(
+                                                  props.row[column.field].titre
+                                                ) +
+                                                "\n                        "
+                                            )
+                                          ])
+                                        : _c("span")
                                     ]
                                   )
                                 : column.date

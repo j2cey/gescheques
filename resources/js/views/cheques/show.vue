@@ -1,39 +1,21 @@
 <template>
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Détails Cheque</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Détails Cheque</li>
-                        </ol>
-                    </div>
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
+    <!-- Main content -->
+    <section class="content">
 
-        <!-- Main content -->
-        <section class="content">
+        <!-- Default box -->
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-6 order-1 order-md-1">
 
-            <!-- Default box -->
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-6 order-1 order-md-1">
-
-                    <div class="card border-0">
-                        <header>
-                            <div class="card-header-title row">
-                                <div class="col-md-6 col-sm-8 col-12">
+                <div class="card border-0">
+                    <header>
+                        <div class="card-header-title row">
+                            <div class="col-md-6 col-sm-8 col-12">
                                     <span class="text text-sm">
                                         Infos
                                     </span>
-                                </div>
-                                <div class="col-md-6 col-sm-4 col-12 text-right">
+                            </div>
+                            <div class="col-md-6 col-sm-4 col-12 text-right">
                                     <span class="text text-sm">
                                         <a type="button" class="btn btn-tool text-success" v-on:click="$emit('cheque_edit',cheque)">
                                             <i class="fa fa-pencil-square-o"></i>
@@ -42,48 +24,48 @@
                                             <i class="fas fa-expand"></i>
                                         </a>
                                     </span>
-                                </div>
-                            </div>
-                            <!-- /.user-block -->
-                        </header>
-                        <!-- /.card-header -->
-
-                        <div class="card-body">
-                            <div class="card-body table-responsive p-0" style="height: 150px;">
-                                <dl class="row">
-                                    <dt class="col-sm-4 text-xs">Numéro Enregistrement</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.NREC_BANK_MVT_ID }}</dd>
-                                    <dt class="col-sm-4 text-xs">Code Compte</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.ACC_CODE }}</dd>
-                                    <dt class="col-sm-4 text-xs">Montant</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.TRN_AMOUNT }}</dd>
-                                    <dt class="col-sm-4 text-xs">Numero Chèque</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.CHEQUE_NB }}</dd>
-                                    <dt class="col-sm-4 text-xs">Date Enregistrement</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.BOOK_DATE | formatDate }}</dd>
-                                    <dt class="col-sm-4 text-xs">Date Valeur</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.VALUE_DATE | formatDate }}</dd>
-                                    <dt class="col-sm-4 text-xs">Motif</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.COMPLEMENTS1 === 'NULL' ? cheque.DESCRIPTION : cheque.DESCRIPTION + '' + cheque.COMPLEMENTS1 }}</dd>
-                                </dl>
                             </div>
                         </div>
-                        <!-- /.card-body -->
-                    </div>
+                        <!-- /.user-block -->
+                    </header>
+                    <!-- /.card-header -->
 
+                    <div class="card-body">
+                        <div class="card-body table-responsive p-0" style="height: 150px;">
+                            <dl class="row">
+                                <dt class="col-sm-4 text-xs">Numéro Enregistrement</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.NREC_BANK_MVT_ID }}</dd>
+                                <dt class="col-sm-4 text-xs">Code Compte</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.ACC_CODE }}</dd>
+                                <dt class="col-sm-4 text-xs">Montant</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.TRN_AMOUNT }}</dd>
+                                <dt class="col-sm-4 text-xs">Numero Chèque</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.CHEQUE_NB }}</dd>
+                                <dt class="col-sm-4 text-xs">Date Enregistrement</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.BOOK_DATE | formatDate }}</dd>
+                                <dt class="col-sm-4 text-xs">Date Valeur</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.VALUE_DATE | formatDate }}</dd>
+                                <dt class="col-sm-4 text-xs">Motif</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.COMPLEMENTS1 === 'NULL' ? cheque.DESCRIPTION : cheque.DESCRIPTION + '' + cheque.COMPLEMENTS1 }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
                 </div>
 
-                <div class="col-12 col-md-12 col-lg-6 order-2 order-md-1">
+            </div>
 
-                    <div class="card border-0">
-                        <header>
-                            <div class="card-header-title row">
-                                <div class="col-md-6 col-sm-8 col-12">
+            <div class="col-12 col-md-12 col-lg-6 order-2 order-md-1">
+
+                <div class="card border-0">
+                    <header>
+                        <div class="card-header-title row">
+                            <div class="col-md-6 col-sm-8 col-12">
                                     <span class="text text-sm">
                                         Encaissement ARIS
                                     </span>
-                                </div>
-                                <div class="col-md-6 col-sm-4 col-12 text-right">
+                            </div>
+                            <div class="col-md-6 col-sm-4 col-12 text-right">
                                     <span class="text text-sm" v-if="cheque.encaissement">
                                         <a type="button" class="btn btn-tool text-success" v-on:click="$emit('encaissement_display', cheque.encaissement)">
                                             <i class="fa fa-eye"></i>
@@ -92,48 +74,47 @@
                                             <i class="fas fa-expand"></i>
                                         </a>
                                     </span>
-                                </div>
-                            </div>
-                            <!-- /.user-block -->
-                        </header>
-                        <!-- /.card-header -->
-
-
-
-                        <div class="card-body">
-                            <div class="card-body table-responsive p-0" style="height: 150px;">
-                                <dl class="row" v-if="cheque.encaissement">
-                                    <dt class="col-sm-4 text-xs">Agence</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.encaissement.agence.LocationName }}</dd>
-                                    <dt class="col-sm-4 text-xs">Banque</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.encaissement.BankName_formatted }}</dd>
-                                    <dt class="col-sm-4 text-xs">Montant Initial</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.encaissement.Initial_TotalAmountPaid }}</dd>
-                                    <dt class="col-sm-4 text-xs">Montant Final</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.encaissement.Final_TotalAmountPaid }}</dd>
-                                    <dt class="col-sm-4 text-xs">Numéro Compte</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.encaissement.AccountNumber }}</dd>
-                                    <dt class="col-sm-4 text-xs">Libellé Paiement</dt>
-                                    <dd class="col-sm-8 text-xs">{{ cheque.encaissement.PaymentID }}</dd>
-                                </dl>
                             </div>
                         </div>
-                        <!-- /.card-body -->
-                    </div>
+                        <!-- /.user-block -->
+                    </header>
+                    <!-- /.card-header -->
 
+
+
+                    <div class="card-body">
+                        <div class="card-body table-responsive p-0" style="height: 150px;">
+                            <dl class="row" v-if="cheque.encaissement">
+                                <dt class="col-sm-4 text-xs">Agence</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.encaissement.agence.LocationName }}</dd>
+                                <dt class="col-sm-4 text-xs">Banque</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.encaissement.BankName_formatted }}</dd>
+                                <dt class="col-sm-4 text-xs">Montant Initial</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.encaissement.Initial_TotalAmountPaid }}</dd>
+                                <dt class="col-sm-4 text-xs">Montant Final</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.encaissement.Final_TotalAmountPaid }}</dd>
+                                <dt class="col-sm-4 text-xs">Numéro Compte</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.encaissement.AccountNumber }}</dd>
+                                <dt class="col-sm-4 text-xs">Libellé Paiement</dt>
+                                <dd class="col-sm-8 text-xs">{{ cheque.encaissement.PaymentID }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
                 </div>
 
             </div>
-            <!-- /.card -->
 
-            <ExecItem :exec_prop="cheque.workflowexec" :userprofiles_prop="userprofiles" :moredata_prop="moredata"></ExecItem>
+        </div>
+        <!-- /.card -->
 
-        </section>
-        <!-- /.content -->
+        <ExecItem :exec_prop="cheque.workflowexec" :userprofiles_prop="userprofiles" :moredata_prop="moredata"></ExecItem>
+
         <ImgShow></ImgShow>
         <EncaissementShow></EncaissementShow>
         <ChequeAddUpdate></ChequeAddUpdate>
-    </div>
+    </section>
+    <!-- /.content -->
 
 </template>
 

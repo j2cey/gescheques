@@ -56,11 +56,11 @@
             },
             width: {
                 type: [String, Number],
-                default: 1000,
+                default: 800,
             },
             height: {
                 type: [String, Number],
-                default: 650,
+                default: 600,
             },
             readonly: {
                 type: Boolean,

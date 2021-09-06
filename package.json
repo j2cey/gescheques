@@ -57,6 +57,7 @@
         "vue-multiselect": "^2.1.6",
         "vue-pdf": "^4.3.0",
         "vue-pdf-app": "^2.1.0",
+        "vue-server-renderer": "^2.6.14",
         "vue-sweetalert-icons": "^4.3.0",
         "vue-sweetalert2": "^3.0.8",
         "vue-workflow-chart": "^0.4.5",

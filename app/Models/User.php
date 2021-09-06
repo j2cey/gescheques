@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Traits\Base\BaseTrait;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -121,6 +123,16 @@ class User extends Authenticatable implements Auditable
     }
 
     #endregion
+
+    public function getAllPermissionsAttribute() {
+        $permissions = [];
+        foreach (Permission::all() as $permission) {
+            if (Auth::user()->can($permission->name)) {
+                $permissions[] = $permission->name;
+            }
+        }
+        return $permissions;
+    }
 
     #region Custom Functions
 

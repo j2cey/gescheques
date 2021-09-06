@@ -1,54 +1,30 @@
 <template>
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Téléchargement Fichier Encaissements</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Encaissements Upload</li>
-                        </ol>
-                    </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="text text-sm">
+                Détails Téléchargement
+            </span>
+        </div>
+        <div class="card-body">
+
+            <form class="form-horizontal" @submit.prevent @keydown="encaissementForm.errors.clear()">
+
+                <div class="form-group input-group file-group">
+                    <input type="file" class="custom-file-input" id="fichier_encaissements" ref="fichier_encaissements" @change="handleFichierEncaissementsUpload" multiple>
+                    <label class="custom-file-label" for="fichier_encaissements">{{ fichierEncaissementsPlaceholder }}</label>
+                    <p class="text-sm-left"><small class="text text-danger" role="alert" v-if="encaissementForm.errors.has('fichier_dossier_candidature')" v-text="encaissementForm.errors.get('fichier_dossier_candidature')"></small></p>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
 
-        <!-- Main content -->
-        <section class="content">
+            </form>
 
-            <!-- Default box -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Détails Téléchargement</h3>
-                </div>
-                <div class="card-body">
-
-                    <form class="form-horizontal" @submit.prevent @keydown="encaissementForm.errors.clear()">
-
-                        <div class="form-group input-group file-group">
-                            <input type="file" class="custom-file-input" id="fichier_encaissements" ref="fichier_encaissements" @change="handleFichierEncaissementsUpload" multiple>
-                            <label class="custom-file-label" for="fichier_encaissements">{{ fichierEncaissementsPlaceholder }}</label>
-                            <p class="text-sm-left"><small class="text text-danger" role="alert" v-if="encaissementForm.errors.has('fichier_dossier_candidature')" v-text="encaissementForm.errors.get('fichier_dossier_candidature')"></small></p>
-                        </div>
-
-                    </form>
-
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary btn-sm" @click="closeWindow">Fermer</button>
-                    <button type="button" class="btn btn-primary btn-sm" @click="createEncaissements()" :disabled="!isValidCreateForm">Valider</button>
-                </div>
-            </div>
-            <!-- /.card -->
-
-        </section>
-        <!-- /.content -->
+        </div>
+        <!-- /.card-body -->
+        <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-secondary btn-sm" @click="closeWindow">Fermer</button>
+            <button type="button" class="btn btn-primary btn-sm" @click="createEncaissements()" :disabled="!isValidCreateForm">Valider</button>
+        </div>
     </div>
+    <!-- /.card -->
 </template>
 
 <script>

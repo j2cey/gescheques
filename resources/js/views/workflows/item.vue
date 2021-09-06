@@ -100,7 +100,7 @@
             },
             showFlowchart(workflow) {
                 /*WorkflowBus.$emit('show_flowchart', workflow)*/
-                window.location = '/workflows.flowchart/' + workflow.id
+                window.location = '/workflows.flowchart/' + workflow.uuid
             },
             deleteWorkflow(id, key) {
                 this.$swal({

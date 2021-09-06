@@ -13,6 +13,7 @@
         <b-table
             :data="workflowsteps"
             ref="table"
+            :debounce-search="1000"
             :paginated="isPaginated"
             :per-page="perPage"
             :opened-detailed="defaultOpenedDetails"
@@ -29,13 +30,13 @@
             :sort-icon-size="sortIconSize"
             :sticky-header="stickyHeaders"
             default-sort="row.titre"
-            aria-next-label="Next page"
-            aria-previous-label="Previous page"
+            aria-next-label="Suivant"
+            aria-previous-label="Precedent"
             aria-page-label="Page"
             aria-current-label="Current page" :before-destroy="false">
 
             <template v-for="column in columns">
-                <b-table-column :key="column.id" v-bind="column" :sortable="column.sortable" :custom-search="searchLastName">
+                <b-table-column :key="column.id" v-bind="column" :sortable="column.sortable">
                     <template
                         v-if="column.searchable && !column.numeric"
                         #searchable="props">
@@ -49,6 +50,7 @@
                             @icon-right-click="props.filters[props.column.field] = ''"
                         />
                     </template>
+
                     <template v-slot="props">
                         <span v-if="column.field === 'id'" class="text-xs">
                             {{ props.row[column.field] }}
@@ -57,6 +59,12 @@
                             <a @click="editWorkflowstep(props.row)">
                                 {{ props.row[column.field] }}
                             </a>
+                        </span>
+                        <span v-else-if="column.field === 'stepparent'" class="has-text-info is-italic text-xs">
+                            <span v-if="props.row[column.field]">
+                                {{ props.row[column.field].titre }}
+                            </span>
+                            <span v-else></span>
                         </span>
                         <span v-else-if="column.date" class="tag is-success">
                             {{ new Date( props.row[column.field] ).toLocaleDateString() }}
@@ -160,6 +168,7 @@
                 columns: [
                     {
                         field: 'id',
+                        key: 'id',
                         label: 'ID',
                         numeric: true,
                         searchable: false,
@@ -167,18 +176,21 @@
                     },
                     {
                         field: 'titre',
+                        key: 'titre',
                         label: 'Titre',
                         searchable: true,
                         sortable: true,
                     },
                     {
                         field: 'description',
+                        key: 'description',
                         label: 'Description',
                         searchable: true,
                         sortable: true,
                     },
                     {
                         field: 'actions',
+                        key: 'actions',
                         label: 'Action(s)',
                         width: '100',
                         centered: true,
@@ -188,13 +200,17 @@
             };
         },
         methods: {
-            searchTitre(propsRowMyObject) //accept props.row.myObject
-            {
-                return [propsRowMyObject.titre,propsRowMyObject.titre].filter(i => i).join(' ')
-            },
-            searchLastName(row, input) {
-                console.log('Searching...', row, input)
+            searchTitre(row, input) {
+                console.log('Searching Titre ...', row, input)
                 return input && row.titre && row.titre.includes(input);
+            },
+            searchDescription(row, input) {
+                console.log('Searching Description ...', row, input)
+                return input && row.description && row.description.includes(input);
+            },
+            searchDefault(row, input) {
+                console.log('Searching Default ...', row, input)
+                return true;
             },
             createNewAction(workflowstep) {
                 axios.get(`/workflowactions.fetchbystep/${workflowstep.id}`)
@@ -256,6 +272,28 @@
                 if (stepIndex > -1) {
                     this.workflowsteps.splice(stepIndex, 1, workflowstep)
                 }
+            },
+            columnTdAttrs(row, column) {
+                if (row.id === 'Total') {
+                    if (column.label === 'ID') {
+                        return {
+                            colspan: 4,
+                            class: 'has-text-weight-bold',
+                            style: {
+                                'text-align': 'left !important'
+                            }
+                        }
+                    } else if (column.label === 'Gender') {
+                        return {
+                            class: 'has-text-weight-semibold'
+                        }
+                    } else {
+                        return {
+                            style: {display: 'none'}
+                        }
+                    }
+                }
+                return null
             }
         },
         computed: {

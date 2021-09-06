@@ -122,6 +122,7 @@
       <path value="$PROJECT_DIR$/vendor/maennchen/zipstream-php" />
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/ahmedsaoud31/laravel-permission-to-vuejs" />
+      <path value="$PROJECT_DIR$/vendor/tabuna/breadcrumbs" />
     </include_path>
   </component>
   <component name="PhpUnit">

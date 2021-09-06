@@ -24,16 +24,7 @@
                     <ul aria-labelledby="chequesMenu" class="dropdown-menu border-0 shadow">
                         <li class="nav-item">
                             <a href="/cheques" class="nav-link">Liste</a>
-                            <a href="/cheques/create" class="nav-link">Nouveau</a>
                             <a href="/cheques.upload" class="nav-link">Telecharger</a>
-                        </li>
-                        <li class="dropdown-submenu dropdown-hover">
-                            <a id="boredereauxMenu" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Bordereaux</a>
-                            <ul aria-labelledby="boredereauxMenu" class="dropdown-menu border-0 shadow">
-                                <li class="nav-item">
-                                    <a href="/bordereaus" class="nav-link">Liste</a>
-                                </li>
-                            </ul>
                         </li>
                         <!-- End Level two -->
                     </ul>
@@ -60,7 +51,7 @@
                 </li>
                 @endrole
 
-                @role('Admin')
+                @can('workflow-list')
                 <li class="nav-item dropdown">
                     <a id="workflowsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Workflows</a>
                     <ul aria-labelledby="workflowsMenu" class="dropdown-menu border-0 shadow">
@@ -69,7 +60,7 @@
                         </li>
                     </ul>
                 </li>
-                @endrole
+                @endcan
 
                 @role('Admin')
                 <li class="nav-item dropdown">
