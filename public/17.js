@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[17],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/workflowactions/addupdate.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/workflowactions/addupdate.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/remindercriteria/addupdate.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/remindercriteria/addupdate.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -11,8 +11,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actionBus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actionBus */ "./resources/js/views/workflowactions/actionBus.js");
-/* harmony import */ var _workflowsteps_stepBus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../workflowsteps/stepBus */ "./resources/js/views/workflowsteps/stepBus.js");
+/* harmony import */ var _remindercriteria_remindercriteriaBus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../remindercriteria/remindercriteriaBus */ "./resources/js/views/remindercriteria/remindercriteriaBus.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 //
@@ -145,94 +144,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
+var Criterion = function Criterion(criterion) {
+  _classCallCheck(this, Criterion);
 
-var Workflowaction = function Workflowaction(workflowaction) {
-  _classCallCheck(this, Workflowaction);
-
-  this.titre = workflowaction.titre || '';
-  this.description = workflowaction.description || '';
-  this.workflow_step_id = workflowaction.workflow_step_id || '';
-  this.actiontype = workflowaction.actiontype || '';
-  this.treatmenttype = workflowaction.treatmenttype || '';
-  this.mimetypes = workflowaction.mimetypes || '';
-  this.field_required = workflowaction.field_required || false;
-  this.field_required_msg = workflowaction.field_required_msg || '';
-  this.field_required_without = workflowaction.field_required_without || false;
-  this.actionsrequiredwithout = workflowaction.actionsrequiredwithout || '';
-  this.field_required_without_msg = workflowaction.field_required_without_msg || '';
-  this.field_required_with = workflowaction.field_required_with || false;
-  this.actionsrequiredwith = workflowaction.actionsrequiredwith || '';
-  this.field_required_with_msg = workflowaction.field_required_with_msg || '';
+  this.title = criterion.title || '';
+  this.is_start_criterion = criterion.is_start_criterion === 1;
+  this.is_stop_criterion = criterion.is_stop_criterion === 1;
+  this.modelattribute = criterion.modelattribute || '';
+  this.criterion_value = criterion.criterion_value || '';
+  this.description = criterion.description || '';
+  this.reminder_id = criterion.reminder_id || '';
+  this.criteriontype = criterion.criteriontype || '';
+  this.status = criterion.status || '';
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "action-addupdate",
+  name: "criterion-addupdate",
   props: {},
   components: {
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a
@@ -240,129 +170,113 @@ var Workflowaction = function Workflowaction(workflowaction) {
   mounted: function mounted() {
     var _this = this;
 
-    _actionBus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('workflowaction_create', function (workflowstep, actionsofstep) {
+    _remindercriteria_remindercriteriaBus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('criterion_create', function (reminder) {
       _this.editing = false;
-      _this.workflowstepId = workflowstep.id;
-      _this.workflowaction = new Workflowaction({});
-      _this.workflowaction.workflow_step_id = workflowstep.id;
-      _this.workflowactionForm = new Form(_this.workflowaction);
-      _this.actionsofstep = actionsofstep;
-      $('#addUpdateWorkflowaction').modal();
+      _this.reminder = reminder;
+      _this.modelattributes = _this.reminder.modeltype ? _this.reminder.modeltype.modelattributes : null;
+      _this.reminderId = reminder.id;
+      _this.criterion = new Criterion({});
+      _this.criterion.reminder_id = reminder.id;
+      _this.criterionForm = new Form(_this.criterion);
+      $('#addUpdateCriterion').modal();
     });
-    _actionBus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('workflowaction_edit', function (workflowaction, actionsofstep) {
+    _remindercriteria_remindercriteriaBus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('criterion_edit', function (edit_data) {
+      console.log('criterion_edit received from criterion-addupdate: ', edit_data);
       _this.editing = true;
-      _this.workflowaction = new Workflowaction(workflowaction);
-      _this.workflowactionForm = new Form(_this.workflowaction);
-      _this.workflowactionId = workflowaction.uuid;
-      _this.workflowstepId = workflowaction.workflow_step_id;
-      _this.actionsofstep = actionsofstep;
-      $('#addUpdateWorkflowaction').modal();
-    });
-    this.$parent.$on('create_new_workflowaction', function (workflowstepId) {
-      console.log('create_new_workflowaction--received', workflowstepId);
-      _this.editing = false;
-      _this.workflowstepId = workflowstepId;
-      _this.workflowaction = new Workflowaction({});
-      _this.workflowaction.workflow_step_id = workflowstepId;
-      _this.workflowactionForm = new Form(_this.workflowaction);
-      $('#addUpdateWorkflowaction').modal();
-    });
-    this.$parent.$on('edit_workflowaction', function (_ref) {
-      var workflowaction = _ref.workflowaction;
-      _this.editing = true;
-      _this.workflowaction = new Workflowaction(workflowaction);
-      _this.workflowactionForm = new Form(_this.workflowaction);
-      _this.workflowactionId = workflowaction.uuid;
-      _this.workflowstepId = workflowaction.workflow_step_id;
-      $('#addUpdateWorkflowaction').modal();
+      _this.criterion = new Criterion(edit_data.criterion);
+      _this.criterionForm = new Form(_this.criterion);
+      _this.criterionId = edit_data.criterion.uuid;
+      _this.reminder = edit_data.reminder;
+      _this.modelattributes = _this.reminder.modeltype ? _this.reminder.modeltype.modelattributes : null;
+      _this.reminderId = _this.reminder.uuid;
+      $('#addUpdateCriterion').modal();
     });
   },
   created: function created() {
     var _this2 = this;
 
-    axios.get('/workflowactiontypes.fetch').then(function (_ref2) {
+    axios.get('/statuses.fetch').then(function (_ref) {
+      var data = _ref.data;
+      return _this2.statuses = data;
+    });
+    axios.get('/remindercriteriontypes.fetch').then(function (_ref2) {
       var data = _ref2.data;
-      return _this2.workflowactiontypes = data;
-    });
-    axios.get('/workflowtreatmenttypes.fetch').then(function (_ref3) {
-      var data = _ref3.data;
-      return _this2.workflowtreatmenttypes = data;
-    });
-    axios.get('/mimetypes.fetch').then(function (_ref4) {
-      var data = _ref4.data;
-      return _this2.mimetypes = data;
-    });
-    axios.get('/workflowactions.fetchbystep/0').then(function (_ref5) {
-      var data = _ref5.data;
-      return _this2.actionsofstep = data;
+      return _this2.criteriontypes = data;
     });
   },
   data: function data() {
     return {
-      workflowaction: {},
-      workflowstepId: '',
-      workflowactionForm: new Form(new Workflowaction({})),
-      workflowactionId: null,
+      criterion: {},
+      reminder: {},
+      reminderId: '',
+      criterionForm: new Form(new Criterion({})),
+      criterionId: null,
       editing: false,
       loading: false,
-      workflowactiontypes: [],
-      workflowtreatmenttypes: [],
-      mimetypes: [],
-      actionsofstep: []
+      statuses: [],
+      criteriontypes: [],
+      modelattributes: []
     };
   },
   methods: {
-    createWorkflowaction: function createWorkflowaction(workflowstepId) {
+    createCriterion: function createCriterion() {
       var _this3 = this;
 
-      this.loading = true; //this.workflowactionForm.workflow_step_id = this.workflowactionId
-      //console.log("createWorkflowaction", this.workflowactionId, this.workflowactionForm)
+      this.loading = true;
+      this.criterionForm.post('/remindercriteria').then(function (resp) {
+        _this3.loading = false; // on émet la valeur créé dans le bus EnumValue
 
-      this.workflowactionForm.post('/workflowactions').then(function (resp) {
-        _this3.loading = false; // on émet l'action créé dans le bus Action
+        console.log('criteria post resp: ', resp);
+        var criterion = resp.criterion;
+        var reminder = resp.reminder;
 
-        console.log('workflowactions post resp: ', resp);
-        var action = resp.action;
-        var step = resp.step;
-        $('#addUpdateWorkflowaction').modal('hide');
+        _this3.closeModal();
 
         _this3.$swal({
-          html: '<small>Action créée avec succès !</small>',
+          html: '<small>Criterion successfully created !</small>',
           icon: 'success',
           timer: 3000
         }).then(function () {
-          _actionBus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('workflowaction_created', {
-            action: action,
-            step: step
+          _remindercriteria_remindercriteriaBus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('criterion_created', {
+            criterion: criterion,
+            reminder: reminder
           });
         });
       })["catch"](function (error) {
         _this3.loading = false;
       });
     },
-    updateWorkflowaction: function updateWorkflowaction(workflowstepId) {
+    updateCriterion: function updateCriterion() {
       var _this4 = this;
 
       this.loading = true;
-      this.workflowactionForm.put("/workflowactions/".concat(this.workflowactionId)).then(function (resp) {
+      this.criterionForm.put("/remindercriteria/".concat(this.criterionId)).then(function (resp) {
         _this4.loading = false;
-        var action = resp.action;
-        var step = resp.step;
-        $('#addUpdateWorkflowaction').modal('hide');
+        var criterion = resp.criterion;
+        var reminder = resp.reminder;
+
+        _this4.closeModal();
 
         _this4.$swal({
-          html: '<small>Action modifiée avec succès !</small>',
+          html: '<small>Criterion successfully updated !</small>',
           icon: 'success',
           timer: 3000
         }).then(function () {
-          _actionBus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('workflowaction_updated', {
-            action: action,
-            step: step
+          _remindercriteria_remindercriteriaBus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('criterion_updated', {
+            criterion: criterion,
+            reminder: reminder
           });
         });
       })["catch"](function (error) {
         _this4.loading = false;
       });
+    },
+    closeModal: function closeModal() {
+      this.resetForm();
+      $('#addUpdateCriterion').modal('hide');
+    },
+    resetForm: function resetForm() {
+      this.criterionForm.reset();
     }
   },
   computed: {
@@ -374,10 +288,10 @@ var Workflowaction = function Workflowaction(workflowaction) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/workflowactions/addupdate.vue?vue&type=template&id=4091f3ca&":
-/*!***********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/workflowactions/addupdate.vue?vue&type=template&id=4091f3ca& ***!
-  \***********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/remindercriteria/addupdate.vue?vue&type=template&id=024b37aa&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/remindercriteria/addupdate.vue?vue&type=template&id=024b37aa&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -394,10 +308,10 @@ var render = function() {
     {
       staticClass: "modal fade",
       attrs: {
-        id: "addUpdateWorkflowaction",
+        id: "addUpdateCriterion",
         tabindex: "-1",
         role: "dialog",
-        "aria-labelledby": "exampleModalLabel",
+        "aria-labelledby": "criterionModalLabel",
         "aria-hidden": "true"
       }
     },
@@ -410,17 +324,17 @@ var render = function() {
                   "h5",
                   {
                     staticClass: "modal-title text-sm",
-                    attrs: { id: "exampleModalLabel" }
+                    attrs: { id: "criterionModalLabel" }
                   },
-                  [_vm._v("Modifier Action")]
+                  [_vm._v("Update Criterion")]
                 )
               : _c(
                   "h5",
                   {
                     staticClass: "modal-title text-sm",
-                    attrs: { id: "exampleModalLabel" }
+                    attrs: { id: "criterionModalLabel" }
                   },
-                  [_vm._v("Créer Nouvelle Action")]
+                  [_vm._v("Create Criterion")]
                 ),
             _vm._v(" "),
             _vm._m(0)
@@ -436,7 +350,7 @@ var render = function() {
                     $event.preventDefault()
                   },
                   keydown: function($event) {
-                    return _vm.workflowactionForm.errors.clear()
+                    return _vm.criterionForm.errors.clear()
                   }
                 }
               },
@@ -447,9 +361,9 @@ var render = function() {
                       "label",
                       {
                         staticClass: "col-sm-2 col-form-label text-xs text-xs",
-                        attrs: { for: "action_titre" }
+                        attrs: { for: "criterion_val" }
                       },
-                      [_vm._v("Titre")]
+                      [_vm._v("Title")]
                     ),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-sm-10" }, [
@@ -458,39 +372,366 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.workflowactionForm.titre,
-                            expression: "workflowactionForm.titre"
+                            value: _vm.criterionForm.title,
+                            expression: "criterionForm.title"
                           }
                         ],
                         staticClass: "form-control form-control-sm",
                         attrs: {
                           type: "text",
-                          id: "action_titre",
-                          name: "titre",
-                          placeholder: "Titre"
+                          id: "criterion_title",
+                          name: "title",
+                          placeholder: "Title"
                         },
-                        domProps: { value: _vm.workflowactionForm.titre },
+                        domProps: { value: _vm.criterionForm.title },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
                             _vm.$set(
-                              _vm.workflowactionForm,
-                              "titre",
+                              _vm.criterionForm,
+                              "title",
                               $event.target.value
                             )
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _vm.workflowactionForm.errors.has("titre")
+                      _vm.criterionForm.errors.has("title")
                         ? _c("span", {
                             staticClass: "invalid-feedback d-block text-xs",
                             attrs: { role: "alert" },
                             domProps: {
                               textContent: _vm._s(
-                                _vm.workflowactionForm.errors.get("titre")
+                                _vm.criterionForm.errors.get("title")
+                              )
+                            }
+                          })
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group row" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            type: _vm.criterionForm.errors.has(
+                              "is_start_criterion"
+                            )
+                              ? "is-danger"
+                              : "",
+                            message: _vm.criterionForm.errors.get(
+                              "is_start_criterion"
+                            )
+                          }
+                        },
+                        [
+                          _c(
+                            "b-checkbox",
+                            {
+                              attrs: {
+                                type: _vm.criterionForm.is_start_criterion
+                                  ? "is-success"
+                                  : "is-danger"
+                              },
+                              model: {
+                                value: _vm.criterionForm.is_start_criterion,
+                                callback: function($$v) {
+                                  _vm.$set(
+                                    _vm.criterionForm,
+                                    "is_start_criterion",
+                                    $$v
+                                  )
+                                },
+                                expression: "criterionForm.is_start_criterion"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Start Criterion\n                                "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group row" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            type: _vm.criterionForm.errors.has(
+                              "is_stop_criterion"
+                            )
+                              ? "is-danger"
+                              : "",
+                            message: _vm.criterionForm.errors.get(
+                              "is_stop_criterion"
+                            )
+                          }
+                        },
+                        [
+                          _c(
+                            "b-checkbox",
+                            {
+                              attrs: {
+                                type: _vm.criterionForm.is_stop_criterion
+                                  ? "is-success"
+                                  : "is-danger"
+                              },
+                              model: {
+                                value: _vm.criterionForm.is_stop_criterion,
+                                callback: function($$v) {
+                                  _vm.$set(
+                                    _vm.criterionForm,
+                                    "is_stop_criterion",
+                                    $$v
+                                  )
+                                },
+                                expression: "criterionForm.is_stop_criterion"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Stop Criterion\n                                "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label text-xs",
+                        attrs: { for: "m_select_criterion_type" }
+                      },
+                      [_vm._v("Type")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-10 text-xs" },
+                      [
+                        _c("multiselect", {
+                          key: "id",
+                          attrs: {
+                            id: "m_select_criterion_type",
+                            "selected.sync": "criterion.criteriontype",
+                            value: "",
+                            options: _vm.criteriontypes,
+                            searchable: true,
+                            multiple: false,
+                            label: "name",
+                            "track-by": "id",
+                            placeholder: "Criterion Type"
+                          },
+                          model: {
+                            value: _vm.criterionForm.criteriontype,
+                            callback: function($$v) {
+                              _vm.$set(_vm.criterionForm, "criteriontype", $$v)
+                            },
+                            expression: "criterionForm.criteriontype"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.criterionForm.errors.has("criteriontype")
+                          ? _c("span", {
+                              staticClass: "invalid-feedback d-block text-xs",
+                              attrs: { role: "alert" },
+                              domProps: {
+                                textContent: _vm._s(
+                                  _vm.criterionForm.errors.get("criteriontype")
+                                )
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label text-xs",
+                        attrs: { for: "criterion_modelattribute" }
+                      },
+                      [_vm._v("Object Attribute")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-10" },
+                      [
+                        _c("multiselect", {
+                          key: "id",
+                          staticClass: "text text-xs",
+                          attrs: {
+                            id: "reminder_model_type",
+                            "selected.sync": "criterionForm.modelattribute",
+                            value: "",
+                            options: _vm.modelattributes,
+                            searchable: true,
+                            multiple: false,
+                            label: "label",
+                            "track-by": "id",
+                            placeholder: "Model Attribute"
+                          },
+                          model: {
+                            value: _vm.criterionForm.modelattribute,
+                            callback: function($$v) {
+                              _vm.$set(_vm.criterionForm, "modelattribute", $$v)
+                            },
+                            expression: "criterionForm.modelattribute"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.criterionForm.errors.has("modelattribute")
+                          ? _c("span", {
+                              staticClass: "invalid-feedback d-block text-xs",
+                              attrs: { role: "alert" },
+                              domProps: {
+                                textContent: _vm._s(
+                                  _vm.criterionForm.errors.get("modelattribute")
+                                )
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label text-xs",
+                        attrs: { for: "criterion_criterion_value" }
+                      },
+                      [_vm._v("Criterion Value")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.criterionForm.criterion_value,
+                            expression: "criterionForm.criterion_value"
+                          }
+                        ],
+                        staticClass: "form-control form-control-sm",
+                        attrs: {
+                          type: "text",
+                          id: "criterion_criterion_value",
+                          name: "criterion_value",
+                          required: "",
+                          autocomplete: "criterion_value",
+                          autofocus: "",
+                          placeholder: "Criterion Value"
+                        },
+                        domProps: { value: _vm.criterionForm.criterion_value },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.criterionForm,
+                              "criterion_value",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.criterionForm.errors.has("criterion_value")
+                        ? _c("span", {
+                            staticClass: "invalid-feedback d-block text-xs",
+                            attrs: { role: "alert" },
+                            domProps: {
+                              textContent: _vm._s(
+                                _vm.criterionForm.errors.get("criterion_value")
+                              )
+                            }
+                          })
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label text-xs",
+                        attrs: { for: "criterion_description" }
+                      },
+                      [_vm._v("Description")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.criterionForm.description,
+                            expression: "criterionForm.description"
+                          }
+                        ],
+                        staticClass: "form-control form-control-sm",
+                        attrs: {
+                          type: "text",
+                          id: "criterion_description",
+                          name: "description",
+                          required: "",
+                          autocomplete: "description",
+                          autofocus: "",
+                          placeholder: "Description"
+                        },
+                        domProps: { value: _vm.criterionForm.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.criterionForm,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.criterionForm.errors.has("description")
+                        ? _c("span", {
+                            staticClass: "invalid-feedback d-block text-xs",
+                            attrs: { role: "alert" },
+                            domProps: {
+                              textContent: _vm._s(
+                                _vm.criterionForm.errors.get("description")
                               )
                             }
                           })
@@ -505,7 +746,7 @@ var render = function() {
                         staticClass: "col-sm-2 col-form-label text-xs",
                         attrs: { for: "m_select_action_type" }
                       },
-                      [_vm._v("Type Action")]
+                      [_vm._v("Statut")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -516,37 +757,31 @@ var render = function() {
                           key: "id",
                           attrs: {
                             id: "m_select_action_type",
-                            "selected.sync": "workflowaction.actiontype",
+                            "selected.sync": "criterion.status",
                             value: "",
-                            options: _vm.workflowactiontypes,
+                            options: _vm.statuses,
                             searchable: true,
                             multiple: false,
                             label: "name",
                             "track-by": "id",
-                            placeholder: "Type Action"
+                            placeholder: "Statut"
                           },
                           model: {
-                            value: _vm.workflowactionForm.actiontype,
+                            value: _vm.criterionForm.status,
                             callback: function($$v) {
-                              _vm.$set(
-                                _vm.workflowactionForm,
-                                "actiontype",
-                                $$v
-                              )
+                              _vm.$set(_vm.criterionForm, "status", $$v)
                             },
-                            expression: "workflowactionForm.actiontype"
+                            expression: "criterionForm.status"
                           }
                         }),
                         _vm._v(" "),
-                        _vm.workflowactionForm.errors.has("actiontype")
+                        _vm.criterionForm.errors.has("status")
                           ? _c("span", {
                               staticClass: "invalid-feedback d-block text-xs",
                               attrs: { role: "alert" },
                               domProps: {
                                 textContent: _vm._s(
-                                  _vm.workflowactionForm.errors.get(
-                                    "actiontype"
-                                  )
+                                  _vm.criterionForm.errors.get("status")
                                 )
                               }
                             })
@@ -554,808 +789,7 @@ var render = function() {
                       ],
                       1
                     )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "col-sm-2 col-form-label text-xs",
-                        attrs: { for: "m_select_treatment_type" }
-                      },
-                      [_vm._v("Type Traitement")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "col-sm-10 text-xs" },
-                      [
-                        _c("multiselect", {
-                          key: "id",
-                          attrs: {
-                            id: "m_select_treatment_type",
-                            "selected.sync": "workflowaction.treatmenttype",
-                            value: "",
-                            options: _vm.workflowtreatmenttypes,
-                            searchable: true,
-                            multiple: false,
-                            label: "name",
-                            "track-by": "id",
-                            placeholder: "Type Traitement"
-                          },
-                          model: {
-                            value: _vm.workflowactionForm.treatmenttype,
-                            callback: function($$v) {
-                              _vm.$set(
-                                _vm.workflowactionForm,
-                                "treatmenttype",
-                                $$v
-                              )
-                            },
-                            expression: "workflowactionForm.treatmenttype"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm.workflowactionForm.errors.has("treatmenttype")
-                          ? _c("span", {
-                              staticClass: "invalid-feedback d-block text-xs",
-                              attrs: { role: "alert" },
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.workflowactionForm.errors.get(
-                                    "treatmenttype"
-                                  )
-                                )
-                              }
-                            })
-                          : _vm._e()
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm.workflowactionForm.actiontype &&
-                  _vm.workflowactionForm.actiontype.code === "FILE_ref"
-                    ? _c("div", { staticClass: "form-group row" }, [
-                        _c("div", { staticClass: "col-sm-2 text-xs" }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            staticClass: "col-sm-4 col-form-label text-xs",
-                            attrs: { for: "m_select_action_type_mimetype" }
-                          },
-                          [_vm._v("Type(s) de fichier")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "col-sm-6 text-xs" },
-                          [
-                            _c("multiselect", {
-                              key: "id",
-                              attrs: {
-                                id: "m_select_action_type_mimetype",
-                                "selected.sync": "workflowaction.mimetypes",
-                                value: "",
-                                options: _vm.mimetypes,
-                                searchable: true,
-                                multiple: true,
-                                label: "name",
-                                "track-by": "id",
-                                placeholder: "Type(s) fichier"
-                              },
-                              model: {
-                                value: _vm.workflowactionForm.mimetypes,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.workflowactionForm,
-                                    "mimetypes",
-                                    $$v
-                                  )
-                                },
-                                expression: "workflowactionForm.mimetypes"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.workflowactionForm.errors.has("mimetypes")
-                              ? _c("span", {
-                                  staticClass:
-                                    "invalid-feedback d-block text-xs",
-                                  attrs: { role: "alert" },
-                                  domProps: {
-                                    textContent: _vm._s(
-                                      _vm.workflowactionForm.errors.get(
-                                        "mimetypes"
-                                      )
-                                    )
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "col-sm-2 col-form-label text-xs",
-                        attrs: { for: "action_description" }
-                      },
-                      [_vm._v("Description")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-sm-10" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.workflowactionForm.description,
-                            expression: "workflowactionForm.description"
-                          }
-                        ],
-                        staticClass: "form-control form-control-sm",
-                        attrs: {
-                          type: "text",
-                          id: "action_description",
-                          name: "description",
-                          required: "",
-                          autocomplete: "description",
-                          autofocus: "",
-                          placeholder: "Description"
-                        },
-                        domProps: { value: _vm.workflowactionForm.description },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.workflowactionForm,
-                              "description",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm.workflowactionForm.errors.has("description")
-                        ? _c("span", {
-                            staticClass: "invalid-feedback d-block text-xs",
-                            attrs: { role: "alert" },
-                            domProps: {
-                              textContent: _vm._s(
-                                _vm.workflowactionForm.errors.get("description")
-                              )
-                            }
-                          })
-                        : _vm._e()
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "custom-control custom-switch custom-switch-off-danger custom-switch-on-success"
-                      },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.workflowactionForm.field_required,
-                              expression: "workflowactionForm.field_required"
-                            }
-                          ],
-                          staticClass: "custom-control-input",
-                          attrs: {
-                            type: "checkbox",
-                            id: "field_required",
-                            name: "field_required",
-                            autocomplete: "field_required",
-                            autofocus: "",
-                            placeholder: "Champs Requis ?"
-                          },
-                          domProps: {
-                            checked: Array.isArray(
-                              _vm.workflowactionForm.field_required
-                            )
-                              ? _vm._i(
-                                  _vm.workflowactionForm.field_required,
-                                  null
-                                ) > -1
-                              : _vm.workflowactionForm.field_required
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$a = _vm.workflowactionForm.field_required,
-                                $$el = $event.target,
-                                $$c = $$el.checked ? true : false
-                              if (Array.isArray($$a)) {
-                                var $$v = null,
-                                  $$i = _vm._i($$a, $$v)
-                                if ($$el.checked) {
-                                  $$i < 0 &&
-                                    _vm.$set(
-                                      _vm.workflowactionForm,
-                                      "field_required",
-                                      $$a.concat([$$v])
-                                    )
-                                } else {
-                                  $$i > -1 &&
-                                    _vm.$set(
-                                      _vm.workflowactionForm,
-                                      "field_required",
-                                      $$a
-                                        .slice(0, $$i)
-                                        .concat($$a.slice($$i + 1))
-                                    )
-                                }
-                              } else {
-                                _vm.$set(
-                                  _vm.workflowactionForm,
-                                  "field_required",
-                                  $$c
-                                )
-                              }
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm._m(1),
-                        _vm._v(" "),
-                        _vm.workflowactionForm.errors.has("field_required")
-                          ? _c("span", {
-                              staticClass: "invalid-feedback d-block text-xs",
-                              attrs: { role: "alert" },
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.workflowactionForm.errors.get(
-                                    "field_required"
-                                  )
-                                )
-                              }
-                            })
-                          : _vm._e()
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm.workflowactionForm.field_required
-                    ? _c("div", { staticClass: "form-group row" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "col-sm-4 col-form-label text-xs",
-                            attrs: { for: "field_required_msg" }
-                          },
-                          [_vm._v("Message Erreur")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-sm-8" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value:
-                                  _vm.workflowactionForm.field_required_msg,
-                                expression:
-                                  "workflowactionForm.field_required_msg"
-                              }
-                            ],
-                            staticClass: "form-control form-control-sm",
-                            attrs: {
-                              type: "text",
-                              id: "field_required_msg",
-                              name: "field_required_msg",
-                              autocomplete: "field_required_msg",
-                              placeholder: "Message Erreur"
-                            },
-                            domProps: {
-                              value: _vm.workflowactionForm.field_required_msg
-                            },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.workflowactionForm,
-                                  "field_required_msg",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm.workflowactionForm.errors.has(
-                            "field_required_msg"
-                          )
-                            ? _c("span", {
-                                staticClass: "invalid-feedback d-block text-xs",
-                                attrs: { role: "alert" },
-                                domProps: {
-                                  textContent: _vm._s(
-                                    _vm.workflowactionForm.errors.get(
-                                      "field_required_msg"
-                                    )
-                                  )
-                                }
-                              })
-                            : _vm._e()
-                        ])
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "custom-control custom-switch custom-switch-off-danger custom-switch-on-success"
-                      },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value:
-                                _vm.workflowactionForm.field_required_without,
-                              expression:
-                                "workflowactionForm.field_required_without"
-                            }
-                          ],
-                          staticClass: "custom-control-input",
-                          attrs: {
-                            type: "checkbox",
-                            id: "field_required_without",
-                            name: "field_required_without",
-                            autocomplete: "field_required_without",
-                            autofocus: "",
-                            placeholder:
-                              "Champs Requis sans le(s) champs spécifié(s) ?"
-                          },
-                          domProps: {
-                            checked: Array.isArray(
-                              _vm.workflowactionForm.field_required_without
-                            )
-                              ? _vm._i(
-                                  _vm.workflowactionForm.field_required_without,
-                                  null
-                                ) > -1
-                              : _vm.workflowactionForm.field_required_without
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$a =
-                                  _vm.workflowactionForm.field_required_without,
-                                $$el = $event.target,
-                                $$c = $$el.checked ? true : false
-                              if (Array.isArray($$a)) {
-                                var $$v = null,
-                                  $$i = _vm._i($$a, $$v)
-                                if ($$el.checked) {
-                                  $$i < 0 &&
-                                    _vm.$set(
-                                      _vm.workflowactionForm,
-                                      "field_required_without",
-                                      $$a.concat([$$v])
-                                    )
-                                } else {
-                                  $$i > -1 &&
-                                    _vm.$set(
-                                      _vm.workflowactionForm,
-                                      "field_required_without",
-                                      $$a
-                                        .slice(0, $$i)
-                                        .concat($$a.slice($$i + 1))
-                                    )
-                                }
-                              } else {
-                                _vm.$set(
-                                  _vm.workflowactionForm,
-                                  "field_required_without",
-                                  $$c
-                                )
-                              }
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _vm.workflowactionForm.errors.has(
-                          "field_required_without"
-                        )
-                          ? _c("span", {
-                              staticClass: "invalid-feedback d-block text-xs",
-                              attrs: { role: "alert" },
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.workflowactionForm.errors.get(
-                                    "field_required_without"
-                                  )
-                                )
-                              }
-                            })
-                          : _vm._e()
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm.workflowactionForm.field_required_without
-                    ? _c("div", { staticClass: "form-group row" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "col-sm-4 col-form-label text-xs",
-                            attrs: { for: "m_select_action_without" }
-                          },
-                          [_vm._v("Liste des champs")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "col-sm-8 text-xs" },
-                          [
-                            _c("multiselect", {
-                              key: "id",
-                              attrs: {
-                                id: "m_select_action_without",
-                                "selected.sync":
-                                  "workflowaction.actionsrequiredwithout",
-                                value: "",
-                                options: _vm.actionsofstep,
-                                searchable: true,
-                                multiple: true,
-                                label: "titre",
-                                "track-by": "id",
-                                placeholder: "Liste d Actions"
-                              },
-                              model: {
-                                value:
-                                  _vm.workflowactionForm.actionsrequiredwithout,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.workflowactionForm,
-                                    "actionsrequiredwithout",
-                                    $$v
-                                  )
-                                },
-                                expression:
-                                  "workflowactionForm.actionsrequiredwithout"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.workflowactionForm.errors.has(
-                              "actionsrequiredwithout"
-                            )
-                              ? _c("span", {
-                                  staticClass:
-                                    "invalid-feedback d-block text-xs",
-                                  attrs: { role: "alert" },
-                                  domProps: {
-                                    textContent: _vm._s(
-                                      _vm.workflowactionForm.errors.get(
-                                        "actionsrequiredwithout"
-                                      )
-                                    )
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.workflowactionForm.field_required_without
-                    ? _c("div", { staticClass: "form-group row" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "col-sm-4 col-form-label text-xs",
-                            attrs: { for: "field_required_without_msg" }
-                          },
-                          [_vm._v("Message Erreur")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-sm-8" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value:
-                                  _vm.workflowactionForm
-                                    .field_required_without_msg,
-                                expression:
-                                  "workflowactionForm.field_required_without_msg"
-                              }
-                            ],
-                            staticClass: "form-control form-control-sm",
-                            attrs: {
-                              type: "text",
-                              id: "field_required_without_msg",
-                              name: "field_required_without_msg",
-                              autocomplete: "field_required_without_msg",
-                              placeholder: "Message Erreur"
-                            },
-                            domProps: {
-                              value:
-                                _vm.workflowactionForm
-                                  .field_required_without_msg
-                            },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.workflowactionForm,
-                                  "field_required_without_msg",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm.workflowactionForm.errors.has(
-                            "field_required_without_msg"
-                          )
-                            ? _c("span", {
-                                staticClass: "invalid-feedback d-block text-xs",
-                                attrs: { role: "alert" },
-                                domProps: {
-                                  textContent: _vm._s(
-                                    _vm.workflowactionForm.errors.get(
-                                      "field_required_without_msg"
-                                    )
-                                  )
-                                }
-                              })
-                            : _vm._e()
-                        ])
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "custom-control custom-switch custom-switch-off-danger custom-switch-on-success"
-                      },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.workflowactionForm.field_required_with,
-                              expression:
-                                "workflowactionForm.field_required_with"
-                            }
-                          ],
-                          staticClass: "custom-control-input",
-                          attrs: {
-                            type: "checkbox",
-                            id: "field_required_with",
-                            name: "field_required_with",
-                            autocomplete: "field_required_with",
-                            autofocus: "",
-                            placeholder:
-                              "Champs Requis avec le(s) champs spécifié(s)"
-                          },
-                          domProps: {
-                            checked: Array.isArray(
-                              _vm.workflowactionForm.field_required_with
-                            )
-                              ? _vm._i(
-                                  _vm.workflowactionForm.field_required_with,
-                                  null
-                                ) > -1
-                              : _vm.workflowactionForm.field_required_with
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$a =
-                                  _vm.workflowactionForm.field_required_with,
-                                $$el = $event.target,
-                                $$c = $$el.checked ? true : false
-                              if (Array.isArray($$a)) {
-                                var $$v = null,
-                                  $$i = _vm._i($$a, $$v)
-                                if ($$el.checked) {
-                                  $$i < 0 &&
-                                    _vm.$set(
-                                      _vm.workflowactionForm,
-                                      "field_required_with",
-                                      $$a.concat([$$v])
-                                    )
-                                } else {
-                                  $$i > -1 &&
-                                    _vm.$set(
-                                      _vm.workflowactionForm,
-                                      "field_required_with",
-                                      $$a
-                                        .slice(0, $$i)
-                                        .concat($$a.slice($$i + 1))
-                                    )
-                                }
-                              } else {
-                                _vm.$set(
-                                  _vm.workflowactionForm,
-                                  "field_required_with",
-                                  $$c
-                                )
-                              }
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm._m(3),
-                        _vm._v(" "),
-                        _vm.workflowactionForm.errors.has("field_required_with")
-                          ? _c("span", {
-                              staticClass: "invalid-feedback d-block text-xs",
-                              attrs: { role: "alert" },
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.workflowactionForm.errors.get(
-                                    "field_required_with"
-                                  )
-                                )
-                              }
-                            })
-                          : _vm._e()
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm.workflowactionForm.field_required_with
-                    ? _c("div", { staticClass: "form-group row" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "col-sm-4 col-form-label text-xs",
-                            attrs: { for: "m_select_action_with" }
-                          },
-                          [_vm._v("Liste des champs")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "col-sm-8 text-xs" },
-                          [
-                            _c("multiselect", {
-                              key: "id",
-                              attrs: {
-                                id: "m_select_action_with",
-                                "selected.sync":
-                                  "workflowaction.actionsrequiredwith",
-                                value: "",
-                                options: _vm.actionsofstep,
-                                searchable: true,
-                                multiple: true,
-                                label: "titre",
-                                "track-by": "id",
-                                placeholder: "Liste d Actions"
-                              },
-                              model: {
-                                value:
-                                  _vm.workflowactionForm.actionsrequiredwith,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.workflowactionForm,
-                                    "actionsrequiredwith",
-                                    $$v
-                                  )
-                                },
-                                expression:
-                                  "workflowactionForm.actionsrequiredwith"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.workflowactionForm.errors.has(
-                              "actionsrequiredwith"
-                            )
-                              ? _c("span", {
-                                  staticClass:
-                                    "invalid-feedback d-block text-xs",
-                                  attrs: { role: "alert" },
-                                  domProps: {
-                                    textContent: _vm._s(
-                                      _vm.workflowactionForm.errors.get(
-                                        "actionsrequiredwith"
-                                      )
-                                    )
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.workflowactionForm.field_required_with
-                    ? _c("div", { staticClass: "form-group row" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "col-sm-4 col-form-label text-xs",
-                            attrs: { for: "field_required_with_msg" }
-                          },
-                          [_vm._v("Message Erreur")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-sm-8" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value:
-                                  _vm.workflowactionForm
-                                    .field_required_with_msg,
-                                expression:
-                                  "workflowactionForm.field_required_with_msg"
-                              }
-                            ],
-                            staticClass: "form-control form-control-sm",
-                            attrs: {
-                              type: "text",
-                              id: "field_required_with_msg",
-                              name: "field_required_with_msg",
-                              autocomplete: "field_required_with_msg",
-                              placeholder: "Message Erreur"
-                            },
-                            domProps: {
-                              value:
-                                _vm.workflowactionForm.field_required_with_msg
-                            },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.workflowactionForm,
-                                  "field_required_with_msg",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm.workflowactionForm.errors.has(
-                            "field_required_with_msg"
-                          )
-                            ? _c("span", {
-                                staticClass: "invalid-feedback d-block text-xs",
-                                attrs: { role: "alert" },
-                                domProps: {
-                                  textContent: _vm._s(
-                                    _vm.workflowactionForm.errors.get(
-                                      "field_required_with_msg"
-                                    )
-                                  )
-                                }
-                              })
-                            : _vm._e()
-                        ])
-                      ])
-                    : _vm._e()
+                  ])
                 ])
               ]
             )
@@ -1389,11 +823,11 @@ var render = function() {
                       },
                       on: {
                         click: function($event) {
-                          return _vm.updateWorkflowaction(_vm.workflowstepId)
+                          return _vm.updateCriterion(_vm.reminderId)
                         }
                       }
                     },
-                    [_vm._v("Enregistrer")]
+                    [_vm._v("Save")]
                   )
                 : _c(
                     "b-button",
@@ -1406,11 +840,11 @@ var render = function() {
                       },
                       on: {
                         click: function($event) {
-                          return _vm.createWorkflowaction(_vm.workflowstepId)
+                          return _vm.createCriterion(_vm.reminderId)
                         }
                       }
                     },
-                    [_vm._v("Créer Action")]
+                    [_vm._v("Create")]
                   )
             ],
             1
@@ -1437,50 +871,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "custom-control-label", attrs: { for: "field_required" } },
-      [_c("span", { staticClass: "text text-xs" }, [_vm._v("Champs Requis ?")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      {
-        staticClass: "custom-control-label",
-        attrs: { for: "field_required_without" }
-      },
-      [
-        _c("span", { staticClass: "text text-xs" }, [
-          _vm._v("Champs Requis sans le(s) champ(s) suivant(s) :")
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      {
-        staticClass: "custom-control-label",
-        attrs: { for: "field_required_with" }
-      },
-      [
-        _c("span", { staticClass: "text text-xs" }, [
-          _vm._v("Champs Requis avec le(s) champs suivant(s) :")
-        ])
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -1489,20 +879,18 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/views/workflowactions/addupdate.vue":
-/*!**********************************************************!*\
-  !*** ./resources/js/views/workflowactions/addupdate.vue ***!
-  \**********************************************************/
+/***/ "./resources/js/views/remindercriteria/addupdate.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/views/remindercriteria/addupdate.vue ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _addupdate_vue_vue_type_template_id_4091f3ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addupdate.vue?vue&type=template&id=4091f3ca& */ "./resources/js/views/workflowactions/addupdate.vue?vue&type=template&id=4091f3ca&");
-/* harmony import */ var _addupdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addupdate.vue?vue&type=script&lang=js& */ "./resources/js/views/workflowactions/addupdate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* harmony import */ var _addupdate_vue_vue_type_template_id_024b37aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addupdate.vue?vue&type=template&id=024b37aa&scoped=true& */ "./resources/js/views/remindercriteria/addupdate.vue?vue&type=template&id=024b37aa&scoped=true&");
+/* harmony import */ var _addupdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addupdate.vue?vue&type=script&lang=js& */ "./resources/js/views/remindercriteria/addupdate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -1510,51 +898,51 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _addupdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _addupdate_vue_vue_type_template_id_4091f3ca___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _addupdate_vue_vue_type_template_id_4091f3ca___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _addupdate_vue_vue_type_template_id_024b37aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _addupdate_vue_vue_type_template_id_024b37aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "024b37aa",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/workflowactions/addupdate.vue"
+component.options.__file = "resources/js/views/remindercriteria/addupdate.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/workflowactions/addupdate.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/views/workflowactions/addupdate.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/views/remindercriteria/addupdate.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/views/remindercriteria/addupdate.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./addupdate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/workflowactions/addupdate.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./addupdate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/remindercriteria/addupdate.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/workflowactions/addupdate.vue?vue&type=template&id=4091f3ca&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/views/workflowactions/addupdate.vue?vue&type=template&id=4091f3ca& ***!
-  \*****************************************************************************************/
+/***/ "./resources/js/views/remindercriteria/addupdate.vue?vue&type=template&id=024b37aa&scoped=true&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/views/remindercriteria/addupdate.vue?vue&type=template&id=024b37aa&scoped=true& ***!
+  \******************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_template_id_4091f3ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./addupdate.vue?vue&type=template&id=4091f3ca& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/workflowactions/addupdate.vue?vue&type=template&id=4091f3ca&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_template_id_4091f3ca___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_template_id_024b37aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./addupdate.vue?vue&type=template&id=024b37aa&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/remindercriteria/addupdate.vue?vue&type=template&id=024b37aa&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_template_id_024b37aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_template_id_4091f3ca___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addupdate_vue_vue_type_template_id_024b37aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -35,6 +35,7 @@ class UpdateWorkflowActionRequest extends WorkflowActionRequest
     {
         $this->merge([
             'actiontype' => $this->setRelevantActionType($this->input('actiontype'), true),
+            'enumtype' => $this->setRelevantEnumType($this->input('enumtype'), true),
             'treatmenttype' => $this->setRelevantTreatmentType($this->input('treatmenttype'), true),
             'mimetypes' => $this->setRelevantIdsList($this->input('mimetypes'), true),
             'field_required' => $this->setCheckOrOptionValue($this->input('field_required')),

@@ -4,23 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Resources\EnumTypeResource;
+use App\Http\Resources\EnumValueResource;
+use App\Http\Requests\EnumValue\CreateEnumValueRequest;
+use App\Http\Requests\EnumValue\UpdateEnumValueRequest;
 
 class EnumValueController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         //
     }
 
+    public function fetch()
+    {
+        return EnumValueResource::collection(EnumValue::all());
+    }
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -30,21 +40,26 @@ class EnumValueController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateEnumValueRequest $request
+     * @return EnumValueResource|array|Response
      */
-    public function store(Request $request)
+    public function store(CreateEnumValueRequest $request)
     {
-        //
+        $enumvalue = EnumValue::createNew($request->enumtype, $request->val, $request->description);
+
+        return [
+            'enumtype' => new EnumTypeResource($enumvalue->enumtype->refresh()),
+            'enumvalue' => new EnumValueResource($enumvalue)
+        ];
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\EnumValue  $enumValue
-     * @return \Illuminate\Http\Response
+     * @param EnumValue $enumvalue
+     * @return Response
      */
-    public function show(EnumValue $enumValue)
+    public function show(EnumValue $enumvalue)
     {
         //
     }
@@ -52,10 +67,10 @@ class EnumValueController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\EnumValue  $enumValue
-     * @return \Illuminate\Http\Response
+     * @param EnumValue $enumvalue
+     * @return Response
      */
-    public function edit(EnumValue $enumValue)
+    public function edit(EnumValue $enumvalue)
     {
         //
     }
@@ -63,23 +78,37 @@ class EnumValueController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\EnumValue  $enumValue
-     * @return \Illuminate\Http\Response
+     * @param UpdateEnumValueRequest $request
+     * @param EnumValue $enumvalue
+     * @return EnumValueResource|array|void
      */
-    public function update(Request $request, EnumValue $enumValue)
+    public function update(UpdateEnumValueRequest $request, EnumValue $enumvalue)
     {
-        //
+        $enumvalue->update([
+            'val' => $request->val,
+            'description' => $request->description
+        ]);
+
+        return [
+            'enumtype' => new EnumTypeResource($enumvalue->enumtype->refresh()),
+            'enumvalue' => new EnumValueResource($enumvalue)
+        ];
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\EnumValue  $enumValue
-     * @return \Illuminate\Http\Response
+     * @param EnumValue $enumvalue
+     * @return array|Response
      */
-    public function destroy(EnumValue $enumValue)
+    public function destroy(EnumValue $enumvalue)
     {
-        //
+        $enumtype = $enumvalue->enumtype;
+        $enumvalue->delete();
+
+        return [
+            'enumtype' => new EnumTypeResource($enumtype->refresh()),
+            'enumvalue' => $enumvalue
+        ];
     }
 }

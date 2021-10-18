@@ -30,6 +30,12 @@ class PermissionSeeder extends Seeder
             ['flowchart-edit', 2],
             ['flowchart-delete', 1],
             ['flowchart-save', 1],
+
+            ['enumtype-list', 4],
+            ['enumtype-create', 3],
+            ['enumtype-edit', 2],
+            ['enumtype-delete', 1],
+            ['enumtype-save', 1],
         ];
 
         foreach ($permissions as $permission) {

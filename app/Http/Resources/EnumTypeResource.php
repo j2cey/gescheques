@@ -43,6 +43,9 @@ class EnumTypeResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
 
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+
             'enumvalues' => EnumValueResource::collection($this->enumvalues),
         ];
     }

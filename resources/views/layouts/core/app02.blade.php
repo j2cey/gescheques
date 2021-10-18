@@ -21,6 +21,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 
+    <!-- Bulma styling for Vue-Multiselect -->
+{{--    <link rel="stylesheet" href="{{ asset('css/bulma-multiselect.min.css') }}">--}}
+{{--    <link rel="stylesheet" href="https://unpkg.com/bulma-multiselect/css/bulma-multiselect.min.css">--}}
+
     <script type="text/javascript">
         window.Laravel = {
             csrfToken: "{{ csrf_token() }}",

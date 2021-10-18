@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CleanRequestTrait;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Resources\WorkflowStepResource;
+use App\Http\Requests\Reminder\CreateReminderRequest;
+use App\Http\Requests\Reminder\UpdateReminderRequest;
 use App\Http\Requests\Flowchart\UpdateFlowchartNodeRequest;
 use App\Http\Requests\WorkflowStep\CreateWorkflowStepRequest;
 use App\Http\Requests\WorkflowStep\UpdateWorkflowStepRequest;
@@ -149,6 +151,48 @@ class WorkflowStepController extends Controller
         return $this->returnStepLoaded($workflowstep);
     }
 
+    public function createreminder(CreateReminderRequest $request, WorkflowStep $workflowstep)
+    {
+        $user = auth()->user();
+
+        $formInput = $request->all();
+
+        $workflowstep->createReminder(
+            $request->modeltype,
+            $formInput['title'],
+            $formInput['description'],
+            $formInput['duration'],
+            $formInput['msg'],
+            $formInput['notification_interval']
+        );
+
+        return $this->returnStepLoaded($workflowstep);
+    }
+
+    public function updatereminder(UpdateReminderRequest $request, WorkflowStep $workflowstep)
+    {
+        $user = auth()->user();
+
+        $formInput = $request->all();
+
+        $request->reminder->update([
+            'title' => $formInput['title'],
+            'description' => $formInput['description'],
+        ]);
+        $request->reminder->setStatus($request->status, true);
+
+        $workflowstep->defaultcriterionduration->update([
+            'criterion_value' => $formInput['duration'],
+        ]);
+
+        $workflowstep->defaultbroadlist->update([
+            'msg' => $formInput['msg'],
+            'notification_interval' => $formInput['notification_interval'],
+        ]);
+
+        return $this->returnStepLoaded($workflowstep);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -195,18 +239,6 @@ class WorkflowStepController extends Controller
      * @return WorkflowStepResource
      */
     private function returnStepLoaded(WorkflowStep $step) {
-        /*return $step->load([
-            'actions',
-            'staticapprovers',
-            'stepparent',
-            'actionspass',
-            'actionsreject',
-            'actionsexpire',
-            'otherstonotify',
-            'transitionpassstep',
-            'transitionrejectstep',
-            'transitionexpirestep'
-        ]);*/
         return new WorkflowStepResource($step);
     }
 }

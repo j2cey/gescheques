@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status;
 use Illuminate\Http\Request;
+use App\Http\Resources\StatusResource;
 use App\Http\Requests\Status\UpdateStatusRequest;
 
 class StatusController extends Controller
@@ -19,9 +20,7 @@ class StatusController extends Controller
     }
 
     public function fetch() {
-        $statuses = Status::all();
-
-        return $statuses;
+        return StatusResource::collection(Status::all());
     }
 
     public function fetchone($id) {

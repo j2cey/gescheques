@@ -7,6 +7,7 @@ use App\Models\Cheque;
 use App\Models\Bordereau;
 use App\Models\FileImportResult;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -28,7 +29,7 @@ class ChequesImport implements ToModel, WithChunkReading, WithEvents
     /**
     * @param array $row
     *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @return Model|null
     */
     public function model(array $row)
     {

@@ -24,10 +24,10 @@ abstract class BaseWorkflowable extends BaseModel
 {
     use HasFactory, HasWorkflows;
 
-    // TODO: Injecter l'objet qui hérite de ce modèle
     public function workflowexec() {
+        $model_type = get_called_class(); // 'App\Models\Cheque'
         return $this->hasOne(WorkflowExec::class, 'model_id')
-            ->where('model_type', 'App\Models\Cheque')
+            ->where('model_type', $model_type)
             ->latest();
         //->whereNotNull('current_step_id');
     }

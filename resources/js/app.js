@@ -149,6 +149,10 @@ Vue.component('cheques-show', require('./views/cheques/show').default);
 Vue.component('encaissements-upload', require('./views/encaissements/upload').default);
 Vue.component('encaissements-show', require('./views/encaissements/show').default);
 
+Vue.component('enumtypes-index', require('./views/enumtypes/list').default);
+
+Vue.component('reminder-index', require('./views/reminders/list').default);
+Vue.component('reminderobject-index', require('./views/reminderobjects/list').default);
 Vue.component('systems-index', require('./views/systems/index').default);
 
 Vue.component('btable-test', require('./views/workflowsteps/stepsbtable').default);

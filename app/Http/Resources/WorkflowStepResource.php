@@ -2,7 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Status;
+use App\Models\Reminder;
+use App\Models\ModelType;
 use Illuminate\Support\Carbon;
+use App\Models\ReminderBroadlist;
+use App\Models\ReminderCriterion;
 use App\Models\WorkflowStepTransition;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -51,6 +56,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property Reminder $reminder
+ * @property ReminderCriterion $defaultcriterionduration
+ * @property ReminderBroadlist $defaultbroadlist
  */
 class WorkflowStepResource extends JsonResource
 {
@@ -90,6 +99,8 @@ class WorkflowStepResource extends JsonResource
             'notify_to_approvers' => $this->notify_to_approvers,
             'notify_to_others' => $this->notify_to_others,
 
+            'status' => StatusResource::make($this->status),
+
             'stylingClass' => $this->stylingClass,
             'flowchart_position_x' => $this->flowchart_position_x,
             'flowchart_position_y' => $this->flowchart_position_y,
@@ -109,6 +120,76 @@ class WorkflowStepResource extends JsonResource
             'transitionexpirestep' => WorkflowStepTransitionResource::make($this->transitionexpirestep),
 
             'otherstonotify' => UserResource::collection($this->otherstonotify),
+
+            'reminder' => ReminderResource::make($this->reminder),
+            'reminder_status' => $this->reminder ? $this->reminder->status : StatusResource::make(Status::where('code', "active")->first()),
+            'reminder_modeltype' => $this->reminder ? $this->reminder->modeltype : ModelTypeResource::make(ModelType::where('code', "AppModelsWorkflowExec")->first()),
+            'reminder_title' => $this->reminder ? $this->reminder->title : '',
+            'reminder_description' => $this->reminder ? $this->reminder->description : '',
+            'reminder_duration' => $this->defaultcriterionduration ? $this->defaultcriterionduration->criterion_value : '',
+            'reminder_msg' => $this->defaultbroadlist ? $this->defaultbroadlist->msg : '',
+            'reminder_notification_interval' => $this->defaultbroadlist ? $this->defaultbroadlist->notification_interval : '',
         ];
+    }
+
+    private function getReminderDuration(Reminder $reminder = null) {
+        if (! $reminder || is_null($reminder)) {
+            return "";
+        } else {
+            $step_duration = $reminder->criteria()->where('criterion_role', "step_duration")->first();
+            if ($step_duration) {
+                return $step_duration->criterion_value;
+            } else {
+                return "";
+            }
+        }
+    }
+    private function getReminderMsg(Reminder $reminder = null) {
+        if (! $reminder || is_null($reminder)) {
+            return "";
+        } else {
+            $step_reminder_broadlist = $reminder->broadcastlists()->where('broadlist_role', "step_reminder_broadlist")->first();
+            if ($step_reminder_broadlist) {
+                return $step_reminder_broadlist->msg;
+            } else {
+                return "";
+            }
+        }
+    }
+    private function getReminderNotificationInterval(Reminder $reminder = null) {
+        if (! $reminder || is_null($reminder)) {
+            return "";
+        } else {
+            $step_reminder_broadlist = $reminder->broadcastlists()->where('broadlist_role', "step_reminder_broadlist")->first();
+            if ($step_reminder_broadlist) {
+                return $step_reminder_broadlist->notification_interval;
+            } else {
+                return "";
+            }
+        }
+    }
+    private function getReminderRoles(Reminder $reminder = null) {
+        if (! $reminder || is_null($reminder)) {
+            return "";
+        } else {
+            $step_reminder_broadlist = $reminder->broadcastlists()->where('broadlist_role', "step_reminder_broadlist")->first();
+            if ($step_reminder_broadlist) {
+                return RoleResource::collection($step_reminder_broadlist->roles);
+            } else {
+                return "";
+            }
+        }
+    }
+    private function getReminderUsers(Reminder $reminder = null) {
+        if (! $reminder || is_null($reminder)) {
+            return "";
+        } else {
+            $step_reminder_broadlist = $reminder->broadcastlists()->where('broadlist_role', "step_reminder_broadlist")->first();
+            if ($step_reminder_broadlist) {
+                return UserResource::collection($step_reminder_broadlist->users);
+            } else {
+                return "";
+            }
+        }
     }
 }

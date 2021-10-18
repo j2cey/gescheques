@@ -54,6 +54,7 @@ class CreateWorkflowExecsTable extends Migration
             $table->string('model_type')->comment('type du modèle référencé');
             $table->bigInteger('model_id')->comment('référence de l instance du modèle');
             $table->timestamp('start_at')->nullable()->comment('date de début d exécution du workflow');
+            $table->timestamp('last_step_end_at')->nullable()->comment('dernière date de fin d exécution d étape du workflow');
             $table->timestamp('end_at')->nullable()->comment('date de fin d exécution du workflow');
 
             $table->json('report')->comment('rapport d exécution');

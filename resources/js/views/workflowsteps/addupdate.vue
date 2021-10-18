@@ -281,6 +281,88 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group row" id="reminderattributes">
+                                <div class="col">
+                                    <div class="card">
+                                        <header>
+                                            <div class="card-header-title row">
+                                                <div class="col-md-6 col-sm-8 col-12">
+                                                <span class="text-danger text-xs" @click="collapseReminderClicked()" data-toggle="collapse" data-parent="#reminderattributes" :href="'#collapse-reminder-'+workflowstep.id">
+                                                    Rappel
+                                                </span>
+                                                </div>
+                                                <div class="col-md-6 col-sm-4 col-12 text-right">
+                                                <span class="text text-sm">
+                                                    <a type="button" class="btn btn-tool" @click="collapseReminderClicked()" data-toggle="collapse" data-parent="#reminderattributes" :href="'#collapse-reminder-'+workflowstep.id">
+                                                        <i :class="currentReminderCollapseIcon"></i>
+                                                    </a>
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </header>
+                                        <!-- /.card-header -->
+                                        <div :id="'collapse-reminder-'+workflowstep.id" class="card-content panel-collapse collapse in">
+                                            <b-field label="Titre" label-position="on-border" custom-class="is-small"
+                                                     :type="reminderForm.errors.has('title') ? 'is-danger' : ''"
+                                                     :message="reminderForm.errors.get('title')">
+                                                <b-input name="title"
+                                                         size="is-small" v-model="reminderForm.title"></b-input>
+                                            </b-field>
+                                            <br>
+                                            <b-field grouped group-multiline>
+                                                <b-field label="Durée Expiration (H)" label-position="on-border" custom-class="is-small"
+                                                         :type="reminderForm.errors.has('duration') ? 'is-danger' : ''"
+                                                         :message="reminderForm.errors.get('duration')">
+                                                    <b-input name="duration"
+                                                             type="number" min="1" size="is-small" v-model="reminderForm.duration"></b-input>
+                                                </b-field>
+                                                <b-field label="Interval notification (H)" label-position="on-border" custom-class="is-small"
+                                                         :type="reminderForm.errors.has('notification_interval') ? 'is-danger' : ''"
+                                                         :message="reminderForm.errors.get('notification_interval')">
+                                                    <b-input name="notification_interval"
+                                                             type="number" min="1" size="is-small" v-model="reminderForm.notification_interval"></b-input>
+                                                </b-field>
+                                            </b-field>
+                                            <br>
+                                            <b-field label="Message" label-position="on-border" custom-class="is-small"
+                                                     :type="reminderForm.errors.has('msg') ? 'is-danger' : ''"
+                                                     :message="reminderForm.errors.get('msg')">
+                                                <b-input name="msg"
+                                                         size="is-small" v-model="reminderForm.msg"></b-input>
+                                            </b-field>
+                                            <br>
+                                            <b-field label="Description" label-position="on-border" custom-class="is-small"
+                                                     :type="reminderForm.errors.has('description') ? 'is-danger' : ''"
+                                                     :message="reminderForm.errors.get('description')">
+                                                <b-input name="description"
+                                                         size="is-small" v-model="reminderForm.description"></b-input>
+                                            </b-field>
+                                            <br>
+                                            <b-field label="Statut" label-position="on-border" custom-class="is-small">
+                                                <b-radio-button size="is-small" v-model="reminderForm.status.code"
+                                                                native-value="active"
+                                                                type="is-success is-light is-outlined">
+                                                    <b-icon icon="check"></b-icon>
+                                                    <span>Actif</span>
+                                                </b-radio-button>
+                                                <b-radio-button size="is-small" v-model="reminderForm.status.code"
+                                                                native-value="inactive"
+                                                                type="is-danger is-light is-outlined">
+                                                    <b-icon icon="close"></b-icon>
+                                                    <span>Inactif</span>
+                                                </b-radio-button>
+                                            </b-field>
+                                            <hr>
+                                            <b-field grouped group-multiline>
+                                                <b-button label="Valider" type="is-danger is-light" size="is-small" :loading="loading" @click="saveReminder(workflow.id)" />
+                                            </b-field>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </form>
 
@@ -300,7 +382,6 @@
 <script>
     import Multiselect from 'vue-multiselect'
     import StepBus from './stepBus'
-    import ChequeBus from "../cheques/chequeBus";
     //import ActionBus from "../workflowactions/actionBus";
 
     class Workflowstep {
@@ -327,11 +408,28 @@
             this.otherstonotify = workflowstep.otherstonotify || ''
             this.stepparent = workflowstep.stepparent || ''
 
+            this.status = workflowstep.status || ''
+
             this.stylingClass = workflowstep.stylingClass || ''
             this.flowchart_position_x = workflowstep.flowchart_position_x || ''
             this.flowchart_position_y = workflowstep.flowchart_position_y || ''
             this.flowchart_size_width = workflowstep.flowchart_size_width || ''
             this.flowchart_size_height = workflowstep.flowchart_size_height || ''
+
+            this.reminder = workflowstep.reminder || ''
+        }
+    }
+
+    class Reminder {
+        constructor(workflowstep) {
+            this.reminder = workflowstep.reminder || ''
+            this.modeltype = workflowstep.reminder_modeltype || ''
+            this.title = workflowstep.reminder_title || ''
+            this.description = workflowstep.reminder_description || ''
+            this.duration = workflowstep.reminder_duration || ''
+            this.msg = workflowstep.reminder_msg || ''
+            this.notification_interval = workflowstep.reminder_notification_interval || ''
+            this.status = workflowstep.reminder_status || ''
         }
     }
     export default {
@@ -348,6 +446,8 @@
                 this.workflowsteps = workflowsteps
                 this.workflowstep = new Workflowstep({})
                 this.workflowstepForm = new Form(this.workflowstep)
+                this.reminder = new Reminder({});
+                this.reminderForm = new Form(this.reminder)
 
                 this.workflowstep.workflow_id = workflow.id
 
@@ -361,6 +461,8 @@
                 this.workflowsteps = workflowsteps
                 this.workflowstep = new Workflowstep(workflowstep)
                 this.workflowstepForm = new Form(this.workflowstep)
+                this.reminder = new Reminder(workflowstep);
+                this.reminderForm = new Form(this.reminder)
 
                 this.workflowstepId = workflowstep.uuid
 
@@ -381,12 +483,15 @@
                 workflowsteps: [],
                 workflow: {},
                 workflowstepForm: new Form(new Workflowstep({})),
+                reminder: {},
+                reminderForm: new Form(new Reminder({})),
                 workflowstepId: null,
                 editing: false,
                 loading: false,
                 roles: [],
                 users: [],
-                flowchart_collapse_icon: 'fas fa-chevron-down'
+                flowchart_collapse_icon: 'fas fa-chevron-down',
+                reminder_collapse_icon: 'fas fa-chevron-down'
             }
         },
         methods: {
@@ -395,9 +500,13 @@
                 if (editing) {
                     this.workflowstep = new Workflowstep(workflowstep)
                     this.workflowstepForm = new Form(this.workflowstep)
+                    this.reminder = new Reminder(workflowstep);
+                    this.reminderForm = new Form(this.reminder)
                 } else {
                     this.workflowstep = new Workflowstep({})
                     this.workflowstepForm = new Form(this.workflowstep)
+                    this.reminder = new Reminder({});
+                    this.reminderForm = new Form(this.reminder)
                 }
             },
             createWorkflowstep(workflowId) {
@@ -472,6 +581,47 @@
                     this.loading = false
                 });
             },
+            saveReminder(workflowId) {
+                this.loading = true
+
+                //const fd = this.addFileToForm()
+
+                if (this.workflowstepForm.reminder) {
+                    this.reminderForm
+                        .put(`/workflowsteps.updatereminder/${this.workflowstepId}`, undefined)
+                        .then(workflowstep => {
+                            this.loading = false
+
+                            this.$swal({
+                                html: '<small>Rappel modifié avec succès !</small>',
+                                icon: 'success',
+                                timer: 3000
+                            }).then(() => {
+                                this.initForm(true, workflowstep)
+                                StepBus.$emit('workflowstep_updated', {workflowstep, workflowId})
+                            })
+                        }).catch(error => {
+                        this.loading = false
+                    });
+                } else {
+                    this.reminderForm
+                        .put(`/workflowsteps.createreminder/${this.workflowstepId}`, fd)
+                        .then(workflowstep => {
+                            this.loading = false
+
+                            this.$swal({
+                                html: '<small>Rappel créé avec succès !</small>',
+                                icon: 'success',
+                                timer: 3000
+                            }).then(() => {
+                                this.initForm(true, workflowstep)
+                                StepBus.$emit('workflowstep_updated', {workflowstep, workflowId})
+                            })
+                        }).catch(error => {
+                        this.loading = false
+                    });
+                }
+            },
             addFileToForm() {
 
                 if (typeof this.selectedFile !== 'undefined') {
@@ -521,6 +671,13 @@
                     this.flowchart_collapse_icon = 'fas fa-chevron-down';
                 }
             },
+            collapseReminderClicked() {
+                if (this.reminder_collapse_icon === 'fas fa-chevron-down') {
+                    this.reminder_collapse_icon = 'fas fa-chevron-up';
+                } else {
+                    this.reminder_collapse_icon = 'fas fa-chevron-down';
+                }
+            },
         },
         computed: {
             can_role_static() {
@@ -531,6 +688,9 @@
             },
             currentFlowchartCollapseIcon() {
                 return this.flowchart_collapse_icon;
+            },
+            currentReminderCollapseIcon() {
+                return this.reminder_collapse_icon;
             }
         }
     }

@@ -40,6 +40,27 @@
                                     <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowactionForm.errors.has('actiontype')" v-text="workflowactionForm.errors.get('actiontype')"></span>
                                 </div>
                             </div>
+                            <div class="form-group row" v-if="workflowactionForm.actiontype.code === 'EnumType'">
+                                <div class="col-sm-2"></div>
+                                <label for="m_select_enum_type" class="col-sm-2 col-form-label text-xs">Type composé</label>
+                                <div class="col-sm-8 text-xs">
+                                    <multiselect
+                                        id="m_select_enum_type"
+                                        v-model="workflowactionForm.enumtype"
+                                        selected.sync="workflowaction.enumtype"
+                                        value=""
+                                        :options="enumtypes"
+                                        :searchable="true"
+                                        :multiple="false"
+                                        label="name"
+                                        track-by="id"
+                                        key="id"
+                                        placeholder="Selectionez le Type Composé"
+                                    >
+                                    </multiselect>
+                                    <span class="invalid-feedback d-block text-xs" role="alert" v-if="workflowactionForm.errors.has('enumtype')" v-text="workflowactionForm.errors.get('enumtype')"></span>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="m_select_treatment_type" class="col-sm-2 col-form-label text-xs">Type Traitement</label>
                                 <div class="col-sm-10 text-xs">
@@ -203,6 +224,7 @@
             this.workflow_step_id = workflowaction.workflow_step_id || ''
 
             this.actiontype = workflowaction.actiontype || ''
+            this.enumtype = workflowaction.enumtype || ''
             this.treatmenttype = workflowaction.treatmenttype || ''
             this.mimetypes = workflowaction.mimetypes || ''
 
@@ -281,6 +303,8 @@
                 .then(({data}) => this.mimetypes = data);
             axios.get('/workflowactions.fetchbystep/0')
                 .then(({data}) => this.actionsofstep = data);
+            axios.get('/enumtypes.fetch')
+                .then(({data}) => this.enumtypes = data);
         },
         data() {
             return {
@@ -294,6 +318,7 @@
                 workflowtreatmenttypes: [],
                 mimetypes: [],
                 actionsofstep: [],
+                enumtypes: [],
             }
         },
         methods: {

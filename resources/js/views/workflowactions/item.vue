@@ -28,6 +28,13 @@
             <dl class="row">
                 <dt class="col-sm-4 text-xs" v-if="workflowaction.actiontype">Type Champs</dt>
                 <dd class="col-sm-8 text-xs">{{ workflowaction.actiontype.name }}</dd>
+                <dd v-if="workflowaction.actiontype.code === 'EnumType'" class="col-sm-8 offset-sm-4">
+                    <small>
+                        <span class="text-lighter text-xs text-warning hidden-sm-down">
+                            {{ workflowaction.enumtype.name }}
+                        </span>
+                    </small>
+                </dd>
                 <dt class="col-sm-4 text-xs" v-if="workflowaction.treatmenttype">Type Traitement</dt>
                 <dd class="col-sm-8 text-xs">
                     <b-tag type="is-primary is-light" v-if="workflowaction.treatmenttype.code === 'pass'">{{ workflowaction.treatmenttype.name }}</b-tag>

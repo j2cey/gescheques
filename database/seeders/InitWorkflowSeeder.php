@@ -93,9 +93,11 @@ class InitWorkflowSeeder extends Seeder
             ->setStepParent($step_reception_agences, true)
         ;
         $step_relance_client->addValidationAction("Commentaire", "Commentaire (Relance Client)",$this->string_type);
-        $step_relance_client->addRejectionEnumTypeAction("Motif Réjet Agences", [
-            ["Indisponibilité","indisponibilité du client"], ["Refus","refus du client"],
-        ], "Motif Réjet", "Motif Réjet (Relance Client)")
+        $step_relance_client->addRejectionEnumTypeAction("Motif Réjet Agences",
+            [
+                ['val' => "Indisponibilité",'description' => "indisponibilité du client"],
+                ['val' => "Refus",'description' => "refus du client"],
+            ], "Motif Réjet", "Motif Réjet (Relance Client)")
             ->setRequired(true,"Prière de préciser le Motif de réjet", true)
         ;
         $step_reception_agences->setNextStepAfterValidated($step_relance_client, 'bottom', 'top', true);

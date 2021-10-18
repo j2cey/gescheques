@@ -25,7 +25,7 @@ class CreateEnumValuesTable extends Migration
 
             $table->foreignId('enum_type_id')->nullable()
                 ->comment('référence du type d énumération')
-                ->constrained()->onDelete('set null');
+                ->constrained()->onDelete('cascade');
 
             $table->string('val')->unique()->comment('valeur');
             $table->string('description')->nullable()->comment('description de la valeur');

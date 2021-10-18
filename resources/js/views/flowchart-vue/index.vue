@@ -62,7 +62,6 @@
     import Flowchart from "./components/flowchart/Flowchart";
     import * as d3 from "d3";
     import { roundTo20 } from "./utils/math";
-    import Permissions from "../../mixins/Permissions";
 
     export default {
         name: "index",
