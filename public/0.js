@@ -850,10 +850,10 @@ __webpack_require__.r(__webpack_exports__);
   name: "steps-list",
   components: {
     WorkflowActions: function WorkflowActions() {
-      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ../workflowactions/list */ "./resources/js/views/workflowactions/list.vue"));
+      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ../workflowactions/list */ "./resources/js/views/workflowactions/list.vue"));
     },
     AddUpdateAction: function AddUpdateAction() {
-      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ../workflowactions/addupdate */ "./resources/js/views/workflowactions/addupdate.vue"));
+      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ../workflowactions/addupdate */ "./resources/js/views/workflowactions/addupdate.vue"));
     }
   },
   mounted: function mounted() {
