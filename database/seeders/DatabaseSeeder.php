@@ -18,7 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(StatusSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(ModelTypeSeeder::class);
+
         $this->call(MimeTypeSeeder::class);
+        $this->call(ReminderCriterionTypeSeeder::class);
+
         $this->call(WorkflowStatusSeeder::class);
         $this->call(WorkflowProcessStatusSeeder::class);
         $this->call(WorkflowTreatmentTypeSeeder::class);

@@ -14,6 +14,21 @@ Breadcrumbs::for('systems.index', function (Trail $trail) {
     $trail->parent('home')->push('System', route('systems.index'));
 });
 
+// Reminders
+Breadcrumbs::for('reminders.index', function (Trail $trail) {
+    $trail->parent('home')->push('Reminders', route('reminders.index'));
+});
+
+// Reminder Objects
+Breadcrumbs::for('reminderobjects.index', function (Trail $trail) {
+    $trail->parent('home')->push('Reminder Objects', route('reminderobjects.index'));
+});
+
+// EnumTypes
+Breadcrumbs::for('enumtypes.index', function (Trail $trail) {
+    $trail->parent('home')->push('Types Composés', route('enumtypes.index'));
+});
+
 // Wokflows
 Breadcrumbs::for('workflows.index', function (Trail $trail) {
     $trail->parent('home')->push('Workflows', route('workflows.index'));

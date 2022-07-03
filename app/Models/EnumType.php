@@ -30,6 +30,33 @@ class EnumType extends BaseModel implements Auditable
 
     protected $guarded = [];
 
+    #region Validation Rules
+
+    public static function defaultRules() {
+        return [
+            'name' => 'required',
+            'enumvalues' => 'required',
+        ];
+    }
+    public static function createRules() {
+        return array_merge(self::defaultRules(), [
+
+        ]);
+    }
+    public static function updateRules($model) {
+        return array_merge(self::defaultRules(), [
+
+        ]);
+    }
+    public static function messagesRules() {
+        return [
+            'name.required' => 'Prière de Renseigner le Nom',
+            'enumvalues.required' => 'Au moins une valeur est requise',
+        ];
+    }
+
+    #endregion
+
     #region Eloquent Relationships
 
     public function enumvalues() {
@@ -41,15 +68,15 @@ class EnumType extends BaseModel implements Auditable
     #region Custom Functions - Create/Update
 
     public static function createNew($name, $code = null, $description = null): EnumType {
-        $enumval = EnumType::create([
+        $enumtype = EnumType::create([
             'name' => $name,
             'code' => is_null($code) ? Str::slug('enum_type_' . (string)Str::orderedUuid(), "_" ) : $code,
             'description' => $description,
         ]);
 
-        $enumval->save();
+        $enumtype->save();
 
-        return $enumval;
+        return $enumtype;
     }
 
     public function addValue($val, $description = null) : EnumType {
@@ -65,10 +92,29 @@ class EnumType extends BaseModel implements Auditable
     public function addValues($vals) : EnumType {
 
         foreach ($vals as $val) {
-            $this->addValue($val[0], $val[1]);
+            $this->addValue($val['val'], $val['description']);
         }
 
         return $this;
+    }
+
+    public function syncValues($vals) : EnumType {
+
+        $new_vals_ids = [];
+        foreach ($vals as $val) {
+            if (array_keys($val, 'id'))  {
+                $new_vals_ids[] = $val['id'];
+            }
+        }
+        // On supprime les valeurs qui ne sont plus dans la liaison
+        $this->enumvalues()->whereNotIn('id', $new_vals_ids)->delete();
+        /*
+        foreach ($this->enumvalues()->whereNotIn('id', $new_vals_ids)->get() as $enumvalue) {
+            $enumvalue->delete();
+        }
+        */
+
+        return $this->addValues($vals);
     }
 
     #endregion

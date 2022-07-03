@@ -10,6 +10,7 @@ use App\Models\WorkflowStepType;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use App\Models\WorkflowTreatmentType;
 use Illuminate\Contracts\View\Factory;
 use App\Models\WorkflowStepTransition;
@@ -217,28 +218,6 @@ class WorkflowController extends Controller
     public function fetch() {
         //$workflows = Workflow::all();
         return WorkflowResource::collection(Workflow::all());
-        /*$workflows->load([
-            'object',
-            'steps',
-            'steps.staticapprovers','steps.stepparent','steps.transitionpassstep','steps.transitionrejectstep',
-            'steps.transitionexpirestep','steps.otherstonotify',
-            'steps.actions',
-            'steps.actions.actiontype',
-            'steps.actions.treatmenttype',
-            'steps.actions.mimetypes',
-            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
-            'steps.actionspass',
-            'steps.actionspass.actiontype','steps.actionspass.mimetypes',
-            'steps.actionspass.actionsrequiredwithout','steps.actionspass.actionsrequiredwith',
-            'steps.actionsreject',
-            'steps.actionsreject.actiontype','steps.actionsreject.mimetypes',
-            'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith',
-            'steps.actionsreject',
-            'steps.actionsreject.actiontype','steps.actionsreject.mimetypes',
-            'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith'
-        ]);
-        return $workflows;
-        */
     }
 
     /**
@@ -272,26 +251,6 @@ class WorkflowController extends Controller
         ]);
 
         return $this->workflowLoaded($new_workflow);
-
-        /*return $new_workflow->load([
-            'object',
-            'steps',
-            'steps.staticapprovers','steps.stepparent',
-            'steps.actions',
-            'steps.actions.actiontype',
-            'steps.actions.treatmenttype',
-            'steps.actions.mimetypes',
-            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
-            'steps.actionspass',
-            'steps.actionspass.actiontype','steps.actionspass.mimetypes',
-            'steps.actionspass.actionsrequiredwithout','steps.actionspass.actionsrequiredwith',
-            'steps.actionsreject',
-            'steps.actionsreject.actiontype','steps.actionsreject.mimetypes',
-            'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith',
-            'steps.actionsreject',
-            'steps.actionsreject.actiontype','steps.actionsreject.mimetypes',
-            'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith'
-        ]);*/
     }
 
     /**
@@ -344,23 +303,6 @@ class WorkflowController extends Controller
         ]);
 
         return $this->workflowLoaded($workflow);
-
-        /*return $workflow->load(['object','steps','steps.staticapprovers','steps.stepparent',
-            'steps.actions',
-            'steps.actions.actiontype',
-            'steps.actions.treatmenttype',
-            'steps.actions.mimetypes',
-            'steps.actions.actionsrequiredwithout','steps.actions.actionsrequiredwith',
-            'steps.actionspass',
-            'steps.actionspass.actiontype','steps.actionspass.mimetypes',
-            'steps.actionspass.actionsrequiredwithout','steps.actionspass.actionsrequiredwith',
-            'steps.actionsreject',
-            'steps.actionsreject.actiontype','steps.actionsreject.mimetypes',
-            'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith',
-            'steps.actionsreject',
-            'steps.actionsreject.actiontype','steps.actionsreject.mimetypes',
-            'steps.actionsreject.actionsrequiredwithout','steps.actionsreject.actionsrequiredwith'
-        ]);*/
     }
 
     /**

@@ -119,7 +119,7 @@
             AddUpdateAction: () => import('../workflowactions/addupdate')
         },
         mounted() {
-            StepBus.$on('workflowaction_created', (add_data) => {
+            StepBus.$on('workflowstep_created', (add_data) => {
                 if (this.workflow.id === add_data.workflowId) {
                     this.createStep(add_data.workflowstep)
                 }

@@ -16,6 +16,30 @@ class DashboardController extends Controller
     }
 
     public function fetch() {
+
+        // Cheques traités ce jour
+
+        // Chèques traités cette semaine
+
+        // Chèques traités ce moins
+
+
+
+        // Cheques rejétés ce jour
+
+        // Chèques rejétés cette semaine
+
+        // Chèques rejétés ce moins
+
+        // Chèques en attente de traitement par Étape
+
+        // Chèques en attente de traitement par Étape et par Profile
+
+
+
+
+        // Temps de traitement par
+
         $all_par_etat = DB::table('bordereauremise_lignes')
             ->select('bordereauremise_etat_id', DB::raw('count(*) as total'))
             ->groupBy('bordereauremise_etat_id')

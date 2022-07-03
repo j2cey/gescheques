@@ -9,6 +9,7 @@ use App\Mail\WorkflowStepNext;
 use App\Traits\Report\HasReport;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Mail;
+use App\Traits\Reminder\HasReminder;
 use App\Events\WorkflowStepCompleted;
 use OwenIt\Auditing\Contracts\Auditable;
 use App\Traits\Workflow\HasWorkflowStatus;
@@ -39,6 +40,7 @@ use App\Http\Requests\WorkflowExec\UpdateWorkflowExecRequest;
  * @property integer|null $workflow_status_id
  *
  * @property Carbon|null $start_at
+ * @property Carbon|null $last_step_end_at
  * @property Carbon|null $end_at
  *
  * @property Carbon $created_at
@@ -51,7 +53,7 @@ use App\Http\Requests\WorkflowExec\UpdateWorkflowExecRequest;
  */
 class WorkflowExec extends BaseModel implements Auditable
 {
-    use HasFactory, HasWorkflowStatus, HasReport, \OwenIt\Auditing\Auditable;
+    use HasFactory, HasWorkflowStatus, HasReport, HasReminder, \OwenIt\Auditing\Auditable;
     protected $guarded = [];
 
     #region Eloquent Relationships
@@ -226,6 +228,7 @@ class WorkflowExec extends BaseModel implements Auditable
                     event(new WorkflowStepCompleted($this, $this->prevstep, $this->currentstep)); // $exec, $oldStep, $nextStep
                 }
 
+                $this->last_step_end_at = Carbon::now();
                 $this->save();
             }
         }
@@ -333,5 +336,14 @@ class WorkflowExec extends BaseModel implements Auditable
                 ->setWorkflowProcessStatus('pending', false)
             ;
         });
+    }
+
+    public function getBroadcastlists(): ?array
+    {
+        // TODO: Implement getBroadcastlists() method.
+        $broadcast_list = ReminderBroadlist::createNew("current step broadcast list", "");
+        return [
+            $broadcast_list
+        ];
     }
 }

@@ -64,6 +64,7 @@ class WorkflowAction extends BaseModel implements Auditable
             'field_required_with_msg' => 'required_unless:field_required_with,0',
             'actionsrequiredwith' => 'required_unless:field_required_with,0',
             'mimetypes' => 'required_if:actiontype.code,FILE_ref',
+            'enumtype' => 'required_if:actiontype.code,EnumType',
         ];
     }
     public static function createRules() {
@@ -87,6 +88,7 @@ class WorkflowAction extends BaseModel implements Auditable
             'field_required_with_msg.required_unless' => 'Renseignez un message d erreur',
             'actionsrequiredwith.required_unless' => 'Selectionnez les actions concernées',
             'mimetypes.required_if' => 'Selectionnez le(s) type(s) de fichier',
+            'enumtype.required_if' => 'Selectionnez le type composé',
         ];
     }
 

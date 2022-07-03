@@ -14,18 +14,26 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\MimeTypeController;
+use App\Http\Controllers\EnumTypeController;
+use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BordereauController;
+use App\Http\Controllers\EnumValueController;
+use App\Http\Controllers\ModelTypeController;
 use App\Http\Controllers\CustomLdapController;
 use App\Http\Controllers\WorkflowExecController;
 use App\Http\Controllers\WorkflowStepController;
 use App\Http\Controllers\EncaissementController;
 use App\Http\Controllers\WorkflowActionController;
 use App\Http\Controllers\WorkflowObjectController;
+use App\Http\Controllers\ReminderObjectController;
+use App\Http\Controllers\ReminderCriterionController;
+use App\Http\Controllers\ReminderBroadlistController;
 use App\Http\Controllers\WorkflowExecActionController;
 use App\Http\Controllers\WorkflowActionTypeController;
 use App\Http\Controllers\WorkflowObjectFieldController;
 use App\Http\Controllers\WorkflowTreatmentTypeController;
+use App\Http\Controllers\ReminderCriterionTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +91,33 @@ Route::get('hasrole/{roleid}',[RoleController::class, 'hasrole'])->middleware('a
 
 #endregion
 
+#region Enum Types
+
+Route::resource('enumtypes', EnumTypeController::class)->middleware('auth');
+Route::get('enumtypes.fetch',[EnumTypeController::class,'fetch'])
+    ->name('enumtypes.fetch')
+    ->middleware('auth');
+
+#endregion
+
+#region Enum Values
+
+Route::resource('enumvalues', EnumValueController::class)->middleware('auth');
+Route::get('enumvalues.fetch',[EnumValueController::class,'fetch'])
+    ->name('enumvalues.fetch')
+    ->middleware('auth');
+
+#endregion
+
+#region Model Type
+
+Route::resource('modeltypes', ModelTypeController::class)->middleware('auth');
+Route::get('modeltypes.fetch',[ModelTypeController::class,'fetch'])
+    ->name('modeltypes.fetch')
+    ->middleware('auth');
+
+#endregion
+
 #region workflows
 
 Route::resource('workflows',WorkflowController::class)->middleware('auth');
@@ -109,6 +144,12 @@ Route::get('workflowsteps.fetchbyworkflow/{id}',[WorkflowStepController::class, 
     ->middleware('auth');
 Route::match(['put','patch'],'workflowsteps.updateflowchartnode/{workflowstep}',[WorkflowStepController::class, 'updateflowchartnode'])
     ->name('workflowsteps.updateflowchartnode')
+    ->middleware('auth');
+Route::match(['put','patch'],'workflowsteps.createreminder/{workflowstep}',[WorkflowStepController::class, 'createreminder'])
+    ->name('workflowsteps.createreminder')
+    ->middleware('auth');
+Route::match(['put','patch'],'workflowsteps.updatereminder/{workflowstep}',[WorkflowStepController::class, 'updatereminder'])
+    ->name('workflowsteps.updatereminder')
     ->middleware('auth');
 
 #endregion
@@ -233,4 +274,32 @@ Route::get('workflowtreatmenttypes.fetchsplitted',[WorkflowTreatmentTypeControll
     ->middleware('auth');
 Route::get('workflowtreatmenttypes.fetch',[WorkflowTreatmentTypeController::class,'fetch'])
     ->name('workflowtreatmenttypes.fetch')
+    ->middleware('auth');
+
+Route::resource('reminders',ReminderController::class)->middleware('auth');
+Route::get('reminders.fetch',[ReminderController::class,'fetch'])
+    ->name('reminders.fetch')
+    ->middleware('auth');
+Route::get('reminders.fetchone/{id}',[ReminderController::class,'fetchone'])
+    ->name('reminders.fetchone')
+    ->middleware('auth');
+
+Route::resource('remindercriteriontypes',ReminderCriterionTypeController::class)->middleware('auth');
+Route::get('remindercriteriontypes.fetch',[ReminderCriterionTypeController::class,'fetch'])
+    ->name('remindercriteriontypes.fetch')
+    ->middleware('auth');
+
+Route::resource('remindercriteria',ReminderCriterionController::class)->middleware('auth');
+Route::get('remindercriteria.fetch',[ReminderCriterionController::class,'fetch'])
+    ->name('remindercriteria.fetch')
+    ->middleware('auth');
+
+Route::resource('reminderobjects',ReminderObjectController::class)->middleware('auth');
+Route::get('reminderobjects.fetch',[ReminderObjectController::class,'fetch'])
+    ->name('reminderobjects.fetch')
+    ->middleware('auth');
+
+Route::resource('reminderbroadlists',ReminderBroadlistController::class)->middleware('auth');
+Route::get('reminderbroadlists.fetch',[ReminderBroadlistController::class,'fetch'])
+    ->name('reminderbroadlists.fetch')
     ->middleware('auth');

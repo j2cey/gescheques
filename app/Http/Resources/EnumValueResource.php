@@ -18,7 +18,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $val
  * @property string|null $description
  *
- * @property integer|null $enum_value_id
+ * @property integer|null $enum_type_id
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -42,6 +42,7 @@ class EnumValueResource extends JsonResource
 
             'val' => $this->val,
             'description' => $this->description,
+            'enum_type_id' => $this->enum_type_id,
         ];
     }
 }

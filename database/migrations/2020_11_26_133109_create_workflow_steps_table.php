@@ -71,6 +71,13 @@ class CreateWorkflowStepsTable extends Migration
             $table->integer('flowchart_position_y')->nullable()->comment('position y sur le diagramme');
             $table->integer('flowchart_size_width')->nullable()->comment('largeur du noeud sur le diagramme');
             $table->integer('flowchart_size_height')->nullable()->comment('hauteur du noeud sur le diagramme');
+
+            // Reminder
+            $table->boolean('remind_previous_profile')->default(false)->comment('détermine si le profile précédent dois');
+
+            $table->foreignId('reminder_id')->nullable()
+                ->comment('référence du rappel')
+                ->constrained()->onDelete('set null');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }
@@ -87,6 +94,7 @@ class CreateWorkflowStepsTable extends Migration
             $table->dropForeign(['workflow_id']);
             $table->dropForeign(['workflow_step_type_id']);
             $table->dropForeign(['step_parent_id']);
+            $table->dropForeign(['reminder_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

@@ -49,7 +49,7 @@ class SettingSeeder extends Seeder
         $workflowexec_group = $this->createNew("workflowexec", null, null, "string", ",", "workflowexec settings.");
         $this->createNew("unrequired_failed_action_can_pass", $workflowexec_group->id, "false", "boolean", ",", "Start node Default Width.");
 
-        // groupe flowchart
+        // group flowchart
         $flowchart_group = $this->createNew("flowchart", null, null, "string", ",", "flowchart settings.");
         // sub group flowchart.startnode
         $group = $this->createNew("startnode", $flowchart_group->id, null, null, ",", "Start node.");
@@ -60,7 +60,7 @@ class SettingSeeder extends Seeder
         $this->createNew("default_name", $group->id, "Début Traitement", "string", ",", "Start node Default Name.");
         $this->createNew("default_description", $group->id, "Etape marquant le début du Workflow", "string", ",", "Start node Default Description.");
 
-        // sub group flowchart.endnode
+        // sub group flowchart.endnode notification_interval
         $group = $this->createNew("endnode", $flowchart_group->id, null, null, ",", "End node.");
         $this->createNew("default_width", $group->id, "100", "integer", ",", "End node Default Width.");
         $this->createNew("default_height", $group->id, "40", "integer", ",", "End node Default Height.");
@@ -68,6 +68,12 @@ class SettingSeeder extends Seeder
         $this->createNew("default_y", $group->id, "420", "integer", ",", "End node Default position y.");
         $this->createNew("default_name", $group->id, "Fin Traitement", "string", ",", "End node Default Name.");
         $this->createNew("default_description", $group->id, "Etape marquant la fin du Workflow", "string", ",", "End node Default Description.");
+
+        // group reminder
+        $reminder_group = $this->createNew("reminder", null, null, "string", ",", "reminder settings.");
+        // sub group reminder.notification
+        $group = $this->createNew("notification", $reminder_group->id, null, null, ",", "notification");
+        $this->createNew("default_interval", $group->id, "8", "integer", ",", "Default interval between notifications.");
     }
 
     private function createNew($name, $group_id = null, $value = null, $type = null, $array_sep = ",", $description = null)

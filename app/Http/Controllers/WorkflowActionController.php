@@ -52,6 +52,7 @@ class WorkflowActionController extends Controller
         $new_workflowaction = WorkflowAction::createNew($formInput['titre'],$formInput['description'])
             ->setStep($workflowstep, true)
             ->setActionType($formInput['actiontype'], true)
+            ->setEnumType($formInput['enumtype'], true)
             ->setTreatmentType($formInput['treatmenttype'], true)
             ->setMimeTypes($formInput['mimetypes'], true)
             ->setRequired($formInput['field_required'],$formInput['field_required_msg'], true)
@@ -110,6 +111,7 @@ class WorkflowActionController extends Controller
 
         $workflowaction->setStep($workflowstep, true)
             ->setActionType($formInput['actiontype'], true)
+            ->setEnumType($formInput['enumtype'], true)
             ->setTreatmentType($formInput['treatmenttype'], true)
             ->setMimeTypes($formInput['mimetypes'], true)
             ->setRequired($formInput['field_required'],$formInput['field_required_msg'], true)

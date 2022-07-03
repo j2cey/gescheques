@@ -54,6 +54,8 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
  * @property integer|null $flowchart_size_width
  * @property integer|null $flowchart_size_height
  *
+ * @property integer|null $reminder_id
+ *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
@@ -108,6 +110,10 @@ class WorkflowStep extends BaseModel implements Auditable
 
     public function staticapprovers() {
         return $this->belongsToMany(Role::class, 'role_workflow_step', 'workflow_step_id', 'role_id');
+    }
+
+    public function reminder() {
+        return $this->belongsTo(Reminder::class, 'reminder_id');
     }
 
     #region actions
@@ -758,6 +764,66 @@ class WorkflowStep extends BaseModel implements Auditable
         }
 
         return $arr_final;
+    }
+
+    public function setReminder(Reminder $reminder = null, $save = true) : WorkflowStep {
+        if ( is_null($reminder) ) {
+            $this->reminder()->disassociate();
+        } else {
+            $this->reminder()->associate($reminder);
+        }
+
+        if ($save) { $this->save(); }
+
+        return $this;
+    }
+
+    public function createReminder(ModelType $modeltype, $reminder_title, $reminder_description, $reminder_duration, $reminder_msg, $reminder_notification_interval) : WorkflowStep {
+        $reminder = Reminder::createNew($modeltype, $reminder_title, $reminder_description);
+
+        $criterion_type_1 = ReminderCriterionType::where('code', "field_equals_value")->first();
+        $model_attribute_1 = $modeltype->modelattributes()->where('label', "current_step_id")->first();
+        $reminder->addCriterionStart($criterion_type_1, "étape courante = " . $this->titre, $model_attribute_1, $this->id, $model_attribute_1->label . " = " . $this->id, "current_step");
+
+        $criterion_type_2 = ReminderCriterionType::where('code', "duration_greater_or_equal_hours")->first();
+        $model_attribute_2 = $modeltype->modelattributes()->where('label', "last_step_end_at")->first();
+        $reminder->addCriterionStart($criterion_type_2, "étape courante date expiration", $model_attribute_2, $reminder_duration, $model_attribute_2->label . " > " . $reminder_duration . " heures", "step_duration");
+
+        $criterion_type_3 = ReminderCriterionType::where('code', "field_not_equals_value")->first();
+        $reminder->addCriterionStop($criterion_type_3, "étape courante <> " . $this->titre, $model_attribute_1, $this->id, $model_attribute_1->label . " <> " . $this->id);
+
+        $reminder->addDefaultBroadlist("liste de diffusion", $reminder_msg, [], [], $reminder_notification_interval, "Liste de diffusion par défaut", "step_reminder_broadlist");
+
+        return $this->setReminder($reminder, true);
+    }
+
+    private function getReminderDuration(Reminder $reminder = null) {
+        if (! $reminder || is_null($reminder)) {
+            return "";
+        } else {
+            $step_duration = $reminder->criteria()->where('criterion_role', "step_duration")->first();
+            if ($step_duration) {
+                return $step_duration->criterion_value;
+            } else {
+                return "";
+            }
+        }
+    }
+    public function getDefaultbroadlistAttribute()
+    {
+        if (! $this->reminder || is_null($this->reminder)) {
+            return null;
+        } else {
+            return $this->reminder->broadcastlists()->where('broadlist_role', "step_reminder_broadlist")->first();
+        }
+    }
+    public function getDefaultcriteriondurationAttribute()
+    {
+        if (! $this->reminder || is_null($this->reminder)) {
+            return null;
+        } else {
+            return $this->reminder->criteria()->where('criterion_role', "step_duration")->first();
+        }
     }
 
     #endregion

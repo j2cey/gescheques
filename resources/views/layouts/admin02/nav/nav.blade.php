@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
-                @role('Admin')
+                @role('AdminXXXX')
                 <li class="nav-item">
                     <a href="/dashboards" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
@@ -39,7 +39,7 @@
                         <!-- End Level two -->
                     </ul>
                 </li>
-                @role('Admin')
+                @role('AdminXXX')
                 <li class="nav-item dropdown">
                     <a id="traitementsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Traitements</a>
                     <ul aria-labelledby="traitementsMenu" class="dropdown-menu border-0 shadow">
@@ -51,13 +51,28 @@
                 </li>
                 @endrole
 
-                @can('workflow-list')
+                @canany(['workflow-list','enumtype-list'])
                 <li class="nav-item dropdown">
                     <a id="workflowsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Workflows</a>
                     <ul aria-labelledby="workflowsMenu" class="dropdown-menu border-0 shadow">
+                        @can('workflow-list')
                         <li class="nav-item">
                             <a href="/workflows" class="nav-link">Liste</a>
                         </li>
+                        @endcan
+                        @can('enumtype-list')
+                        <li class="dropdown-submenu dropdown-hover">
+                            <a id="enumtypesMenu" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Types Composés</a>
+                            <ul aria-labelledby="enumtypesMenu" class="dropdown-menu border-0 shadow">
+                                <li class="nav-item">
+                                    <a href="/enumtypes" class="nav-link">Liste</a>
+                                    @can('enumtype-create')
+                                    <a href="/enumtypes/create" class="nav-link">Nouveau</a>
+                                    @endcan
+                                </li>
+                            </ul>
+                        </li>
+                        @endcan
                     </ul>
                 </li>
                 @endcan
@@ -76,6 +91,20 @@
                                     <a href="/roles" class="nav-link">Liste</a>
                                 </li>
                             </ul>
+                        </li>
+                    </ul>
+                </li>
+                @endrole
+
+                @role('Admin')
+                <li class="nav-item dropdown">
+                    <a id="remindersMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Reminders</a>
+                    <ul aria-labelledby="remindersMenu" class="dropdown-menu border-0 shadow">
+                        <li class="nav-item">
+                            <a href="/reminders" class="nav-link">List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/reminderobjects" class="nav-link">Objects</a>
                         </li>
                     </ul>
                 </li>
